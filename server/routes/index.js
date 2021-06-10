@@ -1,5 +1,5 @@
-const schoolRouter = require('./schools');
+const kingdomRouter = require('./kingdom');
 
 module.exports = (app) => {
-    app.use('/schools', schoolRouter);
-}
+  app.use('/kingdom', kingdomRouter);
+};
