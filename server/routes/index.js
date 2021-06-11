@@ -1,13 +1,11 @@
 const userRouter = require('./user');
-const dashboardRouter = require('./dashboard');
+const orderRouter = require('./order');
 const productRouter = require('./product');
-const networkRouter = require('./network');
-const historyRouter = require('./history');
+const stockRouter = require('./stock');
 
 module.exports = (app) => {
   app.use('/user', userRouter);
-  app.use('/dashboard', dashboardRouter);
+  app.use('/dashboard', orderRouter);
   app.use('/product', productRouter);
-  app.use('/network', networkRouter);
-  app.use('/history', historyRouter);
+  app.use('/history', stockRouter);
 };

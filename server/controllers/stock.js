@@ -1,9 +1,4 @@
-const { /* add here find/create/delete functions from models*/ } = require('../models/dashboard');
-
-const getAllOrders = async (req, res) => {
-  const rawData = await /*add here function from model dashboard*/();
-  res.json(rawData);
-};
+const { /* add here find/create/delete functions from models*/ } = require('../models/stock');
 
 const getOrderedItem = async (req, res) => {
   const rawData = await /*add here function from model dashboard*/();
@@ -16,7 +11,6 @@ const getStock = async (req, res) => {
   };
 
 module.exports = {
-    getAllOrders,
     getOrderedItem,
     getStock,
 };
