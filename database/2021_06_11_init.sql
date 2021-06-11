@@ -1,5 +1,7 @@
 CREATE DATABASE divin;
 
+USE DATABASE divin;
+
 CREATE TABLE `user` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `lastname` varchar(255) NOT NULL,
