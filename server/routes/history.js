@@ -1,6 +1,11 @@
 const historyRouter = require('express').Router();
 
-const { /*add here controllers functions*/ } = require('../controllers/history');
-historyRouter.get('/history', /*add here a controller function*/);
+const {
+    getAllOrders,
+    getOrdersPerProduct,
+} = require('../controllers/history');
+
+historyRouter.get('/history', getAllOrders);
+historyRouter.get('/history', getOrdersPerProduct);
 
 module.exports = historyRouter;
