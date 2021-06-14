@@ -1,4 +1,4 @@
-const {/* add here find/create/delete functions from models*/ } = require('../models/user');
+const {/* add here find/create/delete functions from models*/ } = require('./user.model');
 
 const getAllUsers = async (req, res) => {
     const rawData = await /*add here function from model user*/();

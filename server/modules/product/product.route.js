@@ -8,7 +8,7 @@ const {
     updateProduct,
     deleteProduct,
     getProductOverview,
- } = require('../controllers/product');
+ } = require('./product.controller');
 
 productRouter.get('/product', getAllProducts);
 productRouter.get('/product/:id', getOneProduct);

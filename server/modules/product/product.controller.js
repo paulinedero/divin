@@ -1,4 +1,4 @@
-const {/* add here find/create/delete functions from models*/ } = require('../models/product');
+const {/* add here find/create/delete functions from models*/ } = require('./product.model');
 
 const getAllProducts = async (req, res) => {
     const rawData = await /*add here function from model product*/();

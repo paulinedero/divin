@@ -3,7 +3,7 @@ const stockRouter = require('express').Router();
 const {
     getOrderedItem,
     getStock,
-} = require('../controllers/stock');
+} = require('./stock.controller');
 
 stockRouter.get('/dashboard', getOrderedItem);
 stockRouter.get('/dashboard', getStock);

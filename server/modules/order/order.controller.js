@@ -1,4 +1,4 @@
-const { /* add here find/create/delete functions from models*/ } = require('../models/order');
+const { /* add here find/create/delete functions from models*/ } = require('./order.model');
 
 const getAllOrders = async (req, res) => {
   const rawData = await /*add here function from model dashboard*/();
