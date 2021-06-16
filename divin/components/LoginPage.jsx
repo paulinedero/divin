@@ -15,7 +15,7 @@ export default function LoginPage() {
     },
     text: {
       flexDirection: 'row',
-      marginTop: 35,
+      marginTop: 20,
       fontSize: 10,
       justifyContent: 'center',
     },
@@ -63,7 +63,7 @@ export default function LoginPage() {
     btnPress2: {
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 30,
+      marginTop: 20,
       width: 200,
       height: 50,
       opacity: 0.9,
@@ -97,9 +97,12 @@ export default function LoginPage() {
       <Image style={styles.tinyLogo} source={require('../assets/Logo-prod.jpg')} />
       <View style={styles.btn}>
         <Pressable style={styles.btnPress} onPress={() => { }}>
-          <Text style={styles.colorFontBtn}>Inscription</Text>
+          <Text style={styles.colorFontBtn}>Connexion</Text>
         </Pressable>
         <View style={styles.greenBack}>
+          <View style={styles.text}>
+            <Text style={{ color: '#FFFFFF' }}>On attendait que vous !</Text>
+          </View>
           <View style={styles.btn}>
             <Pressable style={styles.btnPress2} onPress={() => { }}>
               <Text style={styles.colorFontBtn}>Inscription via Email</Text>
