@@ -1,11 +1,8 @@
 const orderRouter = require('express').Router();
 
-const {
-    getAllOrders,
-    getOrdersPerProduct,
-} = require('./order.controller');
+const { getAllOrders, getOrdersPerProduct } = require('./order.controller');
 
-orderRouter.get('/dashboard', getAllOrders);
-orderRouter.get('/history', getOrdersPerProduct);
+orderRouter.get('/orders', getAllOrders);
+orderRouter.get('/orders?', getOrdersPerProduct);
 
 module.exports = orderRouter;

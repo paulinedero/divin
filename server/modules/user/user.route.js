@@ -8,10 +8,10 @@ const {
     deleteUser,
  } = require('./user.controller');
 
-userRouter.get('/user', getAllUsers);
-userRouter.get('/user/:id', getOneUser);
-userRouter.post('/user', createUser);
-userRouter.put('/user/:id', updateUser);
-userRouter.delete('/user/:id', deleteUser);
+userRouter.get('/', getAllUsers);
+userRouter.get('/:id', getOneUser);
+userRouter.post('/', createUser);
+userRouter.put('/:id', updateUser);
+userRouter.delete('/:id', deleteUser);
 
 module.exports = userRouter;

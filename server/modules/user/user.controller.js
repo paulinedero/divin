@@ -1,36 +1,41 @@
-const {/* add here find/create/delete functions from models*/ } = require('./user.model');
+const { findMany, findOne, create, update, remove } = require('./user.model');
 
 const getAllUsers = async (req, res) => {
-    const rawData = await /*add here function from model user*/();
-    res.json(rawData);
+  const rawData = await findMany();
+  res.json(rawData[0]);
 };
 
 const getOneUser = async (req, res) => {
-    const rawData = await /*add here function from model user*/(req.params.id);
-    res.json(rawData);
+  const rawData = await findOne(req.params.id);
+  res.json(rawData);
 };
 
 const createUser = async (req, res) => {
-    const {/*add arguments here*/} = req.body;
-    const rawData = await /*add here function from model user*/(req.body);
-    res.json(rawData);
+  console.log(req.body);
+  try {
+    const rawData = await create(req.body);
+    res.status(201).json(rawData);
+    console.log('successfully created');
+  } catch (err) {
+    res.status(500).send('Error saving your information');
+  }
 };
 
 const updateUser = async (req, res) => {
-    const userPropsToUpdate = req.body;
-    const rawData = await /*add here function from model user*/(req.params.id);
-    res.json(rawData);
+  const userPropsToUpdate = req.body;
+  const rawData = await update(req.params.id);
+  res.json(rawData);
 };
 
 const deleteUser = async (req, res) => {
-    const rawData = await /*add here function from model user*/(req.params.id);
-    res.json(rawData);
+  const rawData = await remove(req.params.id);
+  res.json(rawData);
 };
 
 module.exports = {
-    getAllUsers,
-    getOneUser,
-    createUser,
-    updateUser,
-    deleteUser,
+  getAllUsers,
+  getOneUser,
+  createUser,
+  updateUser,
+  deleteUser,
 };

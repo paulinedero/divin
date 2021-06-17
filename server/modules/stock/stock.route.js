@@ -5,7 +5,7 @@ const {
     getStock,
 } = require('./stock.controller');
 
-stockRouter.get('/dashboard', getOrderedItem);
-stockRouter.get('/dashboard', getStock);
+stockRouter.get('/stock/', getOrderedItem);
+stockRouter.get('/stock', getStock);
 
 module.exports = stockRouter;
