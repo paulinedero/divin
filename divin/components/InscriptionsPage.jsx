@@ -9,14 +9,14 @@ import {
   Image,
   TextInput,
   SafeAreaView,
-  navigate,
 } from 'react-native';
 import InscriptionIconPhoto from '../assets/InscriptionIconPhoto.svg';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
+import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //    flex: 1, //give errors on others devices but no errors on browser
     alignItems: 'center',
     marginBottom: 15,
     backgroundColor: '#FFBD59',
@@ -106,102 +106,106 @@ export default function InscriptionsPage() {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar />
-      <View>
-        <Image style={styles.ImageBanniereProducteur} source={ImageBanniereProducteur} />
-      </View>
-      <Text style={styles.title}>INSCRIPTION</Text>
-      <View style={styles.footer}>
-        <View style={styles.strutureGeneral}>
-          <Text style={styles.textConfig}> Informations de personnelles </Text>
-          <SafeAreaView style={styles.struture}>
-            <TextInput
-              value={lastname}
-              style={styles.input}
-              onChangeText={onChangeLastname}
-              placeholder="NOM"
-              minLength={3}
-            />
-            <TextInput
-              value={firstname}
-              style={styles.input}
-              onChangeText={onChangeFirstname}
-              placeholder="PRENOM"
-              minLength={3}
+    <KeyboardAvoidingWrapper>
+      <View style={styles.container}>
+        <StatusBar />
+        <View>
+          <Image style={styles.ImageBanniereProducteur} source={ImageBanniereProducteur} />
+        </View>
+        <Text style={styles.title}>INSCRIPTION</Text>
+        <View style={styles.footer}>
+          <View style={styles.strutureGeneral}>
+            <Text style={styles.textConfig}> Informations de personnelles </Text>
+            <SafeAreaView style={styles.struture}>
+              <TextInput
+                value={lastname}
+                style={styles.input}
+                onChangeText={onChangeLastname}
+                placeholder="NOM"
+                minLength={3}
+              />
+              <TextInput
+                value={firstname}
+                style={styles.input}
+                onChangeText={onChangeFirstname}
+                placeholder="PRENOM"
+                minLength={3}
 
-            />
-            <TextInput
-              value={birthday}
-              style={styles.input}
-              onChangeText={onChangeBirthday}
-              placeholder="DATE DE NAISSANCE"
-              length={8}
-            />
-            <TextInput
-              type="email"
-              value={email}
-              style={styles.input}
-              onChangeText={onChangeEmail}
-              placeholder="EMAIL"
-            />
-            <TextInput
-              value={password}
-              name="password"
-              style={styles.input}
-              onChangeText={onChangePassword}
-              placeholder="MOT DE PASSE"
-              minLength={8}
-            />
-            <TextInput
-              value={repeatPassword}
-              name="repeatPassword"
-              style={styles.input}
-              onChangeText={onChangeRepeatPassword}
-              placeholder="CONFIRMATION DE PASSE"
-              minLength={8}
-            />
-            {password !== repeatPassword ? <Text>  Les mots de passe doivent être identiques</Text>
-              : null}
-          </SafeAreaView>
-          <Text style={styles.textConfig1}> Informations de facturation </Text>
-          <SafeAreaView style={styles.struture}>
-            <TextInput
-              value={numberSiret}
-              style={styles.input}
-              onChangeText={onChangeNumberSiret}
-              placeholder="NUMERO SIRET"
-            />
-            <TextInput
-              value={numberTva}
-              style={styles.input}
-              onChangeText={onChangeNumberTva}
-              placeholder="NUMERO DE TVA"
-            />
-          </SafeAreaView>
-        </View>
-        <View style={styles.icons}>
-          <View style={styles.photo}>
-            <Text style={styles.textConfig1}> PHOTO DE PROFIL </Text>
-            <TouchableOpacity style={styles.button} onPress={() => { alert('you clicked me') }}>
-              <Image style={{ width: 55, height: 55 }} source={InscriptionIconPhoto} />
-            </TouchableOpacity>
+              />
+              <TextInput
+                type="date"
+                value={birthday}
+                style={styles.input}
+                onChangeText={onChangeBirthday}
+                placeholder="DATE DE NAISSANCE"
+                length={8}
+              />
+              <TextInput
+                type="email"
+                value={email}
+                style={styles.input}
+                onChangeText={onChangeEmail}
+                placeholder="EMAIL"
+              />
+              <TextInput
+                value={password}
+                name="password"
+                style={styles.input}
+                onChangeText={onChangePassword}
+                placeholder="MOT DE PASSE"
+                minLength={8}
+              />
+              <TextInput
+                value={repeatPassword}
+                name="repeatPassword"
+                style={styles.input}
+                onChangeText={onChangeRepeatPassword}
+                placeholder="CONFIRMATION DE PASSE"
+                minLength={8}
+              />
+              {password !== repeatPassword
+                ? <Text>  Les mots de passe doivent être identiques</Text>
+                : null}
+            </SafeAreaView>
+            <Text style={styles.textConfig1}> Informations de facturation </Text>
+            <SafeAreaView style={styles.struture}>
+              <TextInput
+                value={numberSiret}
+                type="number"
+                style={styles.input}
+                onChangeText={onChangeNumberSiret}
+                placeholder="NUMERO SIRET"
+              />
+              <TextInput
+                value={numberTva}
+                style={styles.input}
+                onChangeText={onChangeNumberTva}
+                placeholder="NUMERO DE TVA"
+              />
+            </SafeAreaView>
           </View>
-          <View>
-            <Button
-              onPress={() => (
-                console.log('Les champs sont remplis.'),
-                alert('you clicked me')
-                //navigate('Dashboard')
-              )}
-              title="S'inscrire"
-              disabled={invalideForm()}
-              color={invalideForm() ? '#616161' : '#FFBD59'}
-              accessibilityLabel="Learn more about this purple button"
-            />
+          <View style={styles.icons}>
+            <View style={styles.photo}>
+              <Text style={styles.textConfig1}> PHOTO DE PROFIL </Text>
+              <TouchableOpacity style={styles.button} onPress={() => { alert('you clicked me') }}>
+                <Image style={{ width: 55, height: 55 }} source={InscriptionIconPhoto} />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Button
+                onPress={() => (
+                  console.log('Les champs sont remplis.'),
+                  alert('you clicked me')
+                  //navigate('Dashboard')
+                )}
+                title="S'inscrire"
+                disabled={invalideForm()}
+                color={invalideForm() ? '#616161' : '#FFBD59'}
+              />
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingWrapper>
   );
 }
