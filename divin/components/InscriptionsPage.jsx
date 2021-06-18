@@ -9,7 +9,6 @@ import {
   Image,
   TextInput,
   SafeAreaView,
-  StackNavigator,
   navigate,
 } from 'react-native';
 import InscriptionIconPhoto from '../assets/InscriptionIconPhoto.svg';
@@ -41,18 +40,18 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 20,
-    //fontSize: 20,
+    // fontSize: 20,
     color: 'white',
   },
   textConfig: {
-    //fontfamily: 'Comfortaa',
-    //fontsize: '12px',
+    // fontfamily: 'Comfortaa',
+    // fontsize: '12px',
     marginTop: 30,
     color: '#FFBD59',
   },
   textConfig1: {
-    //fontfamily: 'Comfortaa',
-    //fontsize: '12px',
+    // fontfamily: 'Comfortaa',
+    // fontsize: '12px',
     marginTop: 10,
     color: '#FFBD59',
   },
@@ -64,7 +63,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: 10,
-    //fontSize: 15,
+    // fontSize: 15,
     borderBottomWidth: 1,
     marginLeft: 10,
     marginRight: 40,
@@ -83,8 +82,8 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 5,
-    //fontfamily: 'Comfortaa',
-    //fontsize: 12,
+    // fontfamily: 'Comfortaa',
+    // fontsize: 12,
     padding: 10,
     color: 'white',
   },
@@ -140,6 +139,7 @@ export default function InscriptionsPage() {
               length={8}
             />
             <TextInput
+              type="email"
               value={email}
               style={styles.input}
               onChangeText={onChangeEmail}
@@ -147,6 +147,7 @@ export default function InscriptionsPage() {
             />
             <TextInput
               value={password}
+              name="password"
               style={styles.input}
               onChangeText={onChangePassword}
               placeholder="MOT DE PASSE"
@@ -154,13 +155,14 @@ export default function InscriptionsPage() {
             />
             <TextInput
               value={repeatPassword}
+              name="repeatPassword"
               style={styles.input}
               onChangeText={onChangeRepeatPassword}
               placeholder="CONFIRMATION DE PASSE"
               minLength={8}
             />
-            {onChangePassword === onChangeRepeatPassword ? ''
-              : <Text>  Les mots de passe ne sont pas identiques</Text>}
+            {password !== repeatPassword ? <Text>  Les mots de passe doivent être identiques</Text>
+              : null}
           </SafeAreaView>
           <Text style={styles.textConfig1}> Informations de facturation </Text>
           <SafeAreaView style={styles.struture}>
@@ -181,7 +183,7 @@ export default function InscriptionsPage() {
         <View style={styles.icons}>
           <View style={styles.photo}>
             <Text style={styles.textConfig1}> PHOTO DE PROFIL </Text>
-            <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
+            <TouchableOpacity style={styles.button} onPress={() => { alert('you clicked me') }}>
               <Image style={{ width: 55, height: 55 }} source={InscriptionIconPhoto} />
             </TouchableOpacity>
           </View>
@@ -189,7 +191,8 @@ export default function InscriptionsPage() {
             <Button
               onPress={() => (
                 console.log('Les champs sont remplis.'),
-                navigate('Dashboard')
+                alert('you clicked me')
+                //navigate('Dashboard')
               )}
               title="S'inscrire"
               disabled={invalideForm()}
