@@ -1,4 +1,11 @@
-const { findMany, findOne, create, update, remove } = require('./user.model');
+const {
+  findMany,
+  findOne,
+  create,
+  update,
+  updateAddress,
+  remove,
+} = require('./user.model');
 
 const getAllUsers = async (req, res) => {
   const rawData = await findMany();
@@ -11,25 +18,37 @@ const getOneUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  console.log(req.body);
   try {
     const rawData = await create(req.body);
     res.status(201).json(rawData);
-    console.log('successfully created');
   } catch (err) {
-    res.status(500).send('Error saving your information');
+    res.status(500).send(err);
   }
 };
 
 const updateUser = async (req, res) => {
-  const userPropsToUpdate = req.body;
-  const rawData = await update(req.params.id);
-  res.json(rawData);
+  try {
+    const rawData = await update(req.params.id, req.body);
+    res.status(200).json(rawData);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
+const updateUserAddress = async (req, res) => {
+  try {
+    const rawData = await updateAddress(req.params.id, req.body);
+    res.status(200).json(rawData);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
 const deleteUser = async (req, res) => {
   const rawData = await remove(req.params.id);
-  res.json(rawData);
+  res
+    .status(200)
+    .send('Vos données ont été supprimées de notre base de données');
 };
 
 module.exports = {
@@ -37,5 +56,6 @@ module.exports = {
   getOneUser,
   createUser,
   updateUser,
+  updateUserAddress,
   deleteUser,
 };
