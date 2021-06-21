@@ -55,5 +55,4 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  // getProductOverview,
 };
