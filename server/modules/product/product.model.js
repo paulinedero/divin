@@ -1,20 +1,22 @@
 const db = require('../../dbConfig');
 
 // function to retrieve all my products
-const findAllMyProducts = async (userId) => {
+const findAllMyProducts = async (farmerId) => {
   try {
-    return await db.query('SELECT * FROM product WHERE farmer_id = ?', [userId]);
+    return await db.query('SELECT * FROM product WHERE farmer_id = ?', [
+      farmerId,
+    ]);
   } catch (err) {
     throw new Error(err);
   }
 };
 
 // function to retrieve one of my products
-const findOneOfMyProducts = async (userId, productId) => {
+const findOneOfMyProducts = async (farmerId, productId) => {
   try {
     const result = await db.query(
       'SELECT * FROM product WHERE farmer_id = ? AND id = ?',
-      [userId, productId]
+      [farmerId, productId]
     );
     return result[0];
   } catch (err) {
@@ -23,7 +25,7 @@ const findOneOfMyProducts = async (userId, productId) => {
 };
 
 // function to create a new product
-const create = async (userId, newProduct) => {
+const create = async (farmerId, newProduct) => {
   const {
     EAN_code,
     name,
@@ -71,7 +73,7 @@ const create = async (userId, newProduct) => {
         VAT,
         tag,
         photo,
-        userId,
+        farmerId,
       ]
     );
     const createdProduct = {
