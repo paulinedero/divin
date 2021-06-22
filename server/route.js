@@ -1,11 +1,11 @@
-const userRouter = require('./modules/user/user.route');
+const farmerRouter = require('./modules/farmer/farmer.route');
 // const orderRouter = require('./modules/order/order.route');
 const productRouter = require('./modules/product/product.route');
 // const stockRouter = require('./modules/stock/stock.route');
 
 module.exports = (app) => {
-  app.use('/user', userRouter);
+  app.use('/farmers', farmerRouter);
   // app.use('/order', orderRouter);
-  app.use('/user', productRouter);
+  app.use('/farmers', productRouter);
   // app.use('/stock', stockRouter);
 };

@@ -252,3 +252,13 @@ insert into product (
         'odio justo',
         'Suspendisse potenti.',
          5);
+
+insert into relay_point_category (name) values ('BLED');
+
+insert into relay_point_category (name) values ('Restaurant');
+
+insert into relay_point (name, contact_person, address, latitude, longitude, phone_number, siret_number, point_category) values ('WCS', 'Pauline De Ro', 1, 40, 50, '02/000.000', 256, 2);
+
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total) values (1, null, '2021/06/22', '2021/06/22', 15);
+
+insert into ordered_item (product_id, order_id, quantity) values (3, 1, 2);

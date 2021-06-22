@@ -7,21 +7,29 @@ const {
 } = require('./product.model');
 
 const getAllProducts = async (req, res) => {
-  const rawData = await findAllMyProducts(req.params.userId);
-  res.json(rawData[0]);
+  try {
+    const rawData = await findAllMyProducts(req.params.farmerId);
+    res.json(rawData[0]);
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 const getOneProduct = async (req, res) => {
-  const rawData = await findOneOfMyProducts(
-    req.params.userId,
-    req.params.productId
-  );
-  res.json(rawData);
+  try {
+    const rawData = await findOneOfMyProducts(
+      req.params.farmerId,
+      req.params.productId
+    );
+    res.json(rawData);
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 const createProduct = async (req, res) => {
   try {
-    const rawData = await create(req.params.userId, req.body);
+    const rawData = await create(req.params.farmerId, req.body);
     res.status(201).json(rawData);
   } catch (err) {
     res.status(500).send(err);
@@ -38,16 +46,13 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-  const rawData = await remove(req.params.productId);
-  res.status(200).send('Le produit a été supprimé de notre base de données.');
+  try {
+    const rawData = await remove(req.params.productId);
+    res.status(200).send('Le produit a été supprimé de notre base de données.');
+  } catch (err) {
+    throw new Error(err);
+  }
 };
-
-/*
-const getProductOverview = async (req, res) => {
-    const rawData = await add here function from model product();
-    res.json(rawData);
-};
-*/
 
 module.exports = {
   getAllProducts,

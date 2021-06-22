@@ -51,7 +51,7 @@ CREATE TABLE `relay_point` (
   `address` INT NOT NULL,
   `latitude` INT NOT NULL,
   `longitude` INT NOT NULL,
-  `phone-number` varchar(255),
+  `phone_number` varchar(255),
   `siret_number` INT,
   `point_category` INT NOT NULL,
   `creation_date` DATE DEFAULT (now())

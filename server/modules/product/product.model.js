@@ -2,16 +2,24 @@ const db = require('../../dbConfig');
 
 // function to retrieve all my products
 const findAllMyProducts = async (userId) => {
-  return await db.query('SELECT * FROM product WHERE farmer_id = ?', [userId]);
+  try {
+    return await db.query('SELECT * FROM product WHERE farmer_id = ?', [userId]);
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 // function to retrieve one of my products
 const findOneOfMyProducts = async (userId, productId) => {
-  const result = await db.query(
-    'SELECT * FROM product WHERE farmer_id = ? AND id = ?',
-    [userId, productId]
-  );
-  return result[0];
+  try {
+    const result = await db.query(
+      'SELECT * FROM product WHERE farmer_id = ? AND id = ?',
+      [userId, productId]
+    );
+    return result[0];
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 // function to create a new product
@@ -110,7 +118,11 @@ const update = async (productId, updatedInfo) => {
 
 // function to delete a product
 const remove = async (productId) => {
-  await db.query('DELETE FROM product WHERE id = ?', [productId]);
+  try {
+    await db.query('DELETE FROM product WHERE id = ?', [productId]);
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 module.exports = {

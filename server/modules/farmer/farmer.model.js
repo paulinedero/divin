@@ -2,17 +2,23 @@ const db = require('../../dbConfig');
 
 // function to retrieve all farmers
 const findMany = async () => {
-  return await db.query('SELECT * FROM farmer');
+  try {
+    return await db.query('SELECT * FROM farmer');
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 // function to retrieve one farmer
-const findOne = async (id) => {
-  const result = await db.query('SELECT * FROM `farmer` WHERE id = ?', [id]);
+const findOne = async (farmerId) => {
+  const result = await db.query('SELECT * FROM `farmer` WHERE id = ?', [
+    farmerId,
+  ]);
   return result[0];
 };
 
 // function to create a new farmer
-const create = async (newUser) => {
+const create = async (newFarmer) => {
   const {
     email,
     password,
@@ -24,7 +30,7 @@ const create = async (newUser) => {
     phone_number,
     siret_number,
     description,
-  } = newUser;
+  } = newFarmer;
 
   try {
     const [insertedAddress] = await db.query(
@@ -53,7 +59,7 @@ const create = async (newUser) => {
       ]
     );
 
-    const createdUser = {
+    const createdFarmer = {
       id: insertedFarmer.insertId,
       email,
       password,
@@ -66,16 +72,16 @@ const create = async (newUser) => {
       siret_number,
       description,
     };
-    return createdUser;
+    return createdFarmer;
   } catch (err) {
     throw new Error(err);
   }
 };
 
 // function to update a farmer
-const update = async (id, updatedInfo) => {
+const update = async (farmerId, updatedInfo) => {
   try {
-    await db.query('UPDATE farmer SET ? WHERE id = ?', [updatedInfo, id]);
+    await db.query('UPDATE farmer SET ? WHERE id = ?', [updatedInfo, farmerId]);
     return updatedInfo;
   } catch (err) {
     throw new Error(err);
@@ -83,11 +89,11 @@ const update = async (id, updatedInfo) => {
 };
 
 // function to update farmer's address
-const updateAddress = async (id, updatedAddressFields) => {
+const updateAddress = async (farmerId, updatedAddressFields) => {
   try {
     const addressId = await db.query(
       'SELECT address FROM farmer WHERE id = ?',
-      [id]
+      [farmerId]
     );
     const updatedAddressId = Object.values(
       JSON.parse(JSON.stringify(addressId[0][0]))
@@ -103,8 +109,12 @@ const updateAddress = async (id, updatedAddressFields) => {
 };
 
 // function to delete all farmer's info
-const remove = async (id) => {
-  await db.query('DELETE FROM farmer WHERE id = ?', [id]);
+const remove = async (farmerId) => {
+  try {
+    await db.query('DELETE FROM farmer WHERE id = ?', [farmerId]);
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 module.exports = {
