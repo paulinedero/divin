@@ -9,10 +9,14 @@ import {
   Image,
   TextInput,
   SafeAreaView,
+  TouchableWithoutFeedback,
 } from 'react-native';
+
 import InscriptionIconPhoto from '../assets/InscriptionIconPhoto.svg';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
+import ClosedEye from './ClosedEye';
+import OpenEye from './OpenEye';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,25 +38,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginTop: 35,
   },
+  title: {
+    marginTop: 20,
+    fontSize: 20,
+    color: 'white',
+  },
   strutureGeneral: {
     marginBottom: 20,
     marginLeft: 40,
   },
-  title: {
-    marginTop: 20,
-    // fontSize: 20,
-    color: 'white',
-  },
   textConfig: {
-    // fontfamily: 'Comfortaa',
-    // fontsize: '12px',
     marginTop: 30,
-    color: '#FFBD59',
-  },
-  textConfig1: {
-    // fontfamily: 'Comfortaa',
-    // fontsize: '12px',
-    marginTop: 10,
     color: '#FFBD59',
   },
   struture: {
@@ -62,8 +58,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    marginTop: 10,
-    // fontSize: 15,
+    marginTop: 17,
+    fontSize: 15,
     borderBottomWidth: 1,
     marginLeft: 10,
     marginRight: 40,
@@ -74,6 +70,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: 'gray',
     marginTop: 1,
+  },
+  passInput: {
+    justifyContent: 'space-between',
   },
   icons: {
     flexDirection: 'row',
@@ -91,18 +90,20 @@ const styles = StyleSheet.create({
 
 export default function InscriptionsPage() {
   const [email, onChangeEmail] = React.useState('');
-  const [password, onChangePassword] = React.useState('');
-  const [repeatPassword, onChangeRepeatPassword] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
   const [firstname, onChangeFirstname] = React.useState('');
   const [lastname, onChangeLastname] = React.useState('');
   const [birthday, onChangeBirthday] = React.useState('');
   const [numberSiret, onChangeNumberSiret] = React.useState('');
   const [numberTva, onChangeNumberTva] = React.useState('');
+  const [seePassword, setSeePassword] = React.useState(true);
+  const [seeConfirmPassword, setSeeConfirmPassword] = React.useState(true);
 
   const invalideForm = () => {
     // eslint-disable-next-line max-len
-    console.log(email, password, repeatPassword, firstname, lastname, birthday, numberSiret, numberTva);
-    return email === '' || password === '' || repeatPassword === '' || firstname === '' || lastname === '' || birthday === '' || numberSiret === '' || numberTva === '';
+    console.log(email, password, confirmPassword, firstname, lastname, birthday, numberSiret, numberTva);
+    return email === '' || password === '' || confirmPassword === '' || firstname === '' || lastname === '' || birthday === '' || numberSiret === '' || numberTva === '';
   };
 
   return (
@@ -130,15 +131,14 @@ export default function InscriptionsPage() {
                 onChangeText={onChangeFirstname}
                 placeholder="PRENOM"
                 minLength={3}
-
               />
               <TextInput
                 type="date"
-                value={birthday}
                 style={styles.input}
-                onChangeText={onChangeBirthday}
                 placeholder="DATE DE NAISSANCE"
                 length={8}
+                onChangeText={onChangeBirthday}
+                value={birthday}
               />
               <TextInput
                 type="email"
@@ -147,27 +147,45 @@ export default function InscriptionsPage() {
                 onChangeText={onChangeEmail}
                 placeholder="EMAIL"
               />
-              <TextInput
-                value={password}
-                name="password"
-                style={styles.input}
-                onChangeText={onChangePassword}
-                placeholder="MOT DE PASSE"
-                minLength={8}
-              />
-              <TextInput
-                value={repeatPassword}
-                name="repeatPassword"
-                style={styles.input}
-                onChangeText={onChangeRepeatPassword}
-                placeholder="CONFIRMATION DE PASSE"
-                minLength={8}
-              />
-              {password !== repeatPassword
-                ? <Text>  Les mots de passe doivent être identiques</Text>
+              {/* password */}
+              <View>
+                <TextInput
+                  value={password}
+                  name="password"
+                  style={styles.input}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  placeholder="MOT DE PASSE"
+                  minLength={8}
+                />
+                <TouchableWithoutFeedback onPress={() => setSeePassword(!seePassword)}>
+                  {seePassword
+                    ? <ClosedEye />
+                    : <OpenEye />}
+                </TouchableWithoutFeedback>
+              </View>
+              {/* confirmation Password */}
+              <View style={styles.passInput}>
+                <TextInput
+                  style={styles.input}
+                  value={confirmPassword}
+                  name="confirmPassword"
+                  onChangeText={setConfirmPassword}
+                  secureTextEntry
+                  placeholder="CONFIRMATION DE PASSE"
+                  minLength={8}
+                />
+                <TouchableWithoutFeedback onPress={() => setSeeConfirmPassword(!seeConfirmPassword)}>
+                  {seeConfirmPassword
+                    ? <ClosedEye />
+                    : <OpenEye />}
+                </TouchableWithoutFeedback>
+              </View>
+              {password !== confirmPassword
+                ? <Text sytle={styles.alertPass}>  Les mots de passe doivent être identiques</Text>
                 : null}
             </SafeAreaView>
-            <Text style={styles.textConfig1}> Informations de facturation </Text>
+            <Text style={styles.textConfig}> Informations de facturation </Text>
             <SafeAreaView style={styles.struture}>
               <TextInput
                 value={numberSiret}
@@ -186,9 +204,9 @@ export default function InscriptionsPage() {
           </View>
           <View style={styles.icons}>
             <View style={styles.photo}>
-              <Text style={styles.textConfig1}> PHOTO DE PROFIL </Text>
+              <Text style={styles.textConfig}> Photo de profil </Text>
               <TouchableOpacity style={styles.button} onPress={() => { alert('you clicked me') }}>
-                <Image style={{ width: 55, height: 55 }} source={InscriptionIconPhoto} />
+                <Image style={{ width: 55, height: 55 }} source={{ InscriptionIconPhoto }} />
               </TouchableOpacity>
             </View>
             <View>
@@ -196,7 +214,7 @@ export default function InscriptionsPage() {
                 onPress={() => (
                   console.log('Les champs sont remplis.'),
                   alert('you clicked me')
-                  //navigate('Dashboard')
+
                 )}
                 title="S'inscrire"
                 disabled={invalideForm()}
