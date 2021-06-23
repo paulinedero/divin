@@ -1,7 +1,7 @@
 const Joi = require('joi');
-const db = require('../../dbConfig');
 
 const {
+  checkExistingProduct,
   findAllMyProducts,
   findOneOfMyProducts,
   create,
@@ -48,11 +48,8 @@ const getAllProducts = async (req, res) => {
 // Retrieve one product for a specific farmer
 const getOneProduct = async (req, res) => {
   try {
-    const existingProduct = await db.query(
-      'SELECT id FROM `product` WHERE id = ?',
-      [req.params.productId]
-    );
-    if (existingProduct[0].length === 0) {
+    const existingProduct = await checkExistingProduct(req.params.productId);
+    if (existingProduct.length === 0) {
       res.status(404).send(`Il n'existe pas de produit lié à cet identifiant.`);
     } else {
       const rawData = await findOneOfMyProducts(
@@ -84,11 +81,8 @@ const createProduct = async (req, res) => {
 // Update an existing product
 const updateProduct = async (req, res) => {
   try {
-    const existingProduct = await db.query(
-      'SELECT id FROM `product` WHERE id = ?',
-      [req.params.productId]
-    );
-    if (existingProduct[0].length === 0) {
+    const existingProduct = await checkExistingProduct(req.params.productId);
+    if (existingProduct.length === 0) {
       res.status(404).send(`Il n'existe pas de produit lié à cet identifiant.`);
     } else {
       const error = validate(req.body);
@@ -107,11 +101,8 @@ const updateProduct = async (req, res) => {
 // Delete an existing product
 const deleteProduct = async (req, res) => {
   try {
-    const existingProduct = await db.query(
-      'SELECT id FROM `product` WHERE id = ?',
-      [req.params.productId]
-    );
-    if (existingProduct[0].length === 0) {
+    const existingProduct = await checkExistingProduct(req.params.productId);
+    if (existingProduct.length === 0) {
       res.status(404).send(`Il n'existe pas de produit lié à cet identifiant.`);
     } else {
       const rawData = await remove(req.params.productId);

@@ -1,5 +1,30 @@
 const db = require('../../dbConfig');
 
+// function to check if farmer already exists
+const checkExistingFarmer = async (farmerId) => {
+  try {
+    const result = await db.query('SELECT id FROM `farmer` WHERE id = ?', [
+      farmerId,
+    ]);
+    return result[0];
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+// function to check if email already exists
+const checkExistingEmail = async (email) => {
+  try {
+    const result = await db.query(
+      'SELECT email FROM `farmer` WHERE email = ?',
+      [email]
+    );
+    return result[0];
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 // function to retrieve all farmers
 const findMany = async () => {
   try {
@@ -118,6 +143,8 @@ const remove = async (farmerId) => {
 };
 
 module.exports = {
+  checkExistingFarmer,
+  checkExistingEmail,
   findMany,
   findOne,
   create,

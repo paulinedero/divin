@@ -1,7 +1,8 @@
 const Joi = require('joi');
-const db = require('../../dbConfig');
 
 const {
+  checkExistingFarmer,
+  checkExistingEmail,
   findMany,
   findOne,
   create,
@@ -54,11 +55,8 @@ const getAllFarmers = async (req, res) => {
 // Retrieve one farmer
 const getOneFarmer = async (req, res) => {
   try {
-    const existingFarmer = await db.query(
-      'SELECT id FROM `farmer` WHERE id = ?',
-      [req.params.farmerId]
-    );
-    if (existingFarmer[0].length === 0) {
+    const existingFarmer = await checkExistingFarmer(req.params.farmerId);
+    if (existingFarmer.length === 0) {
       res
         .status(404)
         .send(`Il n'existe pas de producteur lié à cet identifiant.`);
@@ -74,14 +72,8 @@ const getOneFarmer = async (req, res) => {
 // Create a new farmer
 const createFarmer = async (req, res) => {
   try {
-    const checkExistingEmail = await db.query(
-      'SELECT email FROM `farmer` WHERE email = ?',
-      [req.body.email]
-    );
-    const existingEmail = Object.values(
-      JSON.parse(JSON.stringify(checkExistingEmail[0][0]))
-    );
-    if (existingEmail[0] === req.body.email) {
+    const existingEmail = await checkExistingEmail(req.body.email);
+    if (existingEmail.length > 0) {
       res
         .status(409)
         .send(
@@ -104,11 +96,8 @@ const createFarmer = async (req, res) => {
 // Update existing farmer's datas
 const updateFarmer = async (req, res) => {
   try {
-    const existingFarmer = await db.query(
-      'SELECT id FROM `farmer` WHERE id = ?',
-      [req.params.farmerId]
-    );
-    if (existingFarmer[0].length === 0) {
+    const existingFarmer = await checkExistingFarmer(req.params.farmerId);
+    if (existingFarmer.length === 0) {
       res
         .status(404)
         .send(`Il n'existe pas de producteur lié à cet identifiant.`);
@@ -129,11 +118,8 @@ const updateFarmer = async (req, res) => {
 // Update existing farmer's address
 const updateFarmerAddress = async (req, res) => {
   try {
-    const existingFarmer = await db.query(
-      'SELECT id FROM `farmer` WHERE id = ?',
-      [req.params.farmerId]
-    );
-    if (existingFarmer[0].length === 0) {
+    const existingFarmer = await checkExistingFarmer(req.params.farmerId);
+    if (existingFarmer.length === 0) {
       res
         .status(404)
         .send(`Il n'existe pas de producteur lié à cet identifiant.`);
@@ -154,11 +140,8 @@ const updateFarmerAddress = async (req, res) => {
 // Delete existing farmer
 const deleteFarmer = async (req, res) => {
   try {
-    const existingFarmer = await db.query(
-      'SELECT id FROM `farmer` WHERE id = ?',
-      [req.params.farmerId]
-    );
-    if (existingFarmer[0].length === 0) {
+    const existingFarmer = await checkExistingFarmer(req.params.farmerId);
+    if (existingFarmer.length === 0) {
       res
         .status(404)
         .send(`Il n'existe pas de producteur lié à cet identifiant.`);

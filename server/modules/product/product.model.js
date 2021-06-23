@@ -1,5 +1,17 @@
 const db = require('../../dbConfig');
 
+// function to check if product already exists
+const checkExistingProduct = async (productId) => {
+  try {
+    const result = await db.query('SELECT id FROM `product` WHERE id = ?', [
+      productId,
+    ]);
+    return result[0];
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 // function to retrieve all my products
 const findAllMyProducts = async (farmerId) => {
   try {
@@ -128,6 +140,7 @@ const remove = async (productId) => {
 };
 
 module.exports = {
+  checkExistingProduct,
   findAllMyProducts,
   findOneOfMyProducts,
   create,
