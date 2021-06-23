@@ -12,11 +12,13 @@ import {
 } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
+import * as ImagePicker from 'expo-image-picker';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import IconPhoto from './IconPhoto';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -105,8 +107,25 @@ export default function InscriptionsPage() {
   const [numberTva, onChangeNumberTva] = React.useState('');
   const [seePassword, setSeePassword] = React.useState(true);
   const [seeConfirmPassword, setSeeConfirmPassword] = React.useState(true);
-
   const invalideForm = () => email === '' || password === '' || confirmPassword === '' || firstname === '' || lastname === '' || birthday === '' || numberSiret === '' || numberTva === '';
+  const [selectedImage, setSelectedImage] = React.useState(null);
+
+  const openImagePickerAsync = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert('Permission to access camera roll is required!');
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+
+    setSelectedImage({ localUri: pickerResult.uri });
+  };
 
   return (
     <KeyboardAvoidingWrapper>
@@ -236,8 +255,11 @@ export default function InscriptionsPage() {
           <View style={styles.icons}>
             <View style={styles.photo}>
               <Text style={styles.textConfig}> Photo de profil </Text>
-              <TouchableOpacity onPress={() => { alert('you clicked me') }}>
-                <IconPhoto style={styles.button} />
+              <TouchableOpacity onPress={() => { openImagePickerAsync(); }}>
+                {setSelectedImage
+                  ? (<Image source={{ uri: selectedImage.localUri }}
+                    style={{ width: 50, height: 50 }} />)
+                  : (<IconPhoto style={styles.button} />)}
               </TouchableOpacity>
             </View>
             <View>
