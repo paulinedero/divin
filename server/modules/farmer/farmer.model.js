@@ -36,10 +36,14 @@ const findMany = async () => {
 
 // function to retrieve one farmer
 const findOne = async (farmerId) => {
-  const result = await db.query('SELECT * FROM `farmer` WHERE id = ?', [
-    farmerId,
-  ]);
-  return result[0];
+  try {
+    const result = await db.query('SELECT * FROM `farmer` WHERE id = ?', [
+      farmerId,
+    ]);
+    return result[0];
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 // function to create a new farmer

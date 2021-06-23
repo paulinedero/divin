@@ -41,7 +41,7 @@ const getAllProducts = async (req, res) => {
     const rawData = await findAllMyProducts(req.params.farmerId);
     res.json(rawData[0]);
   } catch (err) {
-    throw new Error(err);
+    res.status(500).send(err);
   }
 };
 
@@ -59,7 +59,7 @@ const getOneProduct = async (req, res) => {
       res.json(rawData);
     }
   } catch (err) {
-    throw new Error(err);
+    res.status(500).send(err);
   }
 };
 
@@ -111,7 +111,7 @@ const deleteProduct = async (req, res) => {
         .send('Le produit a été supprimé de notre base de données.');
     }
   } catch (err) {
-    throw new Error(err);
+    res.status(500).send(err);
   }
 };
 

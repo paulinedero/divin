@@ -48,7 +48,7 @@ const getAllFarmers = async (req, res) => {
     const rawData = await findMany();
     res.json(rawData[0]);
   } catch (err) {
-    throw new Error(err);
+    res.status(500).send(err);
   }
 };
 
@@ -65,7 +65,7 @@ const getOneFarmer = async (req, res) => {
       res.json(rawData);
     }
   } catch (err) {
-    throw new Error(err);
+    res.status(500).send(err);
   }
 };
 
@@ -152,7 +152,7 @@ const deleteFarmer = async (req, res) => {
         .send('Vos données ont été supprimées de notre base de données.');
     }
   } catch (err) {
-    throw new Error(err);
+    res.status(500).send(err);
   }
 };
 
