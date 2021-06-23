@@ -7,22 +7,22 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  TextInput,
   SafeAreaView,
-  TouchableWithoutFeedback,
+  TouchableHighlight,
 } from 'react-native';
 
-import InscriptionIconPhoto from '../assets/InscriptionIconPhoto.svg';
+import { TextInput } from 'react-native-paper';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
-import ClosedEye from './ClosedEye';
-import OpenEye from './OpenEye';
+import IconPhoto from './IconPhoto';
+import EyeIn from './EyeIn';
+import EyeOut from './EyeOut';
 
 const styles = StyleSheet.create({
   container: {
-    //    flex: 1, //give errors on others devices but no errors on browser
+    //   flex: 1 //give errors on others devices but no errors on browser
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 100,
     backgroundColor: '#FFBD59',
   },
   ImageBanniereProducteur: {
@@ -45,34 +45,35 @@ const styles = StyleSheet.create({
   },
   strutureGeneral: {
     marginBottom: 20,
-    marginLeft: 40,
+    marginLeft: '5%',
+    marginRight: '6%',
   },
   textConfig: {
     marginTop: 30,
     color: '#FFBD59',
   },
-  struture: {
-
-  },
   photo: {
     alignItems: 'center',
   },
   input: {
-    marginTop: 17,
     fontSize: 15,
-    borderBottomWidth: 1,
-    marginLeft: 10,
-    marginRight: 40,
-  },
-  line: {
-    height: 2,
-    width: '90%',
-    borderRadius: 15,
-    backgroundColor: 'gray',
-    marginTop: 1,
+    height: 40,
+    backgroundColor: '#FFFFFF',
+    marginTop: 17,
   },
   passInput: {
+    display: 'flex',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
+    flexDirection: 'row',
+    marginTop: 17,
+  },
+  passInputHalf: {
+    width: '90%',
+  },
+  passInputHalf2: {
+    width: '8%',
+    justifyContent: 'center',
   },
   icons: {
     flexDirection: 'row',
@@ -81,10 +82,15 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 5,
-    // fontfamily: 'Comfortaa',
-    // fontsize: 12,
     padding: 10,
-    color: 'white',
+    marginTop: '10%',
+  },
+  eye: {
+    marginRight: '7%',
+  },
+  alertPass: {
+    fontSize: 12,
+    color: 'red',
   },
 });
 
@@ -100,11 +106,7 @@ export default function InscriptionsPage() {
   const [seePassword, setSeePassword] = React.useState(true);
   const [seeConfirmPassword, setSeeConfirmPassword] = React.useState(true);
 
-  const invalideForm = () => {
-    // eslint-disable-next-line max-len
-    console.log(email, password, confirmPassword, firstname, lastname, birthday, numberSiret, numberTva);
-    return email === '' || password === '' || confirmPassword === '' || firstname === '' || lastname === '' || birthday === '' || numberSiret === '' || numberTva === '';
-  };
+  const invalideForm = () => email === '' || password === '' || confirmPassword === '' || firstname === '' || lastname === '' || birthday === '' || numberSiret === '' || numberTva === '';
 
   return (
     <KeyboardAvoidingWrapper>
@@ -117,96 +119,125 @@ export default function InscriptionsPage() {
         <View style={styles.footer}>
           <View style={styles.strutureGeneral}>
             <Text style={styles.textConfig}> Informations de personnelles </Text>
-            <SafeAreaView style={styles.struture}>
+            <SafeAreaView>
               <TextInput
+                mode="outlined"
+                label="NOM"
                 value={lastname}
                 style={styles.input}
                 onChangeText={onChangeLastname}
-                placeholder="NOM"
+                placeholder="Entrez votre nom"
                 minLength={3}
               />
               <TextInput
+                mode="outlined"
+                label="PRENOM"
                 value={firstname}
                 style={styles.input}
                 onChangeText={onChangeFirstname}
-                placeholder="PRENOM"
+                placeholder="Entrez votre prenom"
                 minLength={3}
               />
               <TextInput
+                mode="outlined"
+                label="DATE DE NAISSANCE"
                 type="date"
                 style={styles.input}
-                placeholder="DATE DE NAISSANCE"
+                placeholder="Entrez votre date de naissance AAAA-MM-JJ"
                 length={8}
                 onChangeText={onChangeBirthday}
                 value={birthday}
               />
+              <View>
+                {birthday.length !== 10
+                  ? (
+                    <Text style={styles.alertPass}>
+                      Le format de la date de naissance doit être respecté
+                    </Text>
+                  ) : null}
+              </View>
               <TextInput
+                mode="outlined"
+                label="EMAIL"
                 type="email"
                 value={email}
                 style={styles.input}
                 onChangeText={onChangeEmail}
-                placeholder="EMAIL"
+                placeholder="Entrez votre email"
               />
               {/* password */}
-              <View>
+              <View style={styles.passInput}>
                 <TextInput
+                  mode="outlined"
+                  label="MOT DE PASSE"
                   value={password}
-                  name="password"
-                  style={styles.input}
+                  style={styles.passInputHalf}
                   onChangeText={setPassword}
-                  secureTextEntry
-                  placeholder="MOT DE PASSE"
-                  minLength={8}
+                  secureTextEntry={seePassword}
+                  placeholder="Entrez votre mot de passe"
                 />
-                <TouchableWithoutFeedback onPress={() => setSeePassword(!seePassword)}>
-                  {seePassword
-                    ? <ClosedEye />
-                    : <OpenEye />}
-                </TouchableWithoutFeedback>
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="white"
+                  style={styles.passInputHalf2}
+                  onPress={() => setSeePassword(!seePassword)}
+                >
+                  {seePassword ? <EyeOut /> : <EyeIn />}
+                </TouchableHighlight>
               </View>
               {/* confirmation Password */}
               <View style={styles.passInput}>
                 <TextInput
-                  style={styles.input}
+                  mode="outlined"
+                  label="CONFIRMATION DE MOT DE PASSE"
                   value={confirmPassword}
                   name="confirmPassword"
+                  style={styles.passInputHalf}
                   onChangeText={setConfirmPassword}
-                  secureTextEntry
-                  placeholder="CONFIRMATION DE PASSE"
-                  minLength={8}
+                  secureTextEntry={seeConfirmPassword}
+                  placeholder="Re-entrez votre mot de passe"
                 />
-                <TouchableWithoutFeedback onPress={() => setSeeConfirmPassword(!seeConfirmPassword)}>
-                  {seeConfirmPassword
-                    ? <ClosedEye />
-                    : <OpenEye />}
-                </TouchableWithoutFeedback>
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="white"
+                  style={styles.passInputHalf2}
+                  onPress={() => setSeeConfirmPassword(!seeConfirmPassword)}
+                >
+                  {seeConfirmPassword ? <EyeOut /> : <EyeIn />}
+                </TouchableHighlight>
               </View>
-              {password !== confirmPassword
-                ? <Text sytle={styles.alertPass}>  Les mots de passe doivent être identiques</Text>
-                : null}
+              <View>
+                {password !== confirmPassword
+                  ? <Text style={styles.alertPass}> Les mots de passe doivent être identiques</Text>
+                  : null}
+              </View>
             </SafeAreaView>
             <Text style={styles.textConfig}> Informations de facturation </Text>
-            <SafeAreaView style={styles.struture}>
+            <SafeAreaView>
               <TextInput
+                mode="outlined"
+                label="NUMERO SIRET"
                 value={numberSiret}
                 type="number"
                 style={styles.input}
                 onChangeText={onChangeNumberSiret}
-                placeholder="NUMERO SIRET"
+                placeholder="Entrez votre numero SIRET"
               />
               <TextInput
+                mode="outlined"
+                label="NUMERO TVA"
                 value={numberTva}
                 style={styles.input}
                 onChangeText={onChangeNumberTva}
-                placeholder="NUMERO DE TVA"
+                placeholder="Entrez votre numero TVA"
               />
             </SafeAreaView>
           </View>
           <View style={styles.icons}>
             <View style={styles.photo}>
               <Text style={styles.textConfig}> Photo de profil </Text>
-              <TouchableOpacity style={styles.button} onPress={() => { alert('you clicked me') }}>
-                <Image style={{ width: 55, height: 55 }} source={{ InscriptionIconPhoto }} />
+              <TouchableOpacity onPress={() => { alert('you clicked me') }}>
+                <IconPhoto style={styles.button} />
               </TouchableOpacity>
             </View>
             <View>
@@ -214,7 +245,6 @@ export default function InscriptionsPage() {
                 onPress={() => (
                   console.log('Les champs sont remplis.'),
                   alert('you clicked me')
-
                 )}
                 title="S'inscrire"
                 disabled={invalideForm()}

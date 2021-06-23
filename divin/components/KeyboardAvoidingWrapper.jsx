@@ -1,12 +1,14 @@
 import React from 'react';
 
-// keyboard avoiding view, in each component before <view>
-import { KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+// <keyboard avoiding view>, in each component before <view>
+import {
+  KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Keyboard
+} from 'react-native';
 
 const KeyboardAvoidingWrapper = ({ children }) => {
-  console.log('keyboard acctivated'); //can be removed, as like return (
+  {/*keyboard_component works well in every device with info in line 11*/ }
   return (
-    <KeyboardAvoidingView >
+    <KeyboardAvoidingView>
       <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           {children}
