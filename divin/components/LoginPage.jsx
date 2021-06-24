@@ -1,10 +1,11 @@
-import React from 'react';
-import { Text, StyleSheet, Image, SafeAreaView, View, Pressable } from 'react-native';
+import * as React from 'react';
+import { Text, StyleSheet, Image, SafeAreaView, View, Pressable, Button, ScrollView } from 'react-native';
+import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 
 export default function LoginPage() {
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      marginTop: 20,
       alignItems: 'center',
     },
     tinyLogo: {
@@ -29,7 +30,7 @@ export default function LoginPage() {
       width: 200,
       height: 50,
       opacity: 0.9,
-      borderRadius: 8,
+      borderRadius: 50,
       backgroundColor: '#FE984E',
       fontFamily: 'Arial',
       shadowColor: '#000',
@@ -38,17 +39,17 @@ export default function LoginPage() {
         height: 3,
       },
       shadowOpacity: 0.27,
-      shadowRadius: 4.65,
+      shadowRadius: 2.5,
       elevation: 6,
     },
     btnPress1: {
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 25,
-      width: 200,
+      width: '75%',
       height: 50,
       opacity: 0.6,
-      borderRadius: 7,
+      borderRadius: 50,
       backgroundColor: '#FF0100',
       fontFamily: 'Arial',
       shadowColor: '#000',
@@ -57,17 +58,17 @@ export default function LoginPage() {
         height: 2,
       },
       shadowOpacity: 0.23,
-      shadowRadius: 2.62,
+      shadowRadius: 3.5,
       elevation: 4,
     },
     btnPress2: {
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 20,
-      width: 200,
+      width: '75%',
       height: 50,
       opacity: 0.9,
-      borderRadius: 7,
+      borderRadius: 50,
       backgroundColor: '#FE984E',
       fontFamily: 'Arial',
       shadowColor: '#000',
@@ -76,7 +77,7 @@ export default function LoginPage() {
         height: 2,
       },
       shadowOpacity: 0.23,
-      shadowRadius: 2.62,
+      shadowRadius: 3.5,
       elevation: 4,
     },
     colorFontBtn: {
@@ -84,38 +85,40 @@ export default function LoginPage() {
       fontSize: 18,
     },
     greenBack: {
-      borderRadius: 25,
-      marginTop: 35,
-      width: 325,
-      height: 300,
+      borderTopLeftRadius: 50,
+      borderTopRightRadius: 50,
+      marginTop: 45,
+      minWidth: '100%',
+      minHeight: 350,
       backgroundColor: '#448042',
     },
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Image style={styles.tinyLogo} source={require('../assets/Logo-prod.jpg')} />
-      <View style={styles.btn}>
-        <Pressable style={styles.btnPress} onPress={() => { }}>
-          <Text style={styles.colorFontBtn}>Connexion</Text>
-        </Pressable>
-        <View style={styles.greenBack}>
-          <View style={styles.text}>
-            <Text style={{ color: '#FFFFFF' }}>On attendait que vous !</Text>
-          </View>
+    <KeyboardAvoidingWrapper>
+      <ScrollView>
+        <SafeAreaView style={styles.container}>
+          <Image style={styles.tinyLogo} source={require('../assets/Logo-prod.jpg')} />
           <View style={styles.btn}>
-            <Pressable style={styles.btnPress2} onPress={() => { }}>
-              <Text style={styles.colorFontBtn}>Inscription via Email</Text>
+            <Pressable style={styles.btnPress} onPress={() => { }}>
+              <Text style={styles.colorFontBtn}>Connexion</Text>
             </Pressable>
-            <Pressable style={styles.btnPress1} onPress={() => { }}>
-              <Text style={styles.colorFontBtn}>Inscription via Google</Text>
-            </Pressable>
+            <View style={styles.greenBack}>
+              <View style={styles.text}>
+                <Text style={{ color: '#FFFFFF' }}>On attendait que vous !</Text>
+              </View>
+              <View style={styles.btn}>
+                <Pressable style={styles.btnPress2} onPress={() => { }}>
+                  <Text style={styles.colorFontBtn}>Inscription via Email</Text>
+                </Pressable>
+                <Pressable style={styles.btnPress1} onPress={() => { }}>
+                  <Text style={styles.colorFontBtn}>Inscription via Google</Text>
+                </Pressable>
+              </View>
+            </View>
           </View>
-          <View style={styles.text}>
-            <Text style={{ color: '#FFFFFF' }}>Mot de passe oublié ?</Text>
-          </View>
-        </View>
-      </View>
-    </SafeAreaView>
+        </SafeAreaView>
+      </ScrollView>
+    </KeyboardAvoidingWrapper>
   );
 }

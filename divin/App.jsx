@@ -1,8 +1,13 @@
 import React from 'react';
-import LoginPage from './components/LoginPage';
+import { View } from 'react-native';
+// import LoginPage from './components/LoginPage';
+import ValidationConnexion from './components/ValidationConnexion';
 
 export default function App() {
   return (
-    <LoginPage />
+    <View>
+      {/* <LoginPage /> */}
+      <ValidationConnexion />
+    </View>
   );
 }
