@@ -19,7 +19,6 @@ import IconPhoto from './IconPhoto';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
 
-
 const styles = StyleSheet.create({
   container: {
     //   flex: 1 //give errors on others devices but no errors on browser
@@ -97,33 +96,31 @@ const styles = StyleSheet.create({
 });
 
 export default function InscriptionsPage() {
-  const [email, onChangeEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
-  const [firstname, onChangeFirstname] = React.useState('');
-  const [lastname, onChangeLastname] = React.useState('');
-  const [birthday, onChangeBirthday] = React.useState('');
-  const [numberSiret, onChangeNumberSiret] = React.useState('');
-  const [numberTva, onChangeNumberTva] = React.useState('');
-  const [seePassword, setSeePassword] = React.useState(true);
+  const [email, onChangeEmail] = React.useState(''); //to guarantee the of insert mail} 
+  const [password, setPassword] = React.useState(''); //to guarantee the insertion of passaword}
+  const [confirmPassword, setConfirmPassword] = React.useState(''); //to guarantee the insertion of the samme password}
+  const [firstname, onChangeFirstname] = React.useState(''); //to guarantee the insertion of name}
+  const [lastname, onChangeLastname] = React.useState(''); //to guarantee the insertion of last name}
+  const [birthday, onChangeBirthday] = React.useState(''); //to guarantee the insertion of birthday}
+  const [numberSiret, onChangeNumberSiret] = React.useState(''); //to guarantee the insertion of finalcialnumber in france}
+  const [numberTva, onChangeNumberTva] = React.useState(''); //to guarantee the insertion of finalcialnumber in france}
+  const [seePassword, setSeePassword] = React.useState(true); //to guarantee password be showed}
   const [seeConfirmPassword, setSeeConfirmPassword] = React.useState(true);
+  //to guarantee the repition password be showed}
+  const [selectedImage, setSelectedImage] = React.useState(null); //to guarantee image be showed}
   const invalideForm = () => email === '' || password === '' || confirmPassword === '' || firstname === '' || lastname === '' || birthday === '' || numberSiret === '' || numberTva === '';
-  const [selectedImage, setSelectedImage] = React.useState(null);
+  //to guarantee the control from all fields}
 
   const openImagePickerAsync = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
     if (permissionResult.granted === false) {
       alert('Permission to access camera roll is required!');
       return;
     }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-
+    const pickerResult = await ImagePicker.launchImageLibraryAsync();
     if (pickerResult.cancelled === true) {
       return;
     }
-
     setSelectedImage({ localUri: pickerResult.uri });
   };
 
@@ -139,6 +136,7 @@ export default function InscriptionsPage() {
           <View style={styles.strutureGeneral}>
             <Text style={styles.textConfig}> Informations de personnelles </Text>
             <SafeAreaView>
+              {/* personnal information about the seller */}
               <TextInput
                 mode="outlined"
                 label="NOM"
@@ -184,7 +182,7 @@ export default function InscriptionsPage() {
                 onChangeText={onChangeEmail}
                 placeholder="Entrez votre email"
               />
-              {/* password */}
+              {/* password and hide 1st password button  */}
               <View style={styles.passInput}>
                 <TextInput
                   mode="outlined"
@@ -201,10 +199,11 @@ export default function InscriptionsPage() {
                   style={styles.passInputHalf2}
                   onPress={() => setSeePassword(!seePassword)}
                 >
+                  {/* hiding pass or showing pass  */}
                   {seePassword ? <EyeOut /> : <EyeIn />}
                 </TouchableHighlight>
               </View>
-              {/* confirmation Password */}
+              {/* confirmation Password and hide 2nd password button */}
               <View style={styles.passInput}>
                 <TextInput
                   mode="outlined"
@@ -222,6 +221,7 @@ export default function InscriptionsPage() {
                   style={styles.passInputHalf2}
                   onPress={() => setSeeConfirmPassword(!seeConfirmPassword)}
                 >
+                  {/* hiding pass or showing pass  */}
                   {seeConfirmPassword ? <EyeOut /> : <EyeIn />}
                 </TouchableHighlight>
               </View>
@@ -231,6 +231,7 @@ export default function InscriptionsPage() {
                   : null}
               </View>
             </SafeAreaView>
+            {/* Information about financial and enterprise administration in france */}
             <Text style={styles.textConfig}> Informations de facturation </Text>
             <SafeAreaView>
               <TextInput
@@ -252,20 +253,20 @@ export default function InscriptionsPage() {
               />
             </SafeAreaView>
           </View>
+          {/* photo from gallerie, and active button to pick a image  */}
           <View style={styles.icons}>
             <View style={styles.photo}>
               <Text style={styles.textConfig}> Photo de profil </Text>
               <TouchableOpacity onPress={() => { openImagePickerAsync(); }}>
-                {setSelectedImage
-                  ? (<Image source={{ uri: selectedImage.localUri }}
-                    style={{ width: 50, height: 50 }} />)
-                  : (<IconPhoto style={styles.button} />)}
+                {(selectedImage !== null) ? <Image source={{ uri: selectedImage.localUri }} style={{ width: 50, height: 50 }} />
+                  : <IconPhoto style={styles.button} />}
               </TouchableOpacity>
             </View>
+            {/* When this page are fully filled the button will appear, and it will be
+            possivel to progress into the following page */}
             <View>
               <Button
                 onPress={() => (
-                  console.log('Les champs sont remplis.'),
                   alert('you clicked me')
                 )}
                 title="S'inscrire"
