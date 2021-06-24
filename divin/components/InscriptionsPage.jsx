@@ -9,6 +9,7 @@ import {
   Image,
   SafeAreaView,
   TouchableHighlight,
+  useEffect,
 } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
@@ -18,6 +19,7 @@ import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import IconPhoto from './IconPhoto';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   container: {
@@ -96,16 +98,16 @@ const styles = StyleSheet.create({
 });
 
 export default function InscriptionsPage() {
-  const [email, onChangeEmail] = React.useState(''); //to guarantee the of insert mail} 
-  const [password, setPassword] = React.useState(''); //to guarantee the insertion of passaword}
-  const [confirmPassword, setConfirmPassword] = React.useState(''); //to guarantee the insertion of the samme password}
   const [firstname, onChangeFirstname] = React.useState(''); //to guarantee the insertion of name}
   const [lastname, onChangeLastname] = React.useState(''); //to guarantee the insertion of last name}
   const [birthday, onChangeBirthday] = React.useState(''); //to guarantee the insertion of birthday}
-  const [numberSiret, onChangeNumberSiret] = React.useState(''); //to guarantee the insertion of finalcialnumber in france}
-  const [numberTva, onChangeNumberTva] = React.useState(''); //to guarantee the insertion of finalcialnumber in france}
+  const [email, onChangeEmail] = React.useState(''); //to guarantee the of insert mail} 
+  const [password, setPassword] = React.useState(''); //to guarantee the insertion of passaword}
+  const [confirmPassword, setConfirmPassword] = React.useState(''); //to guarantee the insertion of the samme password}
   const [seePassword, setSeePassword] = React.useState(true); //to guarantee password be showed}
   const [seeConfirmPassword, setSeeConfirmPassword] = React.useState(true);
+  const [numberSiret, onChangeNumberSiret] = React.useState(''); //to guarantee the insertion of finalcialnumber in france}
+  const [numberTva, onChangeNumberTva] = React.useState(''); //to guarantee the insertion of finalcialnumber in france}
   //to guarantee the repition password be showed}
   const [selectedImage, setSelectedImage] = React.useState(null); //to guarantee image be showed}
   const invalideForm = () => email === '' || password === '' || confirmPassword === '' || firstname === '' || lastname === '' || birthday === '' || numberSiret === '' || numberTva === '';
@@ -123,6 +125,20 @@ export default function InscriptionsPage() {
     }
     setSelectedImage({ localUri: pickerResult.uri });
   };
+
+
+  const inscription = async () => {
+    //insert data fom farmer in DataBase
+    try {
+      const result = await axios.post(
+        'https://localhost:3000/farmer/',
+        { firstname, lastname, birthday, email, password, numberSiret, numberTva, selectedImage }
+      );
+      console.log(result);
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <KeyboardAvoidingWrapper>
@@ -267,7 +283,8 @@ export default function InscriptionsPage() {
             <View>
               <Button
                 onPress={() => (
-                  alert('you clicked me')
+
+
                 )}
                 title="S'inscrire"
                 disabled={invalideForm()}
@@ -280,3 +297,4 @@ export default function InscriptionsPage() {
     </KeyboardAvoidingWrapper>
   );
 }
+\
