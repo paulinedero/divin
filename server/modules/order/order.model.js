@@ -109,6 +109,7 @@ const findAllOrderedProducts = async (farmerId) => {
   }
 };
 
+// function to get all ordered products in a specific period from a farmer
 const findOrderedProductsBtwDates = async (farmerId, startdate, enddate) => {
   try {
     const result = await db.query(
@@ -121,6 +122,7 @@ const findOrderedProductsBtwDates = async (farmerId, startdate, enddate) => {
   }
 };
 
+// function to get the top 5 products per week (update everyday)
 const findTopProducts = async (farmerId) => {
   try {
     const result = await db.query(
@@ -133,6 +135,7 @@ const findTopProducts = async (farmerId) => {
   }
 };
 
+// function to get the flop 5 products per week (update everyday)
 const findFlopProducts = async (farmerId) => {
   try {
     const result = await db.query(

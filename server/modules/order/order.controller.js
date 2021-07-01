@@ -63,6 +63,7 @@ const getOneOrder = async (req, res) => {
   }
 };
 
+// Create a new order
 const createOrder = async (req, res) => {
   try {
     const error = validate(req.body);
@@ -77,6 +78,7 @@ const createOrder = async (req, res) => {
   }
 };
 
+// Update existing order
 const updateOrder = async (req, res) => {
   try {
     const existingOrder = await checkExistingOrder(req.params.orderId);
@@ -110,6 +112,7 @@ const updateOrder = async (req, res) => {
   }
 };
 
+// Delete existing farmer
 const deleteOrder = async (req, res) => {
   try {
     const existingOrder = await checkExistingOrder(req.params.orderId);
@@ -140,6 +143,7 @@ const deleteOrder = async (req, res) => {
   }
 };
 
+// Get all ordered products without filter
 const getAllOrderedItems = async (req, res) => {
   try {
     const rawData = await findAllOrderedProducts(req.params.farmerId);
@@ -153,6 +157,7 @@ const getAllOrderedItems = async (req, res) => {
   }
 };
 
+// Get all ordered products with a date-based filter
 const getOrderedItemsBtwDates = async (req, res) => {
   try {
     const rawData = await findOrderedProductsBtwDates(
@@ -170,11 +175,13 @@ const getOrderedItemsBtwDates = async (req, res) => {
   }
 };
 
+// Get the most ordered items per week (update everyday)
 const getMostOrderedItems = async (req, res) => {
   const rawData = await findTopProducts(req.params.farmerId);
   res.json(rawData);
 };
 
+// Get the less ordered items (update everyday)
 const getLessOrderedItems = async (req, res) => {
   const rawData = await findFlopProducts(req.params.farmerId);
   res.json(rawData);
