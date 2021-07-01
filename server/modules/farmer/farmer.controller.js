@@ -29,6 +29,7 @@ const validate = (data) =>
     },
     phone_number: Joi.string().alphanum(),
     siret_number: Joi.number(),
+    VAT_number: Joi.number(),
     description: Joi.string(),
   }).validate(data, { abortEarly: false }).error;
 
