@@ -58,6 +58,7 @@ const create = async (newFarmer) => {
     address,
     phone_number,
     siret_number,
+    VAT_number,
     description,
   } = newFarmer;
 
@@ -73,7 +74,7 @@ const create = async (newFarmer) => {
       ]
     );
     const [insertedFarmer] = await db.query(
-      'INSERT INTO farmer (email, password, company_name, lastname, firstname, birthdate, address, phone_number, siret_number, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO farmer (email, password, company_name, lastname, firstname, birthdate, address, phone_number, siret_number, VAT_number, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         email,
         password,
@@ -84,6 +85,7 @@ const create = async (newFarmer) => {
         insertedAddress.insertId,
         phone_number,
         siret_number,
+        VAT_number,
         description,
       ]
     );
@@ -99,6 +101,7 @@ const create = async (newFarmer) => {
       address,
       phone_number,
       siret_number,
+      VAT_number,
       description,
     };
     return createdFarmer;
