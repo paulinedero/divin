@@ -1,6 +1,7 @@
 import React from 'react';
 
-// <keyboard avoiding view>, in each component before <view>
+// <keyboard avoiding view>, in each component before 1st <View> and after last </View>
+// It doesn't work if it is use directly in App
 import {
   KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Keyboard, Platform,
 } from 'react-native';

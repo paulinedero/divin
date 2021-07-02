@@ -137,6 +137,12 @@ export default function InscriptionsPage() {
   const invalideForm = () => firstname === '' || lastname === '' || birthday === '' || phoneNumber === '' || email === '' || password === '' || confirmPassword === '' || tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || country === '';
   // to guarantee the control from all fields
 
+  // this function came from npm NavigationContainer & CreateStackNavigator,
+  // and allows to navigate to others pages
+  const goTo = () => {
+    props.navigation.push('StockPage');
+  };
+
   const openImagePickerAsync = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
@@ -150,13 +156,14 @@ export default function InscriptionsPage() {
     setSelectedImage({ localUri: pickerResult.uri });
   };
 
-  // insert data fom farmer in DataBase
+  // insert data from farmer form into DataBase
   const inscription = async () => {
     // to adapte all variables between front-end and server
-    // exemple: {first_name: firstName}  or {firstName: first_name}
+    // exemple: {first_name: firstName}  or {firstName: first_name} helps to 
+    // convert the variables names into their corresponding values in the server.
     try {
       const result = await axios.post(
-        'http://192.168.1.54:3000/farmers/',
+        'https://localhost:3000/farmers/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be shown via the browser window
         {
           firstname,
           lastname,
@@ -193,7 +200,7 @@ export default function InscriptionsPage() {
           <View style={styles.strutureGeneral}>
             <Text style={styles.textConfig}> Informations de personnelles </Text>
             <SafeAreaView>
-              {/* personnal information about the seller */}
+              {/* personnal information about the farmer */}
               <TextInput
                 mode="outlined"
                 label="NOM"
@@ -223,7 +230,7 @@ export default function InscriptionsPage() {
                 value={birthday}
               />
               <View>
-                {birthday.length >= 11 || birthday.match(/^[A-Za-z]+$/) // || birthday[0] !== (1, 2) ????
+                {birthday.length >= 11 || birthday.match(/^[A-Za-z]+$/)
                   ? (
                     <Text style={styles.alertPass}>
                       Le format de la date de naissance doit être respecté
@@ -290,11 +297,11 @@ export default function InscriptionsPage() {
                   style={styles.passInputHalf2}
                   onPress={() => setSeePassword(!seePassword)}
                 >
-                  {/* hiding pass or showing pass  */}
+                  {/* to hiding the password or showing it when clicked  */}
                   {seePassword ? <EyeOut /> : <EyeIn />}
                 </TouchableHighlight>
               </View>
-              {/* confirmation Password and hide 2nd password button */}
+              {/* Password's confirmation and hide 2nd password with buttons */}
               <View style={styles.passInput}>
                 <TextInput
                   mode="outlined"
@@ -312,7 +319,7 @@ export default function InscriptionsPage() {
                   style={styles.passInputHalf2}
                   onPress={() => setSeeConfirmPassword(!seeConfirmPassword)}
                 >
-                  {/* hiding pass or showing pass  */}
+                  {/* hiding or showing password confirmation  */}
                   {seeConfirmPassword ? <EyeOut /> : <EyeIn />}
                 </TouchableHighlight>
               </View>
@@ -322,10 +329,6 @@ export default function InscriptionsPage() {
                   : null}
               </View>
             </SafeAreaView>
-
-            {
-              // {valideFirstForm == null ? '' : ''} // to make appear the first part of the form
-            }
 
             {/* Information about financial and enterprise administration in france */}
             <Text style={styles.textConfig}> Informations de facturation </Text>
@@ -437,19 +440,24 @@ export default function InscriptionsPage() {
                   : <IconPhoto style={styles.button} />}
               </TouchableOpacity>
             </View>
-            {/* When this page are fully filled the button will appear, and it will be
-            possivel to progress into the following page */}
+            {/* When this page are FULLY filled, the button "s'inscrire' will appear in orange background color, and it will be
+            possible to progress into the following page */}
             <View>
               <Button
-                onPress={() => (inscription())}
+                onPress={() => (
+                  inscription(),
+                  goTo()
+                )
+                }
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}
+              // https://reactnavigation.org/docs/getting-started/
               />
             </View>
           </View>
         </View>
       </View>
-    </KeyboardAvoidingWrapper >
+    </KeyboardAvoidingWrapper>
   );
 }
