@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import {
   View,
-  StatusBar,
   Button,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   Image,
   SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
   TouchableHighlight,
+  TouchableOpacity,
+  Picker,
 } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
@@ -124,7 +125,11 @@ export default function InscriptionsPage() {
   const [streetNumber, onChangeStreetNumber] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
   const [zipCode, onChangeZipCode] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
   const [city, onChangeCity] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
-  const [country, onChangeCountry] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
+
+  // allows to specify a selection of available countries}
+  const [countries, setCountries] = React.useState([]);
+  // allows to specify a selection of available countries}
+  const [selectCountry, setSelectCountry] = React.useState(null); // }
 
   // to guarantee the control of a picture from the farmer
   const [selectedImage, setSelectedImage] = React.useState(null); // to guarantee image be showed}
@@ -134,14 +139,8 @@ export default function InscriptionsPage() {
   const valideSecondForm = () => tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || country === '';
   // to guarantee the control from all fields
 
-  const invalideForm = () => firstname === '' || lastname === '' || birthday === '' || phoneNumber === '' || email === '' || password === '' || confirmPassword === '' || tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || country === '';
+  const invalideForm = () => firstname === '' || lastname === '' || birthday === '' || phoneNumber === '' || email === '' || password === '' || confirmPassword === '' || tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || selectCountry === '';
   // to guarantee the control from all fields
-
-  // this function came from npm NavigationContainer & CreateStackNavigator,
-  // and allows to navigate to others pages
-  const goTo = () => {
-    props.navigation.push('StockPage');
-  };
 
   const openImagePickerAsync = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -156,14 +155,14 @@ export default function InscriptionsPage() {
     setSelectedImage({ localUri: pickerResult.uri });
   };
 
-  // insert data from farmer form into DataBase
+  // the next step is to insert data from farmer form into DataBase
   const inscription = async () => {
     // to adapte all variables between front-end and server
     // exemple: {first_name: firstName}  or {firstName: first_name} helps to 
     // convert the variables names into their corresponding values in the server.
     try {
       const result = await axios.post(
-        'https://localhost:3000/farmers/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be shown via the browser window
+        'http://192.168.1.54:3000/farmers/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
         {
           firstname,
           lastname,
@@ -171,16 +170,18 @@ export default function InscriptionsPage() {
           email,
           password,
           phone_number: phoneNumber,
-          tva_number: tvaNumber,
+          VAT_number: tvaNumber,
           siret_number: siretNumber,
+          address: {
+            street,
+            street_number: streetNumber,
+            zip_code: zipCode,
+            city,
+            selectCountry,
+          },
           company_name: companyName,
           description,
-          street,
-          street_number: streetNumber,
-          zip_code: zipCode,
-          city,
-          country,
-          selectedImage,
+          //selectedImage,
         },
       );
       console.log(result);
@@ -188,6 +189,18 @@ export default function InscriptionsPage() {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    axios
+      .get('http://192.168.1.54:3000/countries/')
+      .then((res) => res.data)
+      .then((data) => {
+        console.log(data);
+        setCountries(data);
+        console.log(countries);
+      });
+  }, []);
+
   return (
     <KeyboardAvoidingWrapper>
       <View style={styles.container}>
@@ -329,7 +342,6 @@ export default function InscriptionsPage() {
                   : null}
               </View>
             </SafeAreaView>
-
             {/* Information about financial and enterprise administration in france */}
             <Text style={styles.textConfig}> Informations de facturation </Text>
             <SafeAreaView>
@@ -420,14 +432,22 @@ export default function InscriptionsPage() {
                 onChangeText={onChangeCity}
                 placeholder="Entrez votre ville"
               />
-              <TextInput
-                mode="outlined"
-                label="PAYS"
-                value={country}
-                style={styles.input}
-                onChangeText={onChangeCountry}
-                placeholder="Entrez votre pays"
-              />
+              <View>
+                <Picker
+                  selectedValue={selectCountry}
+                  style={{ height: 50, width: 150 }}
+                  onValueChange={(itemValue) => setSelectCountry(itemValue)}
+                >
+                  {countries.map((country) => (
+                    <View
+                      key={country.id}
+                      label={country.name}
+                      value={country.id}
+                      mode="outlined"
+                    />
+                  ))}
+                </Picker>
+              </View>
             </SafeAreaView>
           </View>
           {/* photo from gallerie, and active button to pick a image  */}
@@ -443,16 +463,27 @@ export default function InscriptionsPage() {
             {/* When this page are FULLY filled, the button "s'inscrire' will appear in orange background color, and it will be
             possible to progress into the following page */}
             <View>
+              {console.log(
+                firstname,
+                lastname,
+                birthday,
+                email,
+                password,
+                phoneNumber,
+                description,
+                tvaNumber,
+                siretNumber,
+                street,
+                streetNumber,
+                city,
+                selectCountry,
+                companyName,
+              )}
               <Button
-                onPress={() => (
-                  inscription(),
-                  goTo()
-                )
-                }
+                onPress={() => (inscription())}
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}
-              // https://reactnavigation.org/docs/getting-started/
               />
             </View>
           </View>
