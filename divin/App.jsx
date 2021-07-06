@@ -19,8 +19,8 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Navigator>
-        <Screen name="Login" component={LoginScreen} />
-        <Screen name="Validation" component={ValidationScreen} />
+        <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
       </Navigator>
     </NavigationContainer>
   );

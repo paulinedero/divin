@@ -14,9 +14,10 @@ export default function LoginScreen(props) {
       alignItems: 'center',
     },
     tinyLogo: {
-      width: 260,
-      height: 240,
-      marginTop: 25,
+      width: 270,
+      height: 270,
+      marginTop: 20,
+      marginBottom: 20,
       opacity: 0.8,
     },
     text: {
@@ -32,7 +33,7 @@ export default function LoginScreen(props) {
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 40,
-      width: 200,
+      width: '60%',
       height: 50,
       opacity: 0.9,
       borderRadius: 50,
@@ -51,7 +52,7 @@ export default function LoginScreen(props) {
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 25,
-      width: '50%',
+      width: '60%',
       height: 50,
       opacity: 0.6,
       borderRadius: 50,
@@ -70,7 +71,7 @@ export default function LoginScreen(props) {
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 20,
-      width: '50%',
+      width: '60%',
       height: 50,
       opacity: 0.9,
       borderRadius: 50,
@@ -103,7 +104,7 @@ export default function LoginScreen(props) {
     <KeyboardAvoidingWrapper>
       <ScrollView>
         <SafeAreaView style={styles.container}>
-          <Image style={styles.tinyLogo} source={require('../assets/Logo.png')} />
+          <Image style={styles.tinyLogo} source={require('../assets/logo_divin.png')} />
           <View style={styles.btn}>
 
             {/* bouton de connexion  */}
