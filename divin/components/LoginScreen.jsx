@@ -4,7 +4,6 @@ import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 
 export default function LoginScreen(props) {
   const goTo = () => {
-    // console.log('props', props);
     props.navigation.push('Validation');
   };
 

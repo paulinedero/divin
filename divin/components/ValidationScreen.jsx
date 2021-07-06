@@ -105,7 +105,6 @@ const ValidationScreen = (props) => {
   const invalideForm = () => email === '' || password === '';
 
   const goTo = () => {
-    // console.log('props', props);
     props.navigation.push('FarmersList');
   };
 
