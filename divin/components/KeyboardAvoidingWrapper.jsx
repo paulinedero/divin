@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 const KeyboardAvoidingWrapper = ({ children }) => {
-  console.log('keyboard Actived');
+  console.log();
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView>

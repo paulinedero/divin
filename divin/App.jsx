@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/LoginScreen';
 import ValidationScreen from './components/ValidationScreen';
+import FarmersScreen from './components/FarmersScreen';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -19,8 +20,9 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Navigator>
-        <Screen name="Login" component={LoginScreen} />
-        <Screen name="Validation" component={ValidationScreen} />
+        <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
+        <Screen name="FarmersList" component={FarmersScreen} />
       </Navigator>
     </NavigationContainer>
   );
