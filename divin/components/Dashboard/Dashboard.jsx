@@ -11,6 +11,7 @@ import { PieChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import TopProductCard from './TopProductCard';
 import FlopProductCard from './FlopProductCard';
+import OrderCard from './OrderCard';
 
 const styles = StyleSheet.create({
   body: {
@@ -61,7 +62,13 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     marginBottom: 10,
-
+  },
+  greenBack: {
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    maxWidth: '100%',
+    height: 70,
+    backgroundColor: '#448042',
   },
 });
 
@@ -69,10 +76,13 @@ export default function Dashboard() {
   const sessionUser = {
     name: 'Pauline',
     id: 5,
+    // startDate: ,
+    // endDate: ,
   };
 
   const [topProduct, setTopProduct] = useState([]);
   const [flopProduct, setFlopProduct] = useState([]);
+  const [order, setOrder] = useState([]);
 
   useEffect(() => {
     axios
@@ -86,6 +96,16 @@ export default function Dashboard() {
       .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/less-ordered-items`)
       .then((res) => res.data)
       .then((data) => setFlopProduct(data));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://192.168.50.195:3000/farmers/5/orders?startdate=2021/06/01&enddate=2021/06/30'`)
+      .then((res) => res.data)
+      .then((data) => {
+        setOrder(data);
+        console.log(data);
+      });
   }, []);
 
   const pieData = [
@@ -186,8 +206,20 @@ export default function Dashboard() {
               />
             ))}
           </View>
+          <Text style={styles.subTitle}>Toutes mes commandes</Text>
+          <View style={styles.flopProductCard}>
+            {order.map((item, index) => (
+              <OrderCard
+                key={index}
+                id={item.id}
+                purchaseDate={item.date}
+                total={item.total}
+              />
+            ))}
+          </View>
         </View>
       </View>
+      <View style={styles.greenBack} />
     </ScrollView>
   );
 }
