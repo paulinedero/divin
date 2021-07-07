@@ -5,7 +5,9 @@ import {
   Text,
   ScrollView,
   Image,
+  Dimensions,
 } from 'react-native';
+import { PieChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import TopProductCard from './TopProductCard';
 import FlopProductCard from './FlopProductCard';
@@ -13,6 +15,7 @@ import FlopProductCard from './FlopProductCard';
 const styles = StyleSheet.create({
   body: {
     backgroundColor: '#F5F5F5',
+    maxWidth: '100%',
   },
   logo: {
     width: 100,
@@ -45,40 +48,121 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
   },
-
   dashboard: {
     marginTop: 30,
     marginBottom: 30,
   },
+  chart: {
+    height: 'auto',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#696969',
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 10,
+
+  },
 });
 
 export default function Dashboard() {
+  const sessionUser = {
+    name: 'Pauline',
+    id: 5,
+  };
+
   const [topProduct, setTopProduct] = useState([]);
   const [flopProduct, setFlopProduct] = useState([]);
 
   useEffect(() => {
     axios
-      .get('http://192.168.1.63:3000/farmers/5/most-ordered-items')
+      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/most-ordered-items`)
       .then((res) => res.data)
       .then((data) => setTopProduct(data));
   }, []);
-  console.log(topProduct);
+
   useEffect(() => {
     axios
-      .get('http://192.168.1.63:3000/farmers/5/less-ordered-items')
+      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/less-ordered-items`)
       .then((res) => res.data)
       .then((data) => setFlopProduct(data));
   }, []);
+
+  const pieData = [
+    {
+      name: 'Courges',
+      quantity: 2150,
+      color: '#FE984E',
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
+    {
+      name: 'Pommes',
+      quantity: 2800,
+      color: '#448042',
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
+    {
+      name: 'Salades',
+      quantity: 527,
+      color: '#F9E79F',
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
+    {
+      name: 'Haricots',
+      quantity: 853,
+      color: '#F4D03F',
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
+    {
+      name: 'Navets',
+      quantity: 119,
+      color: '#27AE60',
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
+    {
+      name: 'Carottes',
+      quantity: 154,
+      color: '#F9E79F',
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    },
+  ];
+  const screenWidth = Dimensions.get('window').width;
+  const chartConfig = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#08130D",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    strokeWidth: 5, // optional, default 3
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false // optional
+  };
 
   return (
     <ScrollView>
       <View style={styles.body}>
         <Image style={styles.logo} source={require('../../assets/dashboard_logo_divin.png')} />
-        <Text style={styles.mainTitle}>Bonjour Pauline !</Text>
+        <Text style={styles.mainTitle}>Bonjour {sessionUser.name} !</Text>
         <Text style={styles.text}>Voici votre tableau de bord quotidien.</Text>
         <View style={styles.dashboard}>
           <View>
             <Text style={styles.subTitle}>Composition du stock actuel</Text>
+            <View style={styles.chart}>
+              <PieChart
+                data={pieData}
+                width={screenWidth}
+                height={180}
+                chartConfig={chartConfig}
+                accessor="quantity"
+                backgroundColor="transparent"
+              />
+            </View>
           </View>
           <Text style={styles.subTitle}>Les plus commandés</Text>
           <View style={styles.topProductCard}>
