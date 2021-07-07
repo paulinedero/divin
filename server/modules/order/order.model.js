@@ -126,7 +126,7 @@ const findOrderedProductsBtwDates = async (farmerId, startdate, enddate) => {
 const findTopProducts = async (farmerId) => {
   try {
     const result = await db.query(
-      'SELECT SUM(ordered_item.quantity), product.name, ANY_VALUE(product.farmer_id), ANY_VALUE(ordered_item.creation_date FROM ordered_item, product WHERE ordered_item.product_id = product.id AND farmer_id = ? AND ordered_item.creation_date BETWEEN date(now() - INTERVAL 1 week) AND now() GROUP BY product.name ORDER BY SUM(ordered_item.quantity) DESC LIMIT 5',
+      'SELECT ANY_VALUE(ordered_item.id) id, SUM(ordered_item.quantity) quantity, product.name, ANY_VALUE(product.farmer_id) farmer, ANY_VALUE(ordered_item.creation_date) date, ANY_VALUE(product.purchase_unit) unite FROM ordered_item, product WHERE ordered_item.product_id = product.id AND farmer_id = ? AND ordered_item.creation_date BETWEEN date(now() - INTERVAL 1 week) AND now() GROUP BY product.name ORDER BY SUM(ordered_item.quantity) DESC LIMIT 5',
       [farmerId]
     );
     return result[0];
@@ -139,7 +139,7 @@ const findTopProducts = async (farmerId) => {
 const findFlopProducts = async (farmerId) => {
   try {
     const result = await db.query(
-      'SELECT SUM(ordered_item.quantity), product.name, ANY_VALUE(product.farmer_id), ANY_VALUE(ordered_item.creation_date FROM ordered_item, product WHERE ordered_item.product_id = product.id AND farmer_id = ? AND ordered_item.creation_date BETWEEN date(now() - INTERVAL 1 week) AND now() GROUP BY product.name ORDER BY SUM(ordered_item.quantity) ASC LIMIT 5',
+      'SELECT ANY_VALUE(ordered_item.id) id, SUM(ordered_item.quantity) quantity, product.name, ANY_VALUE(product.farmer_id) farmer, ANY_VALUE(ordered_item.creation_date) date, ANY_VALUE(product.purchase_unit) unite FROM ordered_item, product WHERE ordered_item.product_id = product.id AND farmer_id = ? AND ordered_item.creation_date BETWEEN date(now() - INTERVAL 1 week) AND now() GROUP BY product.name ORDER BY SUM(ordered_item.quantity) ASC LIMIT 5',
       [farmerId]
     );
     return result[0];

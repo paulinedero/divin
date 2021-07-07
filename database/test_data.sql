@@ -276,3 +276,8 @@ insert into ordered_item (product_id, order_id, quantity) values (4, 6, 3);
 insert into ordered_item (product_id, order_id, quantity) values (5, 6, 5);
 
 insert into ordered_item (product_id, order_id, quantity) values (4, 1, 8);
+
+
+
+
+
