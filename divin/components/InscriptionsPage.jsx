@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   textConfig: {
     marginTop: 30,
     color: '#FFBD59',
+    fontSize: 18,
   },
   photo: {
     alignItems: 'center',
@@ -83,6 +84,38 @@ const styles = StyleSheet.create({
   },
   adress: {
 
+  },
+  textOptimalSize: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#FFFFFF',
+    marginTop: 17,
+  },
+  inputSize1: {
+    fontSize: 15,
+    height: 40,
+    width: '65%',
+    backgroundColor: '#FFFFFF',
+  },
+  inputSize2: {
+    fontSize: 15,
+    height: 40,
+    width: '30%',
+    backgroundColor: '#FFFFFF',
+  },
+  inputSize3: {
+    fontSize: 15,
+    height: 40,
+    width: '47.5%',
+    backgroundColor: '#FFFFFF',
+  },
+  picker: {
+    marginTop: 17,
+    borderRadius: 5,
+    borderWidth: 1,
+    height: 50,
+    borderColor: 'gray',
   },
   icons: {
     flexDirection: 'row',
@@ -166,7 +199,7 @@ export default function InscriptionsPage() {
         {
           firstname,
           lastname,
-          birthday,
+          birthdate: birthday,
           email,
           password,
           phone_number: phoneNumber,
@@ -177,11 +210,11 @@ export default function InscriptionsPage() {
             street_number: streetNumber,
             zip_code: zipCode,
             city,
-            selectCountry,
+            country: selectCountry,
           },
           company_name: companyName,
           description,
-          //selectedImage,
+          //selectedImage, //not use until this moment 
         },
       );
       console.log(result);
@@ -197,9 +230,17 @@ export default function InscriptionsPage() {
       .then((data) => {
         console.log(data);
         setCountries(data);
-        console.log(countries);
       });
   }, []);
+
+  const sendMail = async () => {
+    var link = `${email}`,
+    + "?cc=noreply@divin.com"
+      + "&subject=" + encodeURIComponent('Confirmation de votre inscription')
+      + "&body=" + encodeURIComponent(document.getElementById('Votre compte a été crée sur DIVIN avec ce email comme registre').value)
+      ;
+  };
+  window.location.href = link;
 
   return (
     <KeyboardAvoidingWrapper>
@@ -211,7 +252,7 @@ export default function InscriptionsPage() {
         <Text style={styles.title}>INSCRIPTION</Text>
         <View style={styles.footer}>
           <View style={styles.strutureGeneral}>
-            <Text style={styles.textConfig}> Informations de personnelles </Text>
+            <Text style={styles.textConfig}> Informations personnelles </Text>
             <SafeAreaView>
               {/* personnal information about the farmer */}
               <TextInput
@@ -289,7 +330,7 @@ export default function InscriptionsPage() {
                   ? null
                   : (
                     <Text style={styles.alertPass}>
-                      Le e-mail dois être correctement introduit
+                      Votre e-mail doit être correctement introduit
                     </Text>
                   )}
               </View>
@@ -381,25 +422,27 @@ export default function InscriptionsPage() {
             </SafeAreaView>
             {/* Information about financial and enterprise administration in france */}
             <Text style={styles.textConfig}>
-              Address Entreprise? Fiscal? domicille? livraison?
+              Address d'exploitation
             </Text>
             <SafeAreaView style={styles.adress}>
-              <TextInput
-                mode="outlined"
-                label="RUE"
-                value={street}
-                style={styles.input}
-                onChangeText={onChangeStreet}
-                placeholder="Entrez votre rue"
-              />
-              <TextInput
-                mode="outlined"
-                label="NUMERO"
-                value={streetNumber}
-                style={styles.input}
-                onChangeText={onChangeStreetNumber}
-                placeholder="Entrez le numero de rue"
-              />
+              <View style={styles.textOptimalSize}>
+                <TextInput
+                  mode="outlined"
+                  label="RUE"
+                  value={street}
+                  style={styles.inputSize1}
+                  onChangeText={onChangeStreet}
+                  placeholder="Entrez votre rue"
+                />
+                <TextInput
+                  mode="outlined"
+                  label="NUMERO"
+                  value={streetNumber}
+                  style={styles.inputSize2}
+                  onChangeText={onChangeStreetNumber}
+                  placeholder="Nº de rue"
+                />
+              </View>
               <View>
                 {(streetNumber.match(/^[A-Za-z]+$/))
                   ? (
@@ -408,14 +451,24 @@ export default function InscriptionsPage() {
                     </Text>
                   ) : null}
               </View>
-              <TextInput
-                mode="outlined"
-                label="CODE POSTAL"
-                value={zipCode}
-                style={styles.input}
-                onChangeText={onChangeZipCode}
-                placeholder="Entrez votre code postal"
-              />
+              <View style={styles.textOptimalSize}>
+                <TextInput
+                  mode="outlined"
+                  label="CODE POSTAL"
+                  value={zipCode}
+                  style={styles.inputSize3}
+                  onChangeText={onChangeZipCode}
+                  placeholder="Entrez code postal"
+                />
+                <TextInput
+                  mode="outlined"
+                  label="VILLE"
+                  value={city}
+                  style={styles.inputSize3}
+                  onChangeText={onChangeCity}
+                  placeholder="Entrez votre ville"
+                />
+              </View>
               <View>
                 {(zipCode.match(/^[A-Za-z]+$/))
                   ? (
@@ -424,26 +477,17 @@ export default function InscriptionsPage() {
                     </Text>
                   ) : null}
               </View>
-              <TextInput
-                mode="outlined"
-                label="VILLE"
-                value={city}
-                style={styles.input}
-                onChangeText={onChangeCity}
-                placeholder="Entrez votre ville"
-              />
-              <View>
+              <View style={styles.picker}>
                 <Picker
                   selectedValue={selectCountry}
-                  style={{ height: 50, width: 150 }}
                   onValueChange={(itemValue) => setSelectCountry(itemValue)}
                 >
                   {countries.map((country) => (
-                    <View
+                    <Picker.Item
                       key={country.id}
+                      placeholder="Entrez votre ville"
                       label={country.name}
                       value={country.id}
-                      mode="outlined"
                     />
                   ))}
                 </Picker>
@@ -460,7 +504,7 @@ export default function InscriptionsPage() {
                   : <IconPhoto style={styles.button} />}
               </TouchableOpacity>
             </View>
-            {/* When this page are FULLY filled, the button "s'inscrire' will appear in orange background color, and it will be
+            {/* When this page are FULLY filled, the button s'inscrire' will appear in orange background color, and it will be
             possible to progress into the following page */}
             <View>
               {console.log(
@@ -480,7 +524,7 @@ export default function InscriptionsPage() {
                 companyName,
               )}
               <Button
-                onPress={() => (inscription())}
+                onPress={() => (inscription(), sendEmail())}
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}
@@ -489,6 +533,6 @@ export default function InscriptionsPage() {
           </View>
         </View>
       </View>
-    </KeyboardAvoidingWrapper>
+    </KeyboardAvoidingWrapper >
   );
 }
