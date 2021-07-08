@@ -133,7 +133,13 @@ const styles = StyleSheet.create({
   },
 });
 
+
 export default function InscriptionsPage() {
+  // to change into next page
+  const goTo = () => {
+    props.navigation.push('Validation');
+  };
+
   // personnel info
   const [firstname, onChangeFirstname] = React.useState(''); // to guarantee the insertion of name}
   const [lastname, onChangeLastname] = React.useState(''); // to guarantee the insertion of last name}
@@ -189,13 +195,13 @@ export default function InscriptionsPage() {
   };
 
   // the next step is to insert data from farmer form into DataBase
-  const inscription = async () => {
+  const newProduct = async () => {
     // to adapte all variables between front-end and server
     // exemple: {first_name: firstName}  or {firstName: first_name} helps to 
     // convert the variables names into their corresponding values in the server.
     try {
       const result = await axios.post(
-        'http://https://localhost:3000/farmers/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+        'https://localhost:3000//:farmerId/products/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
         {
           firstname,
           lastname,
@@ -513,7 +519,7 @@ export default function InscriptionsPage() {
                 companyName,
               )}
               <Button
-                onPress={() => (inscription())}
+                onPress={() => (inscription(), goTo())} // ADD FUNCTION "MAIL SEND" HERE
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}

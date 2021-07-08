@@ -1,17 +1,9 @@
 import React from 'react';
-<<<<<<< HEAD
-import { View } from 'react-native';
-import InscriptionsPage from './components/InscriptionsPage';
-
-export default function App() {
-  return (
-    <View>
-      <InscriptionsPage />
-    </View>
-=======
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { InscriptionsPage } from './components/InscriptionsPage';
+import { ProductPage } from './components/ProductPage';
 import LoginScreen from './components/LoginScreen';
 import ValidationScreen from './components/ValidationScreen';
 
@@ -31,8 +23,9 @@ export default function App() {
       <Navigator>
         <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
+        <Screen name="InscriptionsPage" component={InscriptionsPage} options={{ headerShown: false }} />
+        <Screen name="ProductPage" component={ProductPage} options={{ headerShown: false }} />
       </Navigator>
     </NavigationContainer>
->>>>>>> dev
   );
 }
