@@ -195,11 +195,11 @@ export default function InscriptionsPage() {
     // convert the variables names into their corresponding values in the server.
     try {
       const result = await axios.post(
-        'http://192.168.1.54:3000/farmers/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+        'http://https://localhost:3000/farmers/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
         {
           firstname,
           lastname,
-          birthdate: birthday,
+          birthday,
           email,
           password,
           phone_number: phoneNumber,
@@ -228,19 +228,9 @@ export default function InscriptionsPage() {
       .get('http://192.168.1.54:3000/countries/')
       .then((res) => res.data)
       .then((data) => {
-        console.log(data);
         setCountries(data);
       });
   }, []);
-
-  const sendMail = async () => {
-    var link = `${email}`,
-    + "?cc=noreply@divin.com"
-      + "&subject=" + encodeURIComponent('Confirmation de votre inscription')
-      + "&body=" + encodeURIComponent(document.getElementById('Votre compte a été crée sur DIVIN avec ce email comme registre').value)
-      ;
-  };
-  window.location.href = link;
 
   return (
     <KeyboardAvoidingWrapper>
@@ -524,7 +514,7 @@ export default function InscriptionsPage() {
                 companyName,
               )}
               <Button
-                onPress={() => (inscription(), sendEmail())}
+                onPress={() => (inscription())}
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}

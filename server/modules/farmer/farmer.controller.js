@@ -19,7 +19,7 @@ const validate = (data) =>
     company_name: Joi.string(),
     lastname: Joi.string().alphanum(),
     firstname: Joi.string().alphanum(),
-    birthdate: Joi.date(),
+    birthday: Joi.date().raw().required(),
     address: {
       street: Joi.string().max(350),
       street_number: Joi.number(),
@@ -29,6 +29,7 @@ const validate = (data) =>
     },
     phone_number: Joi.string().alphanum(),
     siret_number: Joi.number(),
+    VAT_number: Joi.number(),
     description: Joi.string(),
   }).validate(data, { abortEarly: false }).error;
 
@@ -82,6 +83,8 @@ const createFarmer = async (req, res) => {
     } else {
       const error = validate(req.body);
       if (error) {
+        // console.log(error);
+        // console.log(req.body);
         res.status(422).json({ validationErrors: error.details });
       } else {
         const rawData = await create(req.body);
