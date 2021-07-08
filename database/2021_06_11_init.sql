@@ -275,7 +275,3 @@ ALTER TABLE `liked_product` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ALTER TABLE `liked_product` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 ALTER TABLE `stock_movement` ADD FOREIGN KEY (`product_id`) REFERENCES `stock_movement` (`id`);
-
-ALTER TABLE `farmer` ADD `VAT_number` INT;
-
-ALTER TABLE `farmer` MODIFY COLUMN `VAT_number` INT AFTER `siret_number`;

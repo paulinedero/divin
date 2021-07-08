@@ -10,6 +10,7 @@ import {
 import { PieChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import moment from 'moment';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import TopProductCard from './TopProductCard';
 import FlopProductCard from './FlopProductCard';
 import OrderCard from './OrderCard';
@@ -84,6 +85,8 @@ export default function Dashboard() {
   const [topProduct, setTopProduct] = useState([]);
   const [flopProduct, setFlopProduct] = useState([]);
   const [order, setOrder] = useState([]);
+  const [startdate, setStartdate] = useState(new Date());
+  const [enddate, setEnddate] = useState(new Date());
 
   useEffect(() => {
     axios
@@ -208,6 +211,17 @@ export default function Dashboard() {
             ))}
           </View>
           <Text style={styles.subTitle}>Toutes mes commandes</Text>
+          <Text>Sélectionnez une période</Text>
+          <Text>Date de début</Text>
+          <DatePicker
+            date={startdate}
+            onDateChange={setStartdate}
+          />
+          <Text>Date de fin</Text>
+          <DatePicker
+            date={enddate}
+            onDateChange={setEnddate}
+          />
           <View style={styles.flopProductCard}>
             {order.map((item, index) => (
               <OrderCard
