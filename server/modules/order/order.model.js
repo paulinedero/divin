@@ -28,10 +28,24 @@ const checkOrderBelongsToFarmer = async (orderId, farmerId) => {
 // function to retrieve all farmer's orders
 const findMany = async (farmerId) => {
   try {
-    return await db.query(
+    const result = await db.query(
       'SELECT order.id, relay_id, status_id, purchase_date, pickup_date, total, ordered_item.product_id, product.name, ordered_item.quantity, product.farmer_id from `order` JOIN ordered_item ON order.id = ordered_item.order_id JOIN product ON ordered_item.product_id = product.id WHERE farmer_id = ?',
       [farmerId]
     );
+    return result[0];
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+// function to retrieve all farmer's orders between dates
+const findManyBtwDates = async (farmerId, startdate, enddate) => {
+  try {
+    const result = await db.query(
+      'SELECT order.id, relay_id, status_id, purchase_date, pickup_date, total, ordered_item.product_id, product.name, ordered_item.quantity, product.farmer_id from `order` JOIN ordered_item ON order.id = ordered_item.order_id JOIN product ON ordered_item.product_id = product.id WHERE farmer_id = ? AND order.creation_date BETWEEN ? AND ?',
+      [farmerId, startdate, enddate]
+    );
+    return result[0];
   } catch (err) {
     throw new Error(err);
   }
@@ -152,6 +166,7 @@ module.exports = {
   checkExistingOrder,
   checkOrderBelongsToFarmer,
   findMany,
+  findManyBtwDates,
   findOne,
   create,
   update,

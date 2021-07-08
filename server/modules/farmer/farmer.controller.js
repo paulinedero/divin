@@ -19,7 +19,7 @@ const validate = (data) =>
     company_name: Joi.string(),
     lastname: Joi.string().alphanum(),
     firstname: Joi.string().alphanum(),
-    birthdate: Joi.date(),
+    birthday: Joi.date(),
     address: {
       street: Joi.string().max(350),
       street_number: Joi.number(),
