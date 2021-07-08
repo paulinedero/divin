@@ -1,13 +1,13 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet, View } from 'react-native';
+//import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { InscriptionsPage } from './components/InscriptionsPage';
-import { ProductPage } from './components/ProductPage';
-import LoginScreen from './components/LoginScreen';
-import ValidationScreen from './components/ValidationScreen';
+//import LoginScreen from './components/LoginScreen';
+//import ValidationScreen from './components/ValidationScreen';
+//import InscriptionsPage from './components/InscriptionsPage';
+import ProductsStock from './components/ProductsStock';
 
-const { Navigator, Screen } = createStackNavigator();
+//const { Navigator, Screen } = createStackNavigator();
 
 const styles = StyleSheet.create({
   container: {
@@ -17,15 +17,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App() {
-  return (
+/*
     <NavigationContainer style={styles.container}>
       <Navigator>
         <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
         <Screen name="InscriptionsPage" component={InscriptionsPage} options={{ headerShown: false }} />
-        <Screen name="ProductPage" component={ProductPage} options={{ headerShown: false }} />
+        <Screen name="ProductsStock" component={ProductsStock} options={{ headerShown: false }} />
       </Navigator>
     </NavigationContainer>
+*/
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <ProductsStock />
+    </View>
   );
 }

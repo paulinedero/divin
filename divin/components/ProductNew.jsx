@@ -101,6 +101,11 @@ export default function InscriptionsPage() {
     props.navigation.push('Validation');
   };
 
+  // to change into next page
+  const goToDashBoard = () => {
+    props.navigation.push('Validation');
+  };
+
   // personnel info
   const [firstname, onChangeFirstname] = React.useState(''); // to guarantee the insertion of name}
   const [lastname, onChangeLastname] = React.useState(''); // to guarantee the insertion of last name}

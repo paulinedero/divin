@@ -133,11 +133,10 @@ const styles = StyleSheet.create({
   },
 });
 
-
 export default function InscriptionsPage() {
   // to change into next page
-  const goTo = () => {
-    props.navigation.push('Validation');
+  const goToValidationScreen = () => {
+    props.navigation.push('ValidationScreen');
   };
 
   // personnel info
@@ -519,7 +518,8 @@ export default function InscriptionsPage() {
                 companyName,
               )}
               <Button
-                onPress={() => (inscription(), goTo())} // ADD FUNCTION "MAIL SEND" HERE
+                onPress={() =>
+                  (inscription(), goToValidationScreen())} // ADD FUNCTION "MAIL SEND" HERE
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}

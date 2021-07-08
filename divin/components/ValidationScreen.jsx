@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    align: 'center',
+    alignItems: 'center',
     marginTop: 5,
     color: '#FE984E',
   },
@@ -105,7 +105,7 @@ const ValidationScreen = (props) => {
   const invalideForm = () => email === '' || password === '';
 
   const goTo = () => {
-    props.navigation.push('FarmersList');
+    props.navigation.push('Dashboard');
   };
 
   return (
