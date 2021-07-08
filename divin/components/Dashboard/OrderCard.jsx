@@ -46,10 +46,24 @@ const styles = StyleSheet.create({
 export default function TopProductCard({ id, purchaseDate, total }) {
   return (
     <View style={styles.container}>
-        <Image style={styles.icon} source={require('../../assets/check_icon.png')} />
-        <Text style={styles.text}>Réf. de la commande : {id}</Text>
-        <Text style={styles.text}>Date d'achat: {purchaseDate}</Text>
-        <Text style={styles.totalPrice}>Total: {total} €</Text>
+      <Image style={styles.icon} source={require('../../assets/check_icon.png')} />
+      <Text style={styles.text}>
+        Réf. de la commande :
+        {' '}
+        {id}
+      </Text>
+      <Text style={styles.text}>
+        Date d'achat :
+        {' '}
+        {purchaseDate}
+      </Text>
+      <Text style={styles.totalPrice}>
+        Total :
+        {' '}
+        {total}
+        {' '}
+        €
+      </Text>
     </View>
   );
 }

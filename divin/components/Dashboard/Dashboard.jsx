@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import axios from 'axios';
+import moment from 'moment';
 import TopProductCard from './TopProductCard';
 import FlopProductCard from './FlopProductCard';
 import OrderCard from './OrderCard';
@@ -86,21 +87,21 @@ export default function Dashboard() {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/most-ordered-items`)
+      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/most-ordered-items`)
       .then((res) => res.data)
       .then((data) => setTopProduct(data));
   }, []);
 
   useEffect(() => {
     axios
-      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/less-ordered-items`)
+      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/less-ordered-items`)
       .then((res) => res.data)
       .then((data) => setFlopProduct(data));
   }, []);
 
   useEffect(() => {
     axios
-      .get(`http://192.168.50.195:3000/farmers/5/orders?startdate=2021/06/01&enddate=2021/06/30'`)
+      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/orders?startdate=2021/06/01&enddate=2021/06/30'`)
       .then((res) => res.data)
       .then((data) => {
         setOrder(data);
@@ -212,7 +213,7 @@ export default function Dashboard() {
               <OrderCard
                 key={index}
                 id={item.id}
-                purchaseDate={item.date}
+                purchaseDate={moment(item.date).format('DD/MM/YYYY')}
                 total={item.total}
               />
             ))}
