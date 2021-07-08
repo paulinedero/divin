@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#448042',
+    borderColor: '#2cb20c',
     shadowRadius: 10,
     marginLeft: 5,
     marginRight: 5,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 export default function TopProductCard({ id, purchaseDate, total }) {
   return (
     <View style={styles.container}>
-      <Image style={styles.icon} source={require('../../assets/check_icon.png')} />
+      <Image style={styles.icon} source={require('../../assets/order_icon.png')} />
       <Text style={styles.text}>
         Réf. de la commande :
         {' '}
