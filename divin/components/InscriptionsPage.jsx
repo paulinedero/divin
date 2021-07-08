@@ -217,7 +217,6 @@ export default function InscriptionsPage() {
           //selectedImage, //not use until this moment 
         },
       );
-      console.log(result);
     } catch (err) {
       console.error(err);
     }

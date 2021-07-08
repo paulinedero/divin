@@ -83,8 +83,6 @@ const createFarmer = async (req, res) => {
     } else {
       const error = validate(req.body);
       if (error) {
-        // console.log(error);
-        // console.log(req.body);
         res.status(422).json({ validationErrors: error.details });
       } else {
         const rawData = await create(req.body);
