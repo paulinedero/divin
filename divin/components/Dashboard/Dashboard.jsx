@@ -6,11 +6,12 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  Button,
 } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import moment from 'moment';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import TopProductCard from './TopProductCard';
 import FlopProductCard from './FlopProductCard';
 import OrderCard from './OrderCard';
@@ -78,40 +79,30 @@ export default function Dashboard() {
   const sessionUser = {
     name: 'Pauline',
     id: 5,
-    // startDate: ,
-    // endDate: ,
   };
 
   const [topProduct, setTopProduct] = useState([]);
   const [flopProduct, setFlopProduct] = useState([]);
   const [order, setOrder] = useState([]);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [startdate, setStartdate] = useState(new Date());
   const [enddate, setEnddate] = useState(new Date());
 
   useEffect(() => {
     axios
-      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/most-ordered-items`)
+      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/most-ordered-items`)
       .then((res) => res.data)
       .then((data) => setTopProduct(data));
   }, []);
 
   useEffect(() => {
     axios
-      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/less-ordered-items`)
+      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/less-ordered-items`)
       .then((res) => res.data)
       .then((data) => setFlopProduct(data));
   }, []);
 
-  useEffect(() => {
-    axios
-      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/orders?startdate=2021/06/01&enddate=2021/06/30'`)
-      .then((res) => res.data)
-      .then((data) => {
-        setOrder(data);
-        console.log(data);
-      });
-  }, []);
-
+  // Chart's variables
   const pieData = [
     {
       name: 'Courges',
@@ -168,6 +159,50 @@ export default function Dashboard() {
     useShadowColorFromDataset: false // optional
   };
 
+  // Datepicker Startdate
+  const showStartdatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+  const hideStartdatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+  const handleConfirmStartdate = () => {
+    hideStartdatePicker();
+  };
+  const formatStartdate = (date) => {
+    date.toISOString().substring(0, 10);
+    setStartdate(date);
+  };
+
+  // Datepicker Enddate
+  const showEnddatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+  const hideEnddatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+  const handleConfirmEnddate = () => {
+    hideEnddatePicker();
+  };
+
+  const formatEnddate = (date) => {
+    date.toISOString().substring(0, 10);
+    setEnddate(date);
+  };
+
+  // Fetch orders from selected period
+  const getOrdersFromPeriod = async () => {
+    await startdate;
+    await enddate;
+    return axios
+      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
+      .then((res) => res.data)
+      .then((data) => {
+        setOrder(data);
+        console.log(data);
+      });
+  };
+
   return (
     <ScrollView>
       <View style={styles.body}>
@@ -213,15 +248,29 @@ export default function Dashboard() {
           <Text style={styles.subTitle}>Toutes mes commandes</Text>
           <Text>Sélectionnez une période</Text>
           <Text>Date de début</Text>
-          <DatePicker
-            date={startdate}
-            onDateChange={setStartdate}
-          />
-          <Text>Date de fin</Text>
-          <DatePicker
-            date={enddate}
-            onDateChange={setEnddate}
-          />
+          <View>
+            <Button title="Du" onPress={showStartdatePicker} />
+            <Text>{startdate}</Text>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirmStartdate}
+              onCancel={hideStartdatePicker}
+              onChange={formatStartdate}
+            />
+          </View>
+          <View>
+            <Button title="Au" onPress={showEnddatePicker} />
+            <Text>{enddate}</Text>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirmEnddate}
+              onCancel={hideEnddatePicker}
+              onChange={formatEnddate}
+            />
+          </View>
+          <Button title="Select" onPress={() => getOrdersFromPeriod} />
           <View style={styles.flopProductCard}>
             {order.map((item, index) => (
               <OrderCard
