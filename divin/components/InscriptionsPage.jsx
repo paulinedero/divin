@@ -35,11 +35,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footer: {
-    height: '100%',
     width: '100%',
-    borderRadius: 25,
-    backgroundColor: '#FFFFFF',
+    height: '7.5%',
+    alignItems: 'center',
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     marginTop: 35,
+    backgroundColor: '#448042',
   },
   title: {
     marginTop: 20,

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import {
-  View,
+  Dimensions,
   Image,
   SafeAreaView,
   ScrollView,
@@ -9,70 +9,72 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
+import ProductOne from './ProductOne';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
 
 const styles = StyleSheet.create({
   container1: {
-    margin: 20,
     display: 'flex',
-    backgroundColor: 'white',
-    width: '100%',
-    height: '100%',
-
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#F5F5F5',
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
   },
   header: {
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: 'white',
+    alignItems: 'center',
     margin: 20,
-    marginTop: 35,
+    paddingTop: 50,
+    paddingBottom: 10,
   },
-  quitButton: {
-    fontSize: 17,
-    fontWeight: 'bold',
+  title: {
+    color: '#FE984E',
+    fontSize: 20,
   },
-  ImageBanniereProducteur: {
-    width: 75,
-    height: 75,
-    opacity: 0.8,
+  description: {
+    fontSize: 14,
+    fontStyle: 'italic',
   },
   container2: {
     display: 'flex',
-    justifyContent: 'space-between',
-    margin: 20,
     alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  title: {
-    fontSize: 14,
-    color: '#FFBD59',
+    backgroundColor: '#ffffff',
   },
   item: {
     display: 'flex',
-    justifyContent: 'space-between',
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
-  },
-  text: {
-    fontSize: 10,
-    justifyContent: 'center',
-    margin: 5,
-  },
-  itemDetails: {
+    width: '100%',
 
+    backgroundColor: '#889988',
   },
   photoIcon: {
-    margin: 5,
+    flex: 1,
     alignItems: 'center',
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 85,
+    margin: 10,
+  },
+  productDetails: {
+    flex: 2,
+    justifyContent: 'space-between',
+    fontSize: 10,
+    margin: 10,
+  },
+  itemDetails: {
+    margin: 4,
   },
   footer: {
     width: '100%',
-    height: '25%',
+    height: '7.5%',
     alignItems: 'center',
-    borderRadius: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     marginTop: 35,
     backgroundColor: '#448042',
   },
@@ -88,55 +90,51 @@ export default function ProductsStock() {
     props.navigation.push('Dashboard');
   };
 
-  /*
   // to get all info related to existing items in Stock table
   const [stock, setStock] = React.useEffect('');
-
   useEffect(() => {
     axios
-      .get('http://192.168.1.54:3000/stock/:id/') // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+      .get('http://192.168.1.54:3000/stock/stockavailable') // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
       .then((res) => res.data)
       .then((data) => {
         console.log(data);
         setStock(data);
       });
   }, []);
-*/
+
+  availability_date: availabilityDate,
+
 
   return (
-    <View>
-      <StatusBar />
-      <SafeAreaView>
-        <View style={styles.container1}>
-
+    <SafeAreaView>
+      <View style={styles.container1}>
+        <ScrollView>
+          <StatusBar />
           <View style={styles.header}>
-            <View>
-              <TouchableOpacity onPress={goToLogin}>
-                <Text style={styles.quitButton}>Déconnecter </Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity onPress={goToDashboard}>
-                <Image style={styles.ImageBanniereProducteur} source={ImageBanniereProducteur} />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.container2}>
             <Text style={styles.title}>Mon Stock</Text>
+            <Text style={styles.description}>(Liste de mes produits frais en vente)</Text>
           </View>
-          <View style={styles.item}>
-            <View style={styles.photoIcon}>
-              <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
+          <View style={styles.container2}>
+            <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
+            <View style={styles.item}>
+              {stock.map((item) => (
+                <View>
+                  <View style={styles.photoIcon}>
+                    <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
+                  </View>
+                  <View style={styles.productDetails}>
+                    <Text style={styles.itemDetails}>Nom: {item.availability_date}</Text>
+                    <Text style={styles.itemDetails}>Quantité: {item.quantity}</Text>
+                    <Text style={styles.itemDetails}>Date limite de vente: {item.availability_date}</Text>
+                  </View>
+                </View>
+              ))}
             </View>
-            <View style={styles.text} />
-            <Text style={styles.itemDetails}>Nom:</Text>
-            <Text style={styles.itemDetails}>Quantité:</Text>
           </View>
 
-          <View style={styles.footer} />
-        </View>
-      </SafeAreaView>
-    </View>
+        </ScrollView>
+        <View style={styles.footer} />
+      </View>
+    </SafeAreaView>
   );
 }
