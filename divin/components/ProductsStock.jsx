@@ -133,6 +133,7 @@ export default function ProductsStock() {
             <Text style={styles.itemDetails}>Nom:</Text>
             <Text style={styles.itemDetails}>Quantité:</Text>
           </View>
+
           <View style={styles.footer} />
         </View>
       </SafeAreaView>
