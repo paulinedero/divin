@@ -102,9 +102,6 @@ export default function ProductsStock() {
       });
   }, []);
 
-  availability_date: availabilityDate,
-
-
   return (
     <SafeAreaView>
       <View style={styles.container1}>
@@ -123,15 +120,14 @@ export default function ProductsStock() {
                     <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
                   </View>
                   <View style={styles.productDetails}>
-                    <Text style={styles.itemDetails}>Nom: {item.availability_date}</Text>
+                    <Text style={styles.itemDetails}>Nom: {item.productId}</Text>
                     <Text style={styles.itemDetails}>Quantité: {item.quantity}</Text>
-                    <Text style={styles.itemDetails}>Date limite de vente: {item.availability_date}</Text>
+                    <Text style={styles.itemDetails}>Date limite de vente: {item.availabilityDate}</Text>
                   </View>
                 </View>
               ))}
             </View>
           </View>
-
         </ScrollView>
         <View style={styles.footer} />
       </View>

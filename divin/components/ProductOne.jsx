@@ -1,20 +1,42 @@
 import React from 'react';
-import ProductDetails from 'ProductDetails';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
-export default function Article({ id, title, imageUrl, newsSite, publishedAt }) {
+// import ProductDetails from 'ProductDetails';
+// <Link to={`/articles/${id}`}> News in Details</Link>
+
+const styles = StyleSheet.create({
+  description: {
+    fontSize: 20,
+  },
+  text: {
+    fontSize: 20,
+  },
+});
+
+
+export default function Article({ id, availability_date, product_id, quantity }) {
   return (
-    <View>
-      <div classeName="article_only" class="w-15">
-        <h2> {title} </h2>
-        <p> Source: {newsSite} - Date: {publishedAt} </p>
-        <img class="w-32 mx-auto" src={imageUrl} alt="" />
-        <h6>{id}</h6>
-        <ul>
-          <li>
-            <Link to={`/articles/${id}`}> News in Details</Link>
-          </li>
-        </ul>
-        <hr></hr>
-  </View >
-      )
+    <SafeAreaView>
+      <View style={styles.description}>
+        <Text style={styles.text}>
+          ID: {product_id}
+          IdStock: {id}
+        </Text>
+        <Text style={styles.text}>
+          Date de perempetion:
+          {
+            availability_date
+          }
+        </Text>
+        <Text style={styles.text}>
+          Quantité disponible: {quantity}
+        </Text>
+      </View >
+    </SafeAreaView>
+  )
 };
