@@ -17,9 +17,10 @@ const checkExistingFarmer = async (farmerId) => {
 // function to check if product already exists
 const checkExistingProduct = async (productId) => {
   try {
-    const result = await db.query('SELECT id FROM `product` WHERE id = ?', [
-      productId,
-    ]);
+    const result = await db.query(
+      'SELECT id, name FROM `product` WHERE id = ?',
+      [productId]
+    );
     return result[0];
   } catch (err) {
     throw new Error(err);
@@ -27,20 +28,11 @@ const checkExistingProduct = async (productId) => {
 };
 
 // VARIABLES TO MANAGE THE Stock IN DATANASE
-// function to retrieve all products in Stock from every farmers
-const getAvailableStock = async () => {
-  try {
-    return await db.query('SELECT * FROM stock', []);
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
 // function to retrieve all my products wicth they are in stock
 const findAllProductsFromFarmerInStock = async (farmer_id) => {
   try {
     return await db.query(
-      'SELECT * FROM stock INNER JOIN product ON stock.product_id = product.id INNER JOIN farmer ON product.farmer_id = farmer.id WHERE farmer_id = ?;',
+      'SELECT name, availability_date, quantity, production_unit, production_price, purchase_unit, product_id, nutritional_statement, season_id, origin, lastname, firstname, farmer_id, VAT_number, siret_number, phone_number, address FROM stock INNER JOIN product ON stock.product_id = product.id INNER JOIN farmer ON product.farmer_id = farmer.id WHERE farmer_id = ?',
       [farmer_id]
     );
   } catch (err) {
@@ -51,13 +43,13 @@ const findAllProductsFromFarmerInStock = async (farmer_id) => {
 // function to retrieve one of my products
 const findOneProductFromFarmerInStock = async (
   farmerId,
-  productName,
+  productId,
   stockId
 ) => {
   try {
     const result = await db.query(
-      'SELECT * FROM stock INNER JOIN product ON stock.product_id =product.id INNER JOIN farmer ON product.farmer_id= farmer.id WHERE farmer.id=? AND product.name = ? AND stock.id=?',
-      [farmerId, productName, stockId]
+      'SELECT stock.id, name, availability_date, quantity, production_unit, production_price, purchase_unit, product_id, nutritional_statement, season_id, origin, lastname, firstname, farmer_id, VAT_number, siret_number, phone_number, address FROM stock INNER JOIN product ON stock.product_id=product.id INNER JOIN farmer ON product.farmer_id=farmer.id WHERE farmer.id=? AND product.id=? AND stock.id=?',
+      [farmerId, productId, stockId]
     );
     return result[0];
   } catch (err) {
@@ -71,7 +63,7 @@ const createStock = async (farmerId, productId, newStock) => {
   try {
     const [insertedStock] = await db.query(
       'INSERT INTO stock (availability_date, product_id, quantity) VALUES (?, ?, ?)',
-      [availability_date, product_id, quantity, farmerId, productId]
+      [availability_date, product_id, quantity]
     );
     const createdStock = {
       id: insertedStock.insertId,
@@ -87,10 +79,10 @@ const createStock = async (farmerId, productId, newStock) => {
 };
 
 // function to update one of my products in Stock
-const updateStock = async (stockId, updatedDate, updatedQuantity) => {
+const updateStock = async (updatedDate, updatedQuantity, stockId) => {
   try {
     await db.query(
-      'UPDATE stockSET availability_date= ?, quantity= ? WHERE id=?',
+      'UPDATE stock SET availability_date= ?, quantity= ? WHERE id=?',
       [updatedDate, updatedQuantity, stockId]
     );
     return updatedDate;
@@ -111,7 +103,6 @@ const removeStock = async (stockId) => {
 module.exports = {
   checkExistingFarmer,
   checkExistingProduct,
-  getAvailableStock,
   findAllProductsFromFarmerInStock,
   findOneProductFromFarmerInStock,
   createStock,

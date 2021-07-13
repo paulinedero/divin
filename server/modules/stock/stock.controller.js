@@ -4,7 +4,6 @@ const Joi = require('joi');
 const {
   checkExistingFarmer,
   checkExistingProduct,
-  getAvailableStock,
   findAllProductsFromFarmerInStock,
   findOneProductFromFarmerInStock,
   createStock,
@@ -20,22 +19,12 @@ const validate = (data) =>
     quantity: Joi.number(),
   }).validate(data, { abortEarly: false }).error;
 
-// Retrieve all products in stock for ALL farmers
-const getAllFarmersStock = async (req, res) => {
-  try {
-    const rawData = await getAvailableStock();
-    res.json(rawData[0]);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-};
-
 // Retrieve all products in stock for a specific farmer
 const getAllFarmerProductsInStock = async (req, res) => {
   try {
     const existingFarmer = await checkExistingFarmer(req.params.farmerId);
     if (existingFarmer.length === 0) {
-      res.status(404).send(`Producteur inconnue ou produit inexistant.`);
+      res.status(404).send(`Producteur inconnue.`);
     } else {
       const rawData = await findAllProductsFromFarmerInStock(
         req.params.farmerId
@@ -48,15 +37,15 @@ const getAllFarmerProductsInStock = async (req, res) => {
 };
 
 // Retrieve one product in stock for a specific farmer
-const getOneFarmerProductInStock = async (req, res) => {
+const getOneFarmerProductsInStock = async (req, res) => {
   try {
     const existingFarmer = await checkExistingFarmer(req.params.farmerId);
     if (existingFarmer.length === 0) {
-      res.status(404).send(`Producteur inconnue ou produit inexistant.`);
+      res.status(404).send(`Producteur inconnue lié à cet stock.`);
     } else {
       const existingProduct = await checkExistingProduct(req.params.productId);
       if (existingProduct.length === 0) {
-        res.status(404).send(`Produit inexistant.`);
+        res.status(404).send(`Produit inexistant dans ce stock.`);
       } else {
         const rawData = await findOneProductFromFarmerInStock(
           req.params.farmerId,
@@ -136,9 +125,8 @@ const deleteProductFromStock = async (req, res) => {
 };
 
 module.exports = {
-  getAllFarmersStock,
   getAllFarmerProductsInStock,
-  getOneFarmerProductInStock,
+  getOneFarmerProductsInStock,
   createProductInStock,
   updateProductInStock,
   deleteProductFromStock,
