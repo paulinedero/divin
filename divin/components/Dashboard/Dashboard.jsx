@@ -120,6 +120,7 @@ export default function Dashboard() {
   const [startdate, setStartdate] = useState('');
   const [enddate, setEnddate] = useState('');
 
+  // Fetch top products from API
   useEffect(() => {
     axios
       .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/most-ordered-items`)
@@ -127,6 +128,7 @@ export default function Dashboard() {
       .then((data) => setTopProduct(data));
   }, []);
 
+  // Fetch flop products from API
   useEffect(() => {
     axios
       .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/less-ordered-items`)
@@ -134,7 +136,7 @@ export default function Dashboard() {
       .then((data) => setFlopProduct(data));
   }, []);
 
-  // Chart's variables
+  // Chart's data's
   const pieData = [
     {
       name: 'Courges',
@@ -179,6 +181,8 @@ export default function Dashboard() {
       legendFontSize: 15,
     },
   ];
+
+  // Chart's layout
   const screenWidth = Dimensions.get('window').width;
   const chartConfig = {
     backgroundGradientFrom: '#1E2923',
@@ -257,7 +261,7 @@ export default function Dashboard() {
               <DatePicker
                 style={styles.datePickerStyle}
                 date={startdate} // Initial date from state
-                mode="date" // The enum of date, datetime and time
+                mode="date"
                 placeholder="DU"
                 format="YYYY/MM/DD"
                 minDate="01-01-2000"
@@ -285,7 +289,7 @@ export default function Dashboard() {
               <DatePicker
                 style={styles.datePickerStyle}
                 date={enddate} // Initial date from state
-                mode="date" // The enum of date, datetime and time
+                mode="date"
                 placeholder="AU"
                 format="YYYY/MM/DD"
                 minDate="01-01-2000"
@@ -293,7 +297,6 @@ export default function Dashboard() {
                 cancelBtnText="Annuler"
                 customStyles={{
                   dateIcon: {
-                    // display: 'none',
                     position: 'absolute',
                     left: 0,
                     top: 4,
