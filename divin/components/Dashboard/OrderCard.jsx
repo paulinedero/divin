@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import {
   StyleSheet,
@@ -53,7 +54,7 @@ export default function TopProductCard({ id, purchaseDate, total }) {
         {id}
       </Text>
       <Text style={styles.text}>
-        Date d'achat :
+        Date d&apos;achat :
         {' '}
         {purchaseDate}
       </Text>

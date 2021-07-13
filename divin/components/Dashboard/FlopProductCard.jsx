@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import {
   StyleSheet,
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 5,
     borderWidth: 1,
-    borderColor:'#FE984E',
+    borderColor: '#FE984E',
     shadowRadius: 10,
     marginLeft: 5,
     marginRight: 5,
@@ -49,7 +50,11 @@ export default function FlopProductCard({ name, quantity, purchaseUnit }) {
         <Text style={styles.text}>{name}</Text>
       </View>
       <View style={styles.iconContainer}>
-        <Text style={styles.text}>{quantity} {purchaseUnit}</Text>
+        <Text style={styles.text}>
+          {quantity}
+          {' '}
+          {purchaseUnit}
+        </Text>
       </View>
     </View>
   );

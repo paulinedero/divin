@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import {
   StyleSheet,
@@ -49,7 +50,11 @@ export default function TopProductCard({ name, quantity, purchaseUnit }) {
         <Text style={styles.text}>{name}</Text>
       </View>
       <View style={styles.iconContainer}>
-        <Text style={styles.text}>{quantity} {purchaseUnit}</Text>
+        <Text style={styles.text}>
+          {quantity}
+          {' '}
+          {purchaseUnit}
+        </Text>
       </View>
     </View>
   );

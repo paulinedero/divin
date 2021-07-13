@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable global-require */
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -6,12 +8,12 @@ import {
   ScrollView,
   Image,
   Dimensions,
-  Button,
+  TouchableOpacity,
 } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
+import DatePicker from 'react-native-datepicker';
 import axios from 'axios';
 import moment from 'moment';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import TopProductCard from './TopProductCard';
 import FlopProductCard from './FlopProductCard';
 import OrderCard from './OrderCard';
@@ -43,14 +45,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     color: '#FE984E',
-    margin: 10,
+    margin: 15,
   },
-
   text: {
     textAlign: 'center',
     fontFamily: 'Arial',
     fontSize: 18,
     color: 'black',
+  },
+  periodText: {
+    textAlign: 'center',
+    fontFamily: 'Arial',
+    fontSize: 18,
+    color: '#696969',
   },
   dashboard: {
     marginTop: 30,
@@ -65,6 +72,32 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     marginBottom: 10,
+  },
+  datepicker: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 25,
+    marginBottom: 25,
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  selectButton: {
+    width: 'auto',
+    backgroundColor: '#448042',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
+    shadowRadius: 10,
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    padding: 6,
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
   },
   greenBack: {
     borderTopLeftRadius: 50,
@@ -84,20 +117,19 @@ export default function Dashboard() {
   const [topProduct, setTopProduct] = useState([]);
   const [flopProduct, setFlopProduct] = useState([]);
   const [order, setOrder] = useState([]);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [startdate, setStartdate] = useState(new Date());
-  const [enddate, setEnddate] = useState(new Date());
+  const [startdate, setStartdate] = useState('');
+  const [enddate, setEnddate] = useState('');
 
   useEffect(() => {
     axios
-      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/most-ordered-items`)
+      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/most-ordered-items`)
       .then((res) => res.data)
       .then((data) => setTopProduct(data));
   }, []);
 
   useEffect(() => {
     axios
-      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/less-ordered-items`)
+      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/less-ordered-items`)
       .then((res) => res.data)
       .then((data) => setFlopProduct(data));
   }, []);
@@ -149,57 +181,23 @@ export default function Dashboard() {
   ];
   const screenWidth = Dimensions.get('window').width;
   const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFrom: '#1E2923',
     backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#08130D",
+    backgroundGradientTo: '#08130D',
     backgroundGradientToOpacity: 0.5,
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
     strokeWidth: 5, // optional, default 3
     barPercentage: 0.5,
-    useShadowColorFromDataset: false // optional
-  };
-
-  // Datepicker Startdate
-  const showStartdatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-  const hideStartdatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-  const handleConfirmStartdate = () => {
-    hideStartdatePicker();
-  };
-  const formatStartdate = (date) => {
-    date.toISOString().substring(0, 10);
-    setStartdate(date);
-  };
-
-  // Datepicker Enddate
-  const showEnddatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-  const hideEnddatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-  const handleConfirmEnddate = () => {
-    hideEnddatePicker();
-  };
-
-  const formatEnddate = (date) => {
-    date.toISOString().substring(0, 10);
-    setEnddate(date);
+    useShadowColorFromDataset: false, // optional
   };
 
   // Fetch orders from selected period
-  const getOrdersFromPeriod = async () => {
-    await startdate;
-    await enddate;
-    return axios
-      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
+  const getOrdersFromPeriod = () => {
+    axios
+      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
       .then((res) => res.data)
       .then((data) => {
         setOrder(data);
-        console.log(data);
       });
   };
 
@@ -207,7 +205,13 @@ export default function Dashboard() {
     <ScrollView>
       <View style={styles.body}>
         <Image style={styles.logo} source={require('../../assets/dashboard_logo_divin.png')} />
-        <Text style={styles.mainTitle}>Bonjour {sessionUser.name} !</Text>
+        <Text style={styles.mainTitle}>
+          Bonjour
+          {' '}
+          {sessionUser.name}
+          {' '}
+          !
+        </Text>
         <Text style={styles.text}>Voici votre tableau de bord quotidien.</Text>
         <View style={styles.dashboard}>
           <View>
@@ -246,31 +250,75 @@ export default function Dashboard() {
             ))}
           </View>
           <Text style={styles.subTitle}>Toutes mes commandes</Text>
-          <Text>Sélectionnez une période</Text>
-          <Text>Date de début</Text>
-          <View>
-            <Button title="Du" onPress={showStartdatePicker} />
-            <Text>{startdate}</Text>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirmStartdate}
-              onCancel={hideStartdatePicker}
-              onChange={formatStartdate}
-            />
+
+          <Text style={styles.periodText}>Sélectionner une période :</Text>
+          <View style={styles.datepicker}>
+            <View>
+              <DatePicker
+                style={styles.datePickerStyle}
+                date={startdate} // Initial date from state
+                mode="date" // The enum of date, datetime and time
+                placeholder="DU"
+                format="YYYY/MM/DD"
+                minDate="01-01-2000"
+                confirmBtnText="Confirmer"
+                cancelBtnText="Annuler"
+                customStyles={{
+                  dateIcon: {
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0,
+                  },
+                  dateInput: {
+                    marginLeft: 0,
+                    backgroundColor: 'white',
+                    borderRadius: 5,
+                  },
+                }}
+                onDateChange={(date) => {
+                  setStartdate(date);
+                }}
+              />
+            </View>
+            <View>
+              <DatePicker
+                style={styles.datePickerStyle}
+                date={enddate} // Initial date from state
+                mode="date" // The enum of date, datetime and time
+                placeholder="AU"
+                format="YYYY/MM/DD"
+                minDate="01-01-2000"
+                confirmBtnText="Confirmer"
+                cancelBtnText="Annuler"
+                customStyles={{
+                  dateIcon: {
+                    // display: 'none',
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0,
+                  },
+                  dateInput: {
+                    marginLeft: 0,
+                    backgroundColor: 'white',
+                    borderRadius: 5,
+                  },
+                }}
+                onDateChange={(date) => {
+                  setEnddate(date);
+                }}
+              />
+            </View>
+            <View>
+              <TouchableOpacity
+                style={styles.selectButton}
+                onPress={() => getOrdersFromPeriod()}
+              >
+                <Text style={styles.buttonText}>OK</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View>
-            <Button title="Au" onPress={showEnddatePicker} />
-            <Text>{enddate}</Text>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirmEnddate}
-              onCancel={hideEnddatePicker}
-              onChange={formatEnddate}
-            />
-          </View>
-          <Button title="Select" onPress={() => getOrdersFromPeriod} />
           <View style={styles.flopProductCard}>
             {order.map((item, index) => (
               <OrderCard
