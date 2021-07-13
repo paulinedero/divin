@@ -16,5 +16,11 @@ ALTER TABLE `order` ADD `stock_id` INT;
 
 ALTER TABLE `order` MODIFY COLUMN `stock_id` INT AFTER `id`;
 
+ALTER TABLE `stock` DROP FOREIGN KEY `stock_ibfk_2`;
+
+ALTER TABLE `stock` DROP FOREIGN KEY `stock_ibfk_3`;
+
+ALTER TABLE `stock` DROP COLUMN `order_id`;
+
 
 
