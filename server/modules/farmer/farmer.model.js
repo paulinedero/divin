@@ -1,4 +1,19 @@
+const argon2 = require('argon2');
 const db = require('../../dbConfig');
+
+// secure password
+const hashingOptions = {
+  type: argon2.argon2id,
+  memoryCost: 2 ** 16,
+  timeCost: 5,
+  parallelism: 1,
+};
+
+const hashPassword = (plainPassword) =>
+  argon2.hash(plainPassword, hashingOptions);
+
+const verifyPassword = (plainPassword, hashedPassword) =>
+  argon2.verify(hashedPassword, plainPassword, hashingOptions);
 
 // function to check if farmer already exists
 const checkExistingFarmer = async (farmerId) => {
@@ -20,6 +35,20 @@ const checkExistingEmail = async (email) => {
       [email]
     );
     return result[0];
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+// function to check if password is matching
+const checkCredentials = async (email, password) => {
+  try {
+    const [result] = await db.query(
+      'SELECT password FROM `farmer` WHERE email = ?',
+      [email]
+    );
+    const storedPassword = Object.values(result[0])[0];
+    return await argon2.verify(storedPassword, password);
   } catch (err) {
     throw new Error(err);
   }
@@ -63,6 +92,7 @@ const create = async (newFarmer) => {
   } = newFarmer;
 
   try {
+    const hashedPassword = await hashPassword(password);
     const [insertedAddress] = await db.query(
       'INSERT INTO address (street, street_number, zip_code, city, country) VALUES (?, ?, ?, ?, ?)',
       [
@@ -77,7 +107,7 @@ const create = async (newFarmer) => {
       'INSERT INTO farmer (email, password, company_name, lastname, firstname, birthday, address, phone_number, siret_number, VAT_number, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         email,
-        password,
+        hashedPassword,
         company_name,
         lastname,
         firstname,
@@ -152,6 +182,7 @@ const remove = async (farmerId) => {
 module.exports = {
   checkExistingFarmer,
   checkExistingEmail,
+  checkCredentials,
   findMany,
   findOne,
   create,

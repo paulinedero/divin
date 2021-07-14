@@ -1,6 +1,7 @@
 const Joi = require('joi');
 
 const {
+  checkCredentials,
   checkExistingFarmer,
   checkExistingEmail,
   findMany,
@@ -94,6 +95,34 @@ const createFarmer = async (req, res) => {
   }
 };
 
+// Log in farmer
+const getLoggedInAsFarmer = async (req, res) => {
+  try {
+    const existingEmail = await checkExistingEmail(req.body.email);
+    if (existingEmail.length === 0) {
+      res
+        .status(404)
+        .send(
+          `L'addresse email renseignée n'existe pas dans la base de données.`
+        );
+    } else {
+      const checkPassword = await checkCredentials(
+        req.body.email,
+        req.body.password
+      );
+      if (checkPassword) {
+        res.status(200).send('Authentification réussie');
+      } else {
+        res
+          .status(401)
+          .send(`L'authentification a échouée. Veuillez réessayer.`);
+      }
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
+
 // Update existing farmer's datas
 const updateFarmer = async (req, res) => {
   try {
@@ -161,6 +190,7 @@ module.exports = {
   getAllFarmers,
   getOneFarmer,
   createFarmer,
+  getLoggedInAsFarmer,
   updateFarmer,
   updateFarmerAddress,
   deleteFarmer,
