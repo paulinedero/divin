@@ -4,6 +4,7 @@ const Joi = require('joi');
 const {
   checkExistingFarmer,
   checkExistingProduct,
+  checkExistingStock,
   findAllProductsFromFarmerInStock,
   findOneProductFromFarmerInStock,
   createStock,
@@ -67,7 +68,11 @@ const createProductInStock = async (req, res) => {
     if (error) {
       res.status(422).json({ validationErrors: error.details });
     } else {
-      const rawData = await createStock(req.params.farmerId, req.body);
+      const rawData = await createStock(
+        req.params.farmerId,
+        req.params.productId,
+        req.body
+      );
       res.status(201).json(rawData);
     }
   } catch (err) {
@@ -78,13 +83,13 @@ const createProductInStock = async (req, res) => {
 // Update an existing product
 const updateProductInStock = async (req, res) => {
   try {
-    const existingFarmer = await checkExistingFarmer(req.params.farmerId);
-    if (existingFarmer.length === 0) {
-      res.status(404).send(`Producteur inconnue ou produit inexistant.`);
+    const existingProduct = await checkExistingProduct(req.params.productId);
+    if (existingProduct.length === 0) {
+      res.status(404).send(`Produit inexistant.`);
     } else {
-      const existingProduct = await checkExistingProduct(req.params.productId);
-      if (existingProduct.length === 0) {
-        res.status(404).send(`Produit inexistant.`);
+      const existingStock = await checkExistingStock(req.params.stockId);
+      if (existingStock.length === 0) {
+        res.status(404).send(`Produit inconnue dans le stock.`);
       } else {
         const error = validate(req.body);
         if (error) {
@@ -115,8 +120,13 @@ const deleteProductFromStock = async (req, res) => {
       if (existingProduct.length === 0) {
         res.status(404).send(`Produit inexistant.`);
       } else {
-        const rawData = await removeStock(req.params.stockId);
-        res.status(200).send('Le produit a été supprimé du Stock.');
+        const existingStock = await checkExistingStock(req.params.stockId);
+        if (existingStock.length === 0) {
+          res.status(404).send(`Produit inconnue dans le stock.`);
+        } else {
+          const rawData = await removeStock(req.params.stockId);
+          res.status(200).send('Le produit a été supprimé du Stock.');
+        }
       }
     }
   } catch (err) {

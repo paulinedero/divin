@@ -14,9 +14,14 @@ stockRouter.get(
   getOneFarmerProductsInStock
 );
 
-stockRouter.post('/:farmerId/stocks', createProductInStock);
-stockRouter.put('/:farmerId/stocks/:stockId', updateProductInStock);
-stockRouter.delete('/:farmerId/stocks/:stockId', deleteProductFromStock
+stockRouter.post('/:farmerId/products/:productId/stocks', createProductInStock);
+stockRouter.put(
+  '/:farmerId/products/:productId/stocks/:stockId',
+  updateProductInStock
+);
+stockRouter.delete(
+  '/:farmerId/products/:productId/stocks/:stockId',
+  deleteProductFromStock
 );
 
 module.exports = stockRouter;
