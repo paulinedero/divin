@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 import DatePicker from 'react-native-datepicker';
 import axios from 'axios';
 import moment from 'moment';
@@ -123,7 +124,7 @@ export default function Dashboard() {
   // Fetch top products from API
   useEffect(() => {
     axios
-      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/most-ordered-items`)
+      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/most-ordered-items`)
       .then((res) => res.data)
       .then((data) => setTopProduct(data));
   }, []);
@@ -131,7 +132,7 @@ export default function Dashboard() {
   // Fetch flop products from API
   useEffect(() => {
     axios
-      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/less-ordered-items`)
+      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/less-ordered-items`)
       .then((res) => res.data)
       .then((data) => setFlopProduct(data));
   }, []);
@@ -198,7 +199,7 @@ export default function Dashboard() {
   // Fetch orders from selected period
   const getOrdersFromPeriod = () => {
     axios
-      .get(`http://192.168.1.63:3000/farmers/${sessionUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
+      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
       .then((res) => res.data)
       .then((data) => {
         setOrder(data);
