@@ -29,7 +29,7 @@ const checkExistingProduct = async (productId) => {
 // function to check if produit exists in stock already exists
 const checkExistingStock = async (stockId) => {
   try {
-    const result = await db.query('SELECT id, name FROM product WHERE id = ?', [
+    const result = await db.query('SELECT id, name FROM stock WHERE id = ?', [
       stockId,
     ]);
     return result[0];
@@ -91,20 +91,9 @@ const createStock = async (farmerId, productId, newStock) => {
 };
 
 // function to update one of my products in Stock
-const updateStock = async (updatedDate, updatedQuantity, stockId, updated) => {
-  const { availability_date, product_id, quantity, creation_date } = updated;
+const updateStock = async (updatedStock, stockId) => {
   try {
-    await db.query(
-      'UPDATE stock SET availability_date= ?, quantity= ? WHERE id=?',
-      [updatedDate, updatedQuantity, stockId]
-    );
-    const updatedStock = {
-      id: stockId,
-      availability_date,
-      product_id,
-      quantity,
-      creation_date,
-    };
+    await db.query('UPDATE stock SET ? WHERE id=?', [updatedStock, stockId]);
     return updatedStock;
   } catch (err) {
     throw new Error(err);

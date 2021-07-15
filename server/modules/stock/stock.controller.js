@@ -83,25 +83,20 @@ const createProductInStock = async (req, res) => {
 // Update an existing product
 const updateProductInStock = async (req, res) => {
   try {
-    const existingProduct = await checkExistingProduct(req.params.productId);
+    /*const existingProduct = await checkExistingProduct(req.params.productId);
     if (existingProduct.length === 0) {
       res.status(404).send(`Produit inexistant.`);
+    } else {*/
+    const existingStock = await checkExistingStock(req.params.stockId);
+    if (existingStock.length === 0) {
+      res.status(404).send(`Produit inconnue dans le stock.`);
     } else {
-      const existingStock = await checkExistingStock(req.params.stockId);
-      if (existingStock.length === 0) {
-        res.status(404).send(`Produit inconnue dans le stock.`);
+      const error = validate(req.body);
+      if (error) {
+        res.status(422).json({ validationErrors: error.details });
       } else {
-        const error = validate(req.body);
-        if (error) {
-          res.status(422).json({ validationErrors: error.details });
-        } else {
-          const rawData = await updateStock(
-            req.params.stockId,
-            req.params.updatedDate,
-            req.params.updatedQuantity
-          );
-          res.status(200).json(rawData);
-        }
+        const rawData = await updateStock(req.params.stockId, req.body);
+        res.status(200).json(rawData);
       }
     }
   } catch (err) {
@@ -116,17 +111,17 @@ const deleteProductFromStock = async (req, res) => {
     if (existingFarmer.length === 0) {
       res.status(404).send(`Producteur inconnue ou produit inexistant.`);
     } else {
-      const existingProduct = await checkExistingProduct(req.params.productId);
-      if (existingProduct.length === 0) {
-        res.status(404).send(`Produit inexistant.`);
+      // partie de code comment car, je ne suis pas sure si j'ai besoin de ceci
+      /* const existingProduct = await checkExistingProduct(req.params.productId);
+       if (existingProduct.length === 0) {
+         res.status(404).send(`Produit inexistant.`);
+       } else {*/
+      const existingStock = await checkExistingStock(req.params.stockId);
+      if (existingStock.length === 0) {
+        res.status(404).send(`Produit inconnue dans le stock.`);
       } else {
-        const existingStock = await checkExistingStock(req.params.stockId);
-        if (existingStock.length === 0) {
-          res.status(404).send(`Produit inconnue dans le stock.`);
-        } else {
-          const rawData = await removeStock(req.params.stockId);
-          res.status(200).send('Le produit a été supprimé du Stock.');
-        }
+        const rawData = await removeStock(req.params.stockId);
+        res.status(200).send('Le produit a été supprimé du Stock.');
       }
     }
   } catch (err) {
