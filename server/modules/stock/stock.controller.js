@@ -5,6 +5,7 @@ const {
   checkExistingFarmer,
   checkExistingProduct,
   checkExistingStock,
+  checkExistingStockProductToFarmer,
   findAllProductsFromFarmerInStock,
   findOneProductFromFarmerInStock,
   createStock,
@@ -44,13 +45,13 @@ const getOneFarmerProductsInStock = async (req, res) => {
     if (existingFarmer.length === 0) {
       res.status(404).send(`Producteur inconnue lié à cet stock.`);
     } else {
-      const existingProduct = await checkExistingProduct(req.params.productId);
+      const existingProduct = await checkExistingProduct(req.params.product_id);
       if (existingProduct.length === 0) {
         res.status(404).send(`Produit inexistant dans ce stock.`);
       } else {
         const rawData = await findOneProductFromFarmerInStock(
           req.params.farmerId,
-          req.params.productId,
+          req.params.product_id,
           req.params.stockId
         );
         res.json(rawData);
@@ -70,7 +71,7 @@ const createProductInStock = async (req, res) => {
     } else {
       const rawData = await createStock(
         req.params.farmerId,
-        req.params.productId,
+        req.params.product_id,
         req.body
       );
       res.status(201).json(rawData);
@@ -83,10 +84,6 @@ const createProductInStock = async (req, res) => {
 // Update an existing product
 const updateProductInStock = async (req, res) => {
   try {
-    /*const existingProduct = await checkExistingProduct(req.params.productId);
-    if (existingProduct.length === 0) {
-      res.status(404).send(`Produit inexistant.`);
-    } else {*/
     const existingStock = await checkExistingStock(req.params.stockId);
     if (existingStock.length === 0) {
       res.status(404).send(`Produit inconnue dans le stock.`);
@@ -109,14 +106,11 @@ const deleteProductFromStock = async (req, res) => {
   try {
     const existingFarmer = await checkExistingFarmer(req.params.farmerId);
     if (existingFarmer.length === 0) {
-      res.status(404).send(`Producteur inconnue ou produit inexistant.`);
+      res.status(404).send(`Producteur inconnue.`);
     } else {
-      // partie de code comment car, je ne suis pas sure si j'ai besoin de ceci
-      /* const existingProduct = await checkExistingProduct(req.params.productId);
-       if (existingProduct.length === 0) {
-         res.status(404).send(`Produit inexistant.`);
-       } else {*/
-      const existingStock = await checkExistingStock(req.params.stockId);
+      const existingStock = await checkExistingStockProductToFarmer(
+        req.params.stockId
+      );
       if (existingStock.length === 0) {
         res.status(404).send(`Produit inconnue dans le stock.`);
       } else {

@@ -17,7 +17,7 @@ const checkExistingFarmer = async (farmerId) => {
 // function to check if product already exists
 const checkExistingProduct = async (productId) => {
   try {
-    const result = await db.query('SELECT id, name FROM product WHERE id = ?', [
+    const result = await db.query('SELECT id FROM product WHERE id = ?', [
       productId,
     ]);
     return result[0];
@@ -29,9 +29,22 @@ const checkExistingProduct = async (productId) => {
 // function to check if produit exists in stock already exists
 const checkExistingStock = async (stockId) => {
   try {
-    const result = await db.query('SELECT id, name FROM stock WHERE id = ?', [
+    const result = await db.query('SELECT id FROM stock WHERE id = ?', [
       stockId,
     ]);
+    return result[0];
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+// function to check if produit exists in stock already exists
+const checkExistingStockProductToFarmer = async (stockId) => {
+  try {
+    const result = await db.query(
+      'SELECT product_id FROM stock INNER JOIN product ON stock.product_id=product.id INNER JOIN farmer ON product.farmer_id = farmer.id WHERE stock.id = ?',
+      [stockId]
+    );
     return result[0];
   } catch (err) {
     throw new Error(err);
@@ -91,7 +104,8 @@ const createStock = async (farmerId, productId, newStock) => {
 };
 
 // function to update one of my products in Stock
-const updateStock = async (updatedStock, stockId) => {
+
+const updateStock = async (stockId, updatedStock) => {
   try {
     await db.query('UPDATE stock SET ? WHERE id=?', [updatedStock, stockId]);
     return updatedStock;
@@ -105,6 +119,7 @@ const removeStock = async (stockId) => {
   try {
     await db.query('DELETE FROM stock WHERE id = ?', [stockId]);
   } catch (err) {
+    console.log(err);
     throw new Error(err);
   }
 };
@@ -113,6 +128,7 @@ module.exports = {
   checkExistingFarmer,
   checkExistingProduct,
   checkExistingStock,
+  checkExistingStockProductToFarmer,
   findAllProductsFromFarmerInStock,
   findOneProductFromFarmerInStock,
   createStock,
