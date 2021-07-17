@@ -9,7 +9,7 @@ export default function ArticleDetail(props) {
 
   React.useEffect(() => {
     axios
-      .get(`https://test.spaceflightnewsapi.net/api/v2/articles/${id}`)
+      .get(`https://localhost:3000/farmer/${id}/products/${id}`) // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
       .then((response) => response.data)
       .then((data) => {
         setArticleDetail(data);

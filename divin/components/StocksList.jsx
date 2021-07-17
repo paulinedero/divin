@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import ProductOne from './ProductOne';
+import ProductDetails from './ProductsDetails';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
 
 const styles = StyleSheet.create({
@@ -91,10 +91,10 @@ export default function ProductsStock() {
   };
 
   // to get all info related to existing items in Stock table
-  const [stock, setStock] = React.useEffect('');
+  const [products, setProducts] = React.useEffect('');
   useEffect(() => {
     axios
-      .get('http://192.168.1.54:3000/stock/stockavailable') // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+      .get(`https://localhost:3000/farmer/${id}/stock/${id}`)// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
       .then((res) => res.data)
       .then((data) => {
         console.log(data);
@@ -109,19 +109,19 @@ export default function ProductsStock() {
           <StatusBar />
           <View style={styles.header}>
             <Text style={styles.title}>Mon Stock</Text>
-            <Text style={styles.description}>(Liste de mes produits frais en vente)</Text>
+            <Text style={styles.description}>(Liste des produits frais en vente actuellement)</Text>
           </View>
           <View style={styles.container2}>
             <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
             <View style={styles.item}>
-              {stock.map((item) => (
+              {products.map((item) => (
                 <View>
                   <View style={styles.photoIcon}>
                     <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
                   </View>
                   <View style={styles.productDetails}>
-                    <Text style={styles.itemDetails}>Nom: {item.productId}</Text>
-                    <Text style={styles.itemDetails}>Quantité: {item.quantity}</Text>
+                    <Text style={styles.itemDetails}>Nom: {item.name}</Text>
+                    <Text style={styles.itemDetails}>Quantité: {item.}</Text>
                     <Text style={styles.itemDetails}>Date limite de vente: {item.availabilityDate}</Text>
                   </View>
                 </View>

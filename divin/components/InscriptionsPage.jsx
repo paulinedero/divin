@@ -521,10 +521,10 @@ export default function InscriptionsPage() {
               )}
               <Button
                 onPress={() =>
-                  (inscription(), goToValidationScreen())} // ADD FUNCTION "MAIL SEND" HERE
-                title="S'inscrire"
-                disabled={invalideForm()}
-                color={invalideForm() ? '#616161' : '#FFBD59'}
+                  (inscription() goToValidationScreen())} // ADD FUNCTION "MAIL SEND" HERE
+              title="S'inscrire"
+              disabled={invalideForm()}
+              color={invalideForm() ? '#616161' : '#FFBD59'}
               />
             </View>
           </View>

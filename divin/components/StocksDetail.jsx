@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 export default function Article({ id, availability_date, product_id, quantity }) {
   return (
     <SafeAreaView>
