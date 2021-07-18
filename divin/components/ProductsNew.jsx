@@ -257,6 +257,8 @@ const formReducer = (state, action) => {
       return { ...state, EAN_code: action.payload };
     case 'UPDATE_VAT':
       return { ...state, VAT: action.payload };
+    case 'UPDATE_ALLERGEN':
+      return { ...state, allergen: action.payload };
     case 'UPDATE_DESCRIPTION':
       return { ...state, description: action.payload };
     case 'UPDATE_TAG':
@@ -356,6 +358,7 @@ export default function ProductsNew() {
           category, // number? BASE DE DONNES?
           under_category, // number? BASE DE DONNES?
           season_id,  // number? BASE DE DONNES?
+          allergen,
           transformation: underCategory, // number? BASE DE DONNES?
           nutritional_statement: nutritionalStatement,
           production_unit: productionUnit,
@@ -483,7 +486,7 @@ export default function ProductsNew() {
                     <Picker.Item label="Pot" value="pot" Key={4} />
                     <Picker.Item label="Bol" value="bol" Key={5} />
                     <Picker.Item label="Piéce" value="piéce" Key={6} />
-                    <Picker.Item label="Autre option ..." value="autre" Key={7} />
+                    <Picker.Item label="Autre option" value="autre" Key={7} />
                   </Picker>
                 </View>
                 <Text style={styles.titleDoc}> Season:  </Text>
@@ -553,7 +556,7 @@ export default function ProductsNew() {
                       (itemValue, itemIndex) => setTransformation(itemValue, itemIndex)}
                   >
                     <Picker.Item label="Oui" value="1" Key={1} />
-                    <Picker.Item label="Nom" value="2" Key={2} />
+                    <Picker.Item label="Non" value="2" Key={2} />
                   </Picker>
                 </View>
               </View>
@@ -577,6 +580,14 @@ export default function ProductsNew() {
                   minLength={2}
                 />
               </View>
+              <TextInput
+                mode="outlined"
+                label="Allergène"
+                value={FormNewProduct.allergen}
+                style={styles.input}
+                onChange={(e) => formDispatch({ type: 'UPDATE_ALLERGEN', payload: e.target.value })}
+                placeholder="Détailléz le maximum"
+              />
               <TextInput
                 mode="outlined"
                 label="Description"
@@ -613,19 +624,20 @@ export default function ProductsNew() {
                   <Text style={styles.titleButton}> Valider  </Text>
                 </TouchableOpacity>
                 */ }
-                <Button
+                <TouchableOpacity
                   onPress={() => (registerProduct(), goToProductsList())}
                   title="Registre"
                   disabled={invalideForm()} // ADD FUNCTION "MAIL SEND" HERE
                   style={styles.btnPress}
                   color={invalideForm() ? '#616161' : '#FFBD59'}
-                />
-                {invalideForm() ? ''
-                  : (<Text style={styles.alertPass}>
-                    Cliqué sur Suivant si et seulement si vous êtes sur
-                    de l'encodage de ces données
-                  </Text>)
-                }
+                >
+                  {invalideForm() ? ''
+                    : (<Text style={styles.alertPass}>
+                      Cliqué sur Suivant si et seulement si vous êtes sur
+                      de l'encodage de ces données
+                    </Text>)
+                  }
+                </TouchableOpacity>
               </View>
               { /*
               <View style={styles.inputHalf}>

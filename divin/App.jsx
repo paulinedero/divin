@@ -5,8 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 // import LoginScreen from './components/LoginScreen';
 // import ValidationScreen from './components/ValidationScreen';
 // import InscriptionsPage from './components/InscriptionsPage';
-import ProductsNew from './components/ProductsNew';
-// import ProductsList from './components/ProductsList';
+// import ProductsNew from './components/ProductsNew';
+import ProductsList from './components/ProductsList';
 // import ProductsDetails from './components/ProductsDetails';
 // import StocksNew from './components/StocksNew';
 // import StocksList from './components/StocksList';
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
         <Screen name="InscriptionsPage" component={InscriptionsPage} options={{ headerShown: false }} />
+        <Screen name="ProductsNew" component={ProductsNew} options={{ headerShown: false }} />
         <Screen name="ProductsList" component={ProductsList} options={{ headerShown: false }} />
       </Navigator>
     </NavigationContainer>
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
 export default function App() {
   return (
     <View style={styles.container}>
-      <ProductsNew />
+      <ProductsList />
     </View>
   );
 }

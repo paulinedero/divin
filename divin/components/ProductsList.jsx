@@ -4,6 +4,7 @@ import {
   Button,
   Dimensions,
   Image,
+  Picker,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -12,7 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import ProductDetails from './ProductsDetails';
+import ProductsDetails from './ProductsDetails';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
 
 const styles = StyleSheet.create({
@@ -93,21 +94,22 @@ export default function ProductList() {
   };
 
   // to get all info related to existing items in Stock table
-  const [products, setProducts] = React.useEffect('');
+  const [products, setProducts] = React.useEffect([]);
+
   useEffect(() => {
     axios
       .get(`https://localhost:3000/farmer/${id}/products/${id}`)// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
       .then((res) => res.data)
       .then((data) => {
         console.log(data);
-        setStock(data);
+        setProducts(data);
       });
   }, []);
 
   return (
     <SafeAreaView>
-      <View style={styles.container1}>
-        <ScrollView>
+      <ScrollView>
+        <View style={styles.container1}>
           <StatusBar />
           <View style={styles.header}>
             <Text style={styles.title}>Mes Produits</Text>
@@ -118,21 +120,21 @@ export default function ProductList() {
             <View style={styles.item}>
               {products.map((item) => (
                 <View>
-                  <View style={styles.photoIcon}>
-                    <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
-                  </View>
-                  <View style={styles.productDetails}>
-                    <Text style={styles.itemDetails}>Nom: {item.name}</Text>
-                    <Text style={styles.itemDetails}>Quantité: {item.}</Text>
-                    <Text style={styles.itemDetails}>Date limite de vente: {item.availabilityDate}</Text>
-                  </View>
+                  <ProductsDetails
+                    key={item}
+                    id={item.id}
+                    name={item.name}
+                    price={item.production_price}
+                    stock={item.stock_min}
+                    category={item.category}
+                  />
                 </View>
               ))}
+              <View style={styles.footer} />
             </View>
           </View>
-        </ScrollView>
-        <View style={styles.footer} />
-      </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
