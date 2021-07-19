@@ -2,7 +2,7 @@
 const db = require('../../dbConfig');
 
 // VARIABLES TO DO VALIDATION //
-// function to check if product already exists
+// function to check if farmer already exists
 const checkExistingFarmer = async (farmerId) => {
   try {
     const result = await db.query('SELECT id FROM farmer WHERE id = ?', [

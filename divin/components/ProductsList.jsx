@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import ProductsDetails from './ProductsDetails';
+import Product from './Product';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
 
 const styles = StyleSheet.create({
@@ -83,16 +83,6 @@ const styles = StyleSheet.create({
 });
 
 export default function ProductList() {
-
-  // redirect to Login
-  const goToLogin = () => {
-    props.navigation.push('Login');
-  };
-  // redirect to DashboardPage
-  const goToDashboard = () => {
-    props.navigation.push('Dashboard');
-  };
-
   // to get all info related to existing items in Stock table
   const [products, setProducts] = React.useEffect([]);
 
@@ -120,13 +110,14 @@ export default function ProductList() {
             <View style={styles.item}>
               {products.map((item) => (
                 <View>
-                  <ProductsDetails
+                  <Product
                     key={item}
                     id={item.id}
                     name={item.name}
                     price={item.production_price}
                     stock={item.stock_min}
                     category={item.category}
+                    dateCreated={item.creation_date}
                   />
                 </View>
               ))}

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 });
 
 export default function ProductsDetails(props) {
-  const id = props.match.params.id;
+  const id = props.match.params.id; // ?
   console.log(props);
 
   const [productDetail, setProductDetail] = React.useState([]);
