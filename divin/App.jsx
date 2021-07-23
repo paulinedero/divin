@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/LoginScreen';
 import ValidationScreen from './components/ValidationScreen';
 import InscriptionsPage from './components/InscriptionsPage';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,8 +25,8 @@ export default function App() {
       <Navigator>
         <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
+        <Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} />
         <Screen name="InscriptionsPage" component={InscriptionsPage} options={{ headerShown: false }} />
-        <Screen name="InscriptionsPage" component={Dashboard} options={{ headerShown: false }} />
       </Navigator>
     </NavigationContainer >
   );
