@@ -7,6 +7,10 @@ export default function LoginScreen(props) {
     props.navigation.push('Validation');
   };
 
+  const goToInscription = () => {
+    props.navigation.push('InscriptionsPage');
+  };
+
   const styles = StyleSheet.create({
     container: {
       marginTop: 20,
@@ -125,7 +129,7 @@ export default function LoginScreen(props) {
 
                 {/* Bouton de connexion via Email */}
 
-                <TouchableOpacity style={styles.btnPress2} onPress={() => { }}>
+                <TouchableOpacity style={styles.btnPress2} onPress={goToInscription}>
                   <Text style={styles.colorFontBtn}>Inscription via Email</Text>
                 </TouchableOpacity>
 

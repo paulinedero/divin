@@ -17,7 +17,6 @@ import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
 
-
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
