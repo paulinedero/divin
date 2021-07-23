@@ -5,16 +5,18 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/LoginScreen';
 import ValidationScreen from './components/ValidationScreen';
 import InscriptionsPage from './components/InscriptionsPage';
-
-const { Navigator, Screen } = createStackNavigator();
+import Dashboard from './components/Dashboard/Dashboard';
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#F5F5F5',
     alignItems: 'center',
-    backgroundColor: '#FFFF',
+    justifyContent: 'center',
   },
 });
+
+const { Navigator, Screen } = createStackNavigator();
 
 export default function App() {
   /* The order of navigation metters to all connexions */
@@ -23,6 +25,7 @@ export default function App() {
       <Navigator>
         <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
+        <Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} />
         <Screen name="InscriptionsPage" component={InscriptionsPage} options={{ headerShown: false }} />
       </Navigator>
     </NavigationContainer >

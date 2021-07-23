@@ -4,6 +4,7 @@ const {
   checkExistingOrder,
   checkOrderBelongsToFarmer,
   findMany,
+  findManyBtwDates,
   findOne,
   create,
   update,
@@ -30,8 +31,21 @@ const validate = (data) =>
 
 // Retrieve all orders of a farmer
 const getAllOrders = async (req, res) => {
-  const rawData = await findMany();
-  res.json(rawData);
+  try {
+    if (Object.keys(req.query).length === 0) {
+      const rawData = await findMany(req.params.farmerId);
+      res.json(rawData);
+    } else {
+      const rawData = await findManyBtwDates(
+        req.params.farmerId,
+        req.query.startdate,
+        req.query.enddate
+      );
+      res.json(rawData);
+    }
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
 
 // Retrieve a specific order for a farmer
@@ -146,29 +160,24 @@ const deleteOrder = async (req, res) => {
 // Get all ordered products without filter
 const getAllOrderedItems = async (req, res) => {
   try {
-    const rawData = await findAllOrderedProducts(req.params.farmerId);
-    if (rawData.length === 0) {
-      res.status(404).send(`Aucune commande n'a été trouvée.`);
+    if (Object.keys(req.query).length === 0) {
+      const rawData = await findAllOrderedProducts(req.params.farmerId);
+      if (rawData.length === 0) {
+        res.status(404).send(`Aucune commande n'a été trouvée.`);
+      } else {
+        res.json(rawData);
+      }
     } else {
-      res.json(rawData);
-    }
-  } catch (err) {
-    res.status(500).send(err);
-  }
-};
-
-// Get all ordered products with a date-based filter
-const getOrderedItemsBtwDates = async (req, res) => {
-  try {
-    const rawData = await findOrderedProductsBtwDates(
-      req.params.farmerId,
-      req.query.startdate,
-      req.query.enddate
-    );
-    if (rawData.length === 0) {
-      res.status(404).send(`Aucune commande n'a été trouvée.`);
-    } else {
-      res.json(rawData);
+      const rawData = await findOrderedProductsBtwDates(
+        req.params.farmerId,
+        req.query.startdate,
+        req.query.enddate
+      );
+      if (rawData.length === 0) {
+        res.status(404).send(`Aucune commande n'a été trouvée.`);
+      } else {
+        res.json(rawData);
+      }
     }
   } catch (err) {
     res.status(500).send(err);
@@ -194,7 +203,6 @@ module.exports = {
   updateOrder,
   deleteOrder,
   getAllOrderedItems,
-  getOrderedItemsBtwDates,
   getMostOrderedItems,
   getLessOrderedItems,
 };

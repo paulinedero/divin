@@ -265,4 +265,23 @@ insert into relay_point (name, contact_person, address, latitude, longitude, pho
 
 insert into `order` (relay_id, status_id, purchase_date, pickup_date, total) values (1, null, '2021/06/22', '2021/06/22', 15);
 
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/05/22', '2021/05/22', 15, '2021/05/22');
+
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/04/22', '2021/04/22', 15, '2021/04/22');
+
 insert into ordered_item (product_id, order_id, quantity) values (3, 1, 2);
+
+insert into ordered_item (product_id, order_id, quantity) values (2, 1, 2);
+
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/06/22', '2021/06/22', 15, '2021/04/26');
+
+insert into ordered_item (product_id, order_id, quantity) values (4, 6, 3);
+
+insert into ordered_item (product_id, order_id, quantity) values (5, 6, 5);
+
+insert into ordered_item (product_id, order_id, quantity) values (4, 1, 8);
+
+
+
+
+
