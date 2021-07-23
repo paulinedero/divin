@@ -1,3 +1,7 @@
+insert into country (name) values ('Belgium');
+
+insert into address (street, street_number, zip_code, city, country) values ('Sentier de la senne', 16, 1430, 'Quenast', 1);
+
 insert into farmer (
     email,
     password,

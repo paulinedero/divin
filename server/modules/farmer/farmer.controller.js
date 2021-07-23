@@ -19,7 +19,7 @@ const validate = (data) =>
     company_name: Joi.string(),
     lastname: Joi.string().alphanum(),
     firstname: Joi.string().alphanum(),
-    birthday: Joi.date(),
+    birthday: Joi.date().raw().required(),
     address: {
       street: Joi.string().max(350),
       street_number: Joi.number(),
@@ -90,6 +90,7 @@ const createFarmer = async (req, res) => {
       }
     }
   } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
 };
