@@ -166,9 +166,9 @@ export default function InscriptionsPage() {
   const [zipCode, onChangeZipCode] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
   const [city, onChangeCity] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
 
-  // allows to specify a selection of available countries}
+  // allows to get a selection of availablea countries in database}
   const [countries, setCountries] = React.useState([]);
-  // allows to specify a selection of available countries}
+  // allows to specify from the selection of available countries witch country the farmer will choose
   const [selectCountry, setSelectCountry] = React.useState(null); // }
 
   // to guarantee the control of a picture from the farmer

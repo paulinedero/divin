@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
-  Button,
   Dimensions,
-  Image,
-  Picker,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -13,8 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Product from './Product';
-import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
+import moment from 'moment';
+import Products from './Products';
 
 const styles = StyleSheet.create({
   container1: {
@@ -25,12 +22,38 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
   },
-  header: {
+  header2: {
     display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    margin: 20,
-    paddingTop: 50,
-    paddingBottom: 10,
+    backgroundColor: '#FFBD59',
+    marginBottom: '4%',
+    borderColor: '#FFBD59',
+    borderWidth: 1,
+  },
+  tab1: {
+    backgroundColor: '#F5F5F5',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    alignContent: 'center',
+    alignItems: 'center',
+    marginTop: 5,
+    height: '95%',
+    width: '30%',
+  },
+  tab2: {
+    backgroundColor: '#FFBD59',
+  },
+  titleTabSelect: {
+    marginTop: 20,
+    fontSize: 20,
+    color: '#FFBD59',
+  },
+  titleTabNoSelect: {
+    marginTop: 20,
+    fontSize: 20,
+    color: '#F5F5F5',
   },
   title: {
     color: '#FE984E',
@@ -42,18 +65,15 @@ const styles = StyleSheet.create({
   },
   container2: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
   },
   item: {
-    display: 'flex',
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    // justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-
-    backgroundColor: '#889988',
+    // backgroundColor: '#889988',
+    margin: 5,
   },
   photoIcon: {
     flex: 1,
@@ -68,32 +88,39 @@ const styles = StyleSheet.create({
     fontSize: 10,
     margin: 10,
   },
-  itemDetails: {
-    margin: 4,
-  },
   footer: {
     width: '100%',
     height: '7.5%',
     alignItems: 'center',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    marginTop: 35,
     backgroundColor: '#448042',
   },
 });
 
 export default function ProductList() {
   // to get all info related to existing items in Stock table
-  const [products, setProducts] = React.useEffect([]);
+  const [products, setProducts] = useState([]);
+
+  // TO NAVIGATE INTO OTHERS PAGES
+  // to change into ProductsList page
+  const goToProductsList = () => {
+    props.navigation.push('ProductsList');
+  };
+  // to change into StockssList page
+  const goToStocksList = () => {
+    props.navigation.push('StocksList');
+  };
 
   useEffect(() => {
     axios
-      .get(`https://localhost:3000/farmer/${id}/products/${id}`)// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
+      .get('http://192.168.1.54:3000/farmers/12/products/')// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
+      // http://localhost:3000/farmers/${farmer.id}/products/')
       .then((res) => res.data)
       .then((data) => {
-        console.log(data);
         setProducts(data);
       });
+    console.log(products);
   }, []);
 
   return (
@@ -101,30 +128,45 @@ export default function ProductList() {
       <ScrollView>
         <View style={styles.container1}>
           <StatusBar />
-          <View style={styles.header}>
-            <Text style={styles.title}>Mes Produits</Text>
-            <Text style={styles.description}>(Liste de mes produits)</Text>
+          <View style={styles.header2}>
+            <View style={styles.tab1}>
+              <TouchableOpacity
+                onPress={() => (goToProductsList)}
+                title="ProductsNew"
+              >
+                <Text style={styles.titleTabSelect}>Mes Produits</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.tab2}>
+              <TouchableOpacity
+                onPress={() => (goToStocksList)}
+                title="StockList"
+              >
+                <Text style={styles.titleTabNoSelect}>Mon Stock</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <View style={styles.container2}>
-            <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
+
             <View style={styles.item}>
-              {products.map((item) => (
-                <View>
-                  <Product
-                    key={item}
+              {
+                products.map((item, index) => (
+                  <Products
+                    key={index}
                     id={item.id}
-                    name={item.name}
+                    name={item.name.toUpperCase()}
                     price={item.production_price}
                     stock={item.stock_min}
                     category={item.category}
-                    dateCreated={item.creation_date}
+                    dateCreated={moment(item.creationDate).format('DD/MM/YYYY')}
                   />
-                </View>
-              ))}
-              <View style={styles.footer} />
+                ))
+              }
+              {/*POURQUOI CECI N A APPARAIT PAS?!?!*/}
             </View>
           </View>
         </View>
+        <View style={styles.footer} />
       </ScrollView>
     </SafeAreaView>
   );

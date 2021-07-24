@@ -1,7 +1,6 @@
 import React from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import {
-  Button,
   Dimensions,
   Image,
   Picker,
@@ -32,7 +31,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlignVertical: 'center',
     paddingTop: 10,
-    backgroundColor: '#FE984E',
+    backgroundColor: '#FFBD59',
+  },
+  title: {
+    marginTop: 20,
+    fontSize: 18,
+    color: '#F5F5F5',
   },
   header2: {
     display: 'flex',
@@ -41,6 +45,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFBD59',
     marginBottom: '1   %',
+    borderColor: '#FFBD59',
+    borderWidth: 1,
   },
   tab1: {
     backgroundColor: '#F5F5F5',
@@ -54,7 +60,6 @@ const styles = StyleSheet.create({
   },
   tab2: {
     backgroundColor: '#FFBD59',
-
   },
   titleTabSelect: {
     marginTop: 20,
@@ -62,11 +67,6 @@ const styles = StyleSheet.create({
     color: '#FFBD59',
   },
   titleTabNoSelect: {
-    marginTop: 20,
-    fontSize: 20,
-    color: '#F5F5F5',
-  },
-  title: {
     marginTop: 20,
     fontSize: 20,
     color: '#F5F5F5',
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    height: '30%',
+    height: '8%',
     backgroundColor: '#448042',
   },
   alertPass: {
@@ -272,13 +272,13 @@ const formReducer = (state, action) => {
 
 export default function ProductsNew() {
   // TO NAVIGATE INTO OTHERS PAGES
-  // to change into products page
-  const goToProductsList = () => {
-    props.navigation.push('ProductsList');
-  };
   // to change into Dasboard page
   const goToDashboard = () => {
     props.navigation.push('Dashboard');
+  };
+  // to change into products page
+  const goToProductsList = () => {
+    props.navigation.push('ProductsList');
   };
   // to change into Stock page
   const goToStockList = () => {
@@ -287,7 +287,7 @@ export default function ProductsNew() {
 
   // variables linked to useReducer
   const [FormNewProduct, formDispatch] = React.useReducer(formReducer, initialFormNewProduct);
-  const [selectedImage, setSelectedImage] = React.useState(null); // to guarantee image be showed}
+  const [selectedImage, setSelectedImage] = React.useState(null); // to guarantee image be showed
 
   // Helpfull to User, and to the Web: easy way to guarantee unitys will
   // be read by Picker module in a pre-selection mode
@@ -295,8 +295,6 @@ export default function ProductsNew() {
   // Helpfull to User, and to the Web: easy way to guarantee season will
   // be read by Picker module in a pre-selection mode
   const [season, setSeason] = React.useState();
-  // Helpfull to User, and to the Web: easy way to guarantee season will
-  // be read by Picker module in a pre-selection mode
   const [transformation, setTransformation] = React.useState();
 
   // to guarantee the control of a picture from the farmer
@@ -316,64 +314,37 @@ export default function ProductsNew() {
   // to control guarantee of all important fields have been fully filled in
   const invalideForm = () => initialFormNewProduct.name === '' || initialFormNewProduct.origin === '' || initialFormNewProduct.description === '' || initialFormNewProduct.production_unit === '' || initialFormNewProduct.production_unit === '' || initialFormNewProduct.production_price === '' || initialFormNewProduct.season_id === '' || initialFormNewProduct.category === '' || initialFormNewProduct.stock_min === '' || initialFormNewProduct.tag === '' || initialFormNewProduct.farming_type === '' || initialFormNewProduct.VAT === '';
 
-  /*
-  // c'est necessaire de mettre ces variables pour les transformer par apres?
-  const eanCode;
-  const name;
-  const description;
-  const origin;
-  const farmingType; // number? BASE DE DONNES?
-  const category; // number? BASE DE DONNES?
-  const underCategory; // number? BASE DE DONNES?
-  const season_id;  // number? BASE DE DONNES?
-  const transformation; // number? BASE DE DONNES?
-  const nutritionalStatement;
-  const productionUnit;
-  const productionPrice;
-  const stockMin;
-  const stockMax;
-  const maxStorageDate;
-  const purchaseUnit;
-  const purchasePrice;
-  const vat;
-  const tag;
-  const photo; // ?comment enregistrer?
-  const farmerId;
-  */
-
   // the next step is to insert data from the product form into DataBase
   const registerProduct = async () => {
     // to adapte all variables between front-end and server
-    // exemple: {first_name: firstName}  or {firstName: first_name} helps to
-    // convert the variables names into their corresponding values in the server.
     try {
-      const result = await axios.post(
-        'https://localhost:3000/farmers/:farmerId/products/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
-        {
-          EAN_code: eanCode,
-          name,
-          description,
-          origin,
-          farming_type: farmingType, // number? BASE DE DONNES?
-          category, // number? BASE DE DONNES?
-          under_category, // number? BASE DE DONNES?
-          season_id,  // number? BASE DE DONNES?
-          allergen,
-          transformation: underCategory, // number? BASE DE DONNES?
-          nutritional_statement: nutritionalStatement,
-          production_unit: productionUnit,
-          production_price: productionPrice,
-          stock_min: stockMin,
-          stock_max: stockMax,
-          max_storage_date: maxStorageDate,
-          purchase_unit: purchaseUnit,
-          purchase_price: purchasePrice,
-          VAT: vat,
-          tag,
-          photo, // ?comment enregistrer?
-          farmer_id: farmerId, // á ce stade ci, c'est important? Necessaire?
-        },
-      );
+      axios
+        .post(
+          `http://192.168.1.54:3000/farmers/${farmer.id}/products/`, // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+          {
+            EAN_code: eanCode,
+            name,
+            description,
+            origin,
+            farming_type: farmingType, // number? BASE DE DONNES?
+            category, // number? BASE DE DONNES?
+            under_category, // number? BASE DE DONNES?
+            season_id, // number? BASE DE DONNES?
+            allergen,
+            transformation: underCategory, // number? BASE DE DONNES?
+            nutritional_statement: nutritionalStatement,
+            production_unit: productionUnit,
+            production_price: productionPrice,
+            stock_min: stockMin,
+            stock_max: stockMax,
+            max_storage_date: maxStorageDate,
+            purchase_unit: purchaseUnit,
+            purchase_price: purchasePrice,
+            VAT: vat,
+            tag,
+            photo, // ?comment enregistrer?
+            farmer_id: farmerId, // á ce stade ci, c'est important? Necessaire?
+          });
     } catch (err) {
       console.error(err);
     }
@@ -386,12 +357,14 @@ export default function ProductsNew() {
           <View style={styles.container}>
             <StatusBar />
             <View style={styles.header}>
-              <Text style={styles.title}> Gestion des produits de (NOM) </Text>
+              <Text style={styles.title}>
+                Ajouter Nouveux:
+              </Text>
             </View>
             <View style={styles.header2}>
               <View style={styles.tab1}>
                 <TouchableOpacity
-                  onPress={() => (goToProductsList)} // ADD FUNCTION "MAIL SEND" HERE
+                  onPress={() => (goToProductsList)}
                   title="ProductsNew"
                 >
                   <Text style={styles.titleTabSelect}> Produits  </Text>
@@ -399,7 +372,7 @@ export default function ProductsNew() {
               </View>
               <View style={styles.tab2}>
                 <TouchableOpacity
-                  onPress={() => (goToStockList)} // ADD FUNCTION "MAIL SEND" HERE
+                  onPress={() => (goToStockList)}
                   title="StockList"
                 >
                   <Text style={styles.titleTabNoSelect}>   Stock   </Text>
@@ -407,30 +380,32 @@ export default function ProductsNew() {
               </View>
             </View>
             <View style={styles.body}>
-              <Text style={styles.text}> Descriptif d'un nouveau produit  </Text>
               {/* principal information about the product */}
               <View style={styles.inputHalf}>
-                <TextInput
-                  mode="outlined"
-                  label="Nom du produit"
-                  value={FormNewProduct.name}
-                  style={styles.inputViewHalfIn2}
-                  onChange={(e) => formDispatch({ type: 'UPDATE_NAME', payload: e.target.value })}
-                  placeholder="Nom du produit"
-                  minLength={2}
-                />
-                <View style={styles.photo}>
+                <View>
+                  <Text style={styles.text}> Descrire le produit  </Text>
+                  <TextInput
+                    mode="outlined"
+                    label="Nom du produit"
+                    value={FormNewProduct.name}
+                    style={styles.input}
+                    onChange={(e) => formDispatch({ type: 'UPDATE_NAME', payload: e.target.value })}
+                    placeholder="Nom du produit"
+                    minLength={2}
+                  />
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                  <Text style={styles.text}> Photo du produit </Text>
                   <TouchableOpacity onPress={() => { openImagePickerAsync(); }}>
                     {(selectedImage !== null)
                       ? (
                         <Image
                           source={{ uri: selectedImage.localUri }}
-                          style={{ width: 15, height: 15 }}
+                          style={styles.inputViewHalfIn2}
                         />
                       )
                       : <IconPhoto style={styles.button} />}
                   </TouchableOpacity>
-                  { /* <Text style={styles.text}> Photo du produit </Text> */}
                 </View>
               </View>
               <View style={styles.inputHalf}>
@@ -553,12 +528,33 @@ export default function ProductsNew() {
                   <Picker
                     selectedValue={transformation}
                     onValueChange={
-                      (itemValue, itemIndex) => setTransformation(itemValue, itemIndex)}
+                      (itemValue, itemIndex) => setTransformation(itemValue, itemIndex)
+                    }
                   >
                     <Picker.Item label="Oui" value="1" Key={1} />
                     <Picker.Item label="Non" value="2" Key={2} />
                   </Picker>
                 </View>
+              </View>
+              <View style={styles.inputHalf}>
+                <TextInput
+                  mode="outlined"
+                  label="Season du produit"
+                  value={FormNewProduct.season_id}
+                  style={styles.inputViewHalfIn2}
+                  onChange={(e) => formDispatch({ type: 'UPDATE_SEASON_ID', payload: e.target.value })}
+                  placeholder="Season"
+                  minLength={3}
+                />
+                <TextInput
+                  mode="outlined"
+                  label="Kg, grammes, piéce, sac..."
+                  value={FormNewProduct.production_unit}
+                  style={styles.inputViewHalfIn2}
+                  onChange={(e) => formDispatch({ type: 'UPDATE_PRODUCTION_UNIT', payload: e.target.value })}
+                  placeholder="Unité"
+                  minLength={2}
+                />
               </View>
               <View style={styles.inputHalf}>
                 <TextInput
@@ -580,6 +576,7 @@ export default function ProductsNew() {
                   minLength={2}
                 />
               </View>
+              {/*MAYDAY, WE HAVE A PROBLEM!!!! ALLERGEN N'Existe pas sur BDD!!*/}
               <TextInput
                 mode="outlined"
                 label="Allergène"
@@ -606,79 +603,48 @@ export default function ProductsNew() {
                 minLength={2}
               />
             </View>
+
             <View>
               <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
                 <TouchableOpacity
                   onPress={() => (goToDashboard)}
-                  title="ProductsNew"
+                  title="DashBoard"
                   style={styles.btnPress}
                 >
                   <Text style={styles.titleButton}> Annuler  </Text>
                 </TouchableOpacity>
-                { /*
                 <TouchableOpacity
-                  onPress={() => (registerProduct())}
-                  title="ProductsNew"
+                  onPress={() => (goToProductsList)}
+                  title="ProductsList"
                   style={styles.btnPress}
                 >
-                  <Text style={styles.titleButton}> Valider  </Text>
+                  <Text style={styles.titleButton}> Mes Produits  </Text>
                 </TouchableOpacity>
-                */ }
+                {/*POURQUOI CECI N A APPARAIT PAS?!?!*/}
+
                 <TouchableOpacity
-                  onPress={() => (registerProduct(), goToProductsList())}
+                  onPress={() => (registerProduct() && goToProductsList())}
                   title="Registre"
-                  disabled={invalideForm()} // ADD FUNCTION "MAIL SEND" HERE
+                  disabled={invalideForm()}
                   style={styles.btnPress}
-                  color={invalideForm() ? '#616161' : '#FFBD59'}
+                  color={invalideForm() ? '#FFBD59' : '#616161'}
                 >
-                  {invalideForm() ? ''
-                    : (<Text style={styles.alertPass}>
-                      Cliqué sur Suivant si et seulement si vous êtes sur
-                      de l'encodage de ces données
-                    </Text>)
-                  }
+                  {/*POURQUOI CECI N A APPARAIT PAS?!?!*/}
+                  {invalideForm()
+                    ? <Text style={styles.alertPass}> </Text>
+                    : (
+                      <Text style={styles.alertPass}>
+                        Cliqué sur Suivant si et seulement si vous êtes sur
+                        de l'encodage de ces données
+                      </Text>
+                    )}
                 </TouchableOpacity>
               </View>
-              { /*
-              <View style={styles.inputHalf}>
-                <TextInput
-                  mode="outlined"
-                  label="Season du produit"
-                  value={FormNewProduct.season_id}
-                  style={styles.inputViewHalfIn2}
-                  onChange={(e) =>
-                    formDispatch({ type: 'UPDATE_SEASON_ID', payload: e.target.value })}
-                  placeholder="Season"
-                  minLength={2}
-                />
-                <TextInput
-                  mode="outlined"
-                  label="Kg, grammes, piéce, sac..."
-                  value={FormNewProduct.production_unit}
-                  style={styles.inputViewHalfIn3}
-                  onChange={(e) =>
-                    formDispatch({ type: 'UPDATE_PRODUCTION_UNIT', payload: e.target.value })}
-                  placeholder="Unité"
-                  minLength={2}
-                />
-                <TextInput
-                  mode="outlined"
-                  label="Produit transformation"
-                  value={FormNewProduct.transformation}
-                  style={styles.input}
-                  onChange={(e) =>
-                    formDispatch({ type: 'UPDATE_TRANSFORMATION', payload: e.target.value })}
-                  placeholder="Produit transformer"
-                  minLength={2}
-                />
-                    </View>
-                    */ }
-
               <View style={styles.footer} />
             </View>
           </View>
         </SafeAreaView>
       </ScrollView>
-    </KeyboardAvoidingWrapper >
+    </KeyboardAvoidingWrapper>
   );
 }
