@@ -456,12 +456,12 @@ export default function ProductsNew() {
                     onValueChange={(itemValue, itemIndex) => setUnite(itemValue, itemIndex)}
                   >
                     <Picker.Item label="Kg" value="Kg" Key={1} />
-                    <Picker.Item label="Grammes" value="grammes" Key={2} />
-                    <Picker.Item label="Sac" value="sac" Key={3} />
-                    <Picker.Item label="Pot" value="pot" Key={4} />
-                    <Picker.Item label="Bol" value="bol" Key={5} />
-                    <Picker.Item label="Piéce" value="piéce" Key={6} />
-                    <Picker.Item label="Autre option" value="autre" Key={7} />
+                    <Picker.Item label="Grammes" value="Grammes" Key={2} />
+                    <Picker.Item label="Sac" value="Sac" Key={3} />
+                    <Picker.Item label="Pot" value="Pot" Key={4} />
+                    <Picker.Item label="Bol" value="Bol" Key={5} />
+                    <Picker.Item label="Piéce" value="Piéce" Key={6} />
+                    <Picker.Item label="Autre option" value="Autre" Key={7} />
                   </Picker>
                 </View>
                 <Text style={styles.titleDoc}> Season:  </Text>

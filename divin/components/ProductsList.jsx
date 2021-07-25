@@ -69,10 +69,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   item: {
-    // justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    // backgroundColor: '#889988',
     margin: 5,
   },
   photoIcon: {
@@ -158,11 +156,11 @@ export default function ProductList() {
                     price={item.production_price}
                     stock={item.stock_min}
                     category={item.category}
+                    {/*POURQUOI dateCreated N A APPARAIT PAS?!?!*/ }
                     dateCreated={moment(item.creationDate).format('DD/MM/YYYY')}
                   />
                 ))
               }
-              {/*POURQUOI CECI N A APPARAIT PAS?!?!*/}
             </View>
           </View>
         </View>

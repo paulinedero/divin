@@ -1,12 +1,17 @@
 import React from 'react';
 import axios from 'axios';
 import {
+  Dimensions,
   Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
-
+import moment from 'moment';
 
 const styles = StyleSheet.create({
   container1: {
@@ -17,13 +22,13 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
   },
+
   header2: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#FFBD59',
-    marginBottom: '4%',
     borderColor: '#FFBD59',
     borderWidth: 1,
   },
@@ -51,8 +56,36 @@ const styles = StyleSheet.create({
     color: '#F5F5F5',
   },
   title: {
-    color: '#FE984E',
+    color: '#F5F5F5',
+    alignItems: 'center',
+    borderRadius: 5,
     fontSize: 20,
+    backgroundColor: '#FFBD59',
+  },
+  textTitle: {
+    alignItems: 'flex-end',
+    borderRadius: 5,
+    backgroundColor: '#FFBD59',
+    marginBottom: 10,
+    position: 'relative',
+    left: 50,
+  },
+  textDetails: {
+    fontSize: 16,
+    color: '#696969',
+  },
+  textDetailsApi: {
+    fontSize: 16,
+    color: '#FFBD59',
+  },
+  subTitle: {
+    borderRadius: 5,
+    borderColor: '#FFBD59',
+    borderWidth: 1,
+    margin: 5,
+    position: 'relative',
+    left: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
   },
   description: {
     fontSize: 14,
@@ -71,32 +104,56 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   photoIcon: {
-    flex: 1,
     alignItems: 'center',
-    width: 100,
-    height: 85,
+    width: 130,
+    height: 130,
+    minWidth: 75,
+    minHeight: 75,
     margin: 10,
   },
   productDetails: {
-    flex: 2,
-    justifyContent: 'space-between',
-    fontSize: 10,
-    margin: 10,
+    display: 'flex',
+    justifyContent: 'flex-start',
+    borderRadius: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    borderWidth: 2,
+    borderColor: '#B6D1B5',
+    position: 'relative',
+    zIndex: 4,
+    bottom: 90,
+    right: 15,
+  },
+  productCard: {
+    paddingTop: 45,
+    borderRadius: 5,
+    backgroundColor: '#B6D1B5',
+    position: 'relative',
+    zIndex: 2,
+    left: 80,
+    bottom: 70,
+  },
+  splashTitle: {
+    position: 'relative',
+    zIndex: 4,
+    top: 55,
+    right: 75,
   },
   footer: {
+    display: 'flex',
     width: '100%',
     height: '7.5%',
     alignItems: 'center',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: '#448042',
+    marginTop: '10%',
   },
 });
 
 export default function ProductsDetails() { // props
   // const product.id = props.match.params.id; // ?? LINK?!
 
-  const [productDetail, setProductDetail] = React.useState([]);
+  const [productDetail, setProductDetail] = React.useState('');
 
   // TO NAVIGATE INTO OTHERS PAGES
   // to change into ProductsList page
@@ -113,35 +170,19 @@ export default function ProductsDetails() { // props
       // .get(`https://localhost:3000/farmer/${farmer.id}/products/${product.id}`) // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
       .then((response) => response.data)
       .then((data) => {
-        console.log(data);
-        setProductDetail(data);
+        setProductDetail(data.[0]);
       });
   }, []);
 
-  "EAN_code": 26, Code EAN du produit
-  "VAT": 1, VAT spécifique du produit
-  Allergène
-  "creation_date": "2021-07-13T22:00:00.000Z",
-    "description": "pleine terre", Description
-  "farming_type": 1,
-    "id": 18,
-      "max_storage_date": "3 jours", Durée avant perempetion
-  "nutritional_statement": "nutriscore A", Échelle Nutritionelle
-  "origin": "Montpellier", Region de production
-  "production_price": 1,
-    "production_unit": "kg", Unites
-  "purchase_unit": "pièce",
-    "season_id": 1, Season
-      < Picker.Item label = "Printemps" value = "1" Key = { 1} />
-        <Picker.Item label="Été" value="2" Key={2} />
-        <Picker.Item label="Autome" value="3" Key={3} />
-        <Picker.Item label="Hiver" value="4" Key={4} 
-          "stock_max": 2, Quantité maximale
-  "stock_min": 1, Quantité minimale
-  "tag": "legume, salade, frais", Mots - clés pour rechercer le produit
-  "transformation": 0, Produit Transformé
+  /*
+    Allergène
+      "season_id
+        < Picker.Item label = "Printemps" value = "1" Key = { 1} />
+          <Picker.Item label="Été" value="2" Key={2} />
+          <Picker.Item label="Autome" value="3" Key={3} />
+          <Picker.Item label="Hiver" value="4" Key={4} 
   "under_category": 1,
-  * /
+  */
 
   return (
     <SafeAreaView>
@@ -166,6 +207,7 @@ export default function ProductsDetails() { // props
               </TouchableOpacity>
             </View>
           </View>
+
           <View style={styles.container2}>
             <View style={styles.splashTitle}>
               <View style={styles.textTitle}>
@@ -173,66 +215,153 @@ export default function ProductsDetails() { // props
                   {productDetail.name}
                 </Text>
               </View>
+              <View style={styles.subTitle}>
+                <Text style={styles.textDetails}>
+                  Mots - clés:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.tag}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Prix de vente par unité:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.purchase_price}
+                    €
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Produit crée le:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {moment(productDetail.creation_date).format('DD/MM/YYYY')}
+                  </Text>
+                </Text>
+              </View>
             </View>
-            <View style={styles.splashImage}>
-              <Image
-                style={styles.photoIcon}
-                source={require('../assets/ImageBanniereProducteur.png')} // HOW TO RECOVERY the PRINCIPAL IMAGE!?
-              />
+            <View style={styles.productCard}>
+              <View style={styles.splashImage}>
+                <Image
+                  style={styles.photoIcon}
+                  source={require('../assets/ImageBanniereProducteur.png')} // HOW TO RECOVERY the PRINCIPAL IMAGE!?
+                />
+              </View>
+            </View>
+            <View style={styles.splashDetails}>
+              <View style={styles.productDetails}>
+                <Text style={styles.textDetails}>
+                  Quantité minimale:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.stock_min}
+                    {' '}
+                    {productDetail.production_unit}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Quantité maximal:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.stock_max}
+                    {' '}
+                    {productDetail.production_unit}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Vente par / au :
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.purchase_unit}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Prix de Production:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.production_price}
+                    {' '}
+                    €
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  VAT spécifique du produit:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.VAT}
+                    {' '}
+                    €
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Durée avant perempetion:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.max_storage_date}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Type de nourriture:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.category}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Season:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.season_id}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Type de production:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.farming_type}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Produit Transformé:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.transformation}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Échelle Nutritionelle:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.nutritional_statement}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Code EAN du produit:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.EAN_code}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Region de production:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.origin}
+                  </Text>
+                </Text>
+                <Text style={styles.textDetails}>
+                  Description:
+                  {' '}
+                  <Text style={styles.textDetailsApi}>
+                    {productDetail.description}
+                  </Text>
+                </Text>
+              </View>
             </View>
           </View>
-          <View style={styles.splashDetails}>
-            <View style={styles.productDetails}>
-              <Text style={styles.textDetails}>
-                Type de nourriture:
-                {' '}
-                {productDetail.category}
-              </Text>
-              <Text style={styles.textDetails}>
-                Prix par unité:
-                {' '}
-                {productDetail.purchase_price}
-                €
-              </Text>
-              <Text style={styles.textDetails}>
-                Type de production:
-                {' '}
-                {productDetail.farming_type}
-                €
-              </Text>
-              <Text style={styles.textDetails}>
-                Prix par unité:
-                {' '}
-                {productDetail.purchase_price}
-                €
-              </Text>
-              <Text style={styles.textDetails}>
-                Prix par unité:
-                {' '}
-                {productDetail.purchase_price}
-                €
-              </Text>
-              <Text style={styles.textDetails}>
-                Prix par unité:
-                {' '}
-                {productDetail.purchase_price}
-                €
-              </Text>
-              <Text style={styles.textDetails}>
-                Produit crée le:
-              </Text>
-              <Text style={styles.textDetails}>
-                {date}
-              </Text>
-            </View>
-          </View>
-
+          <View style={styles.footer} />
         </View>
-            </View>
-          </View>
-        </View >
-    <View style={styles.footer} />
-      </ScrollView >
-    </SafeAreaView >
+      </ScrollView>
+    </SafeAreaView>
   );
 }

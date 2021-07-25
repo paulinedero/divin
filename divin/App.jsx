@@ -6,8 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 // import ValidationScreen from './components/ValidationScreen';
 // import InscriptionsPage from './components/InscriptionsPage';
 // import ProductsNew from './components/ProductsNew';
-import ProductsList from './components/ProductsList';
-// import ProductsDetails from './components/ProductsDetails';
+// import ProductsList from './components/ProductsList';
+import ProductsDetails from './components/ProductsDetails';
 // import StocksNew from './components/StocksNew';
 // import StocksList from './components/StocksList';
 // import StocksDetails from './components/StocksDetails';
@@ -48,7 +48,8 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Navigator>
-        <Screen name="ProductsList" component={ProductsList} options={{ headerShown: false }} />
+        <Screen name="ProductsDetails" component={ProductsDetails} options={{ headerShown: false }} />
+        {/*<Screen name="ProductsList" component={ProductsList} options={{ headerShown: false }} />*/}
       </Navigator>
     </NavigationContainer>
   );
