@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   },
   photoIcon: {
     alignItems: 'center',
+    borderRadius: 20,
     width: 130,
     height: 130,
     minWidth: 75,
@@ -166,7 +167,7 @@ export default function ProductsDetails() { // props
   };
   React.useEffect(() => {
     axios
-      .get('http://192.168.1.54:3000/farmers/12/products/10') /// ?!?!?!!??!
+      .get('http://192.168.1.55:3000/farmers/12/products/10') /// ?!?!?!!??!
       // .get(`https://localhost:3000/farmer/${farmer.id}/products/${product.id}`) // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
       .then((response) => response.data)
       .then((data) => {

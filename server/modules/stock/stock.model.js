@@ -92,7 +92,7 @@ const createStock = async (farmerId, productId, newStock) => {
     const createdStock = {
       id: insertedStock.insertId,
       availability_date,
-      productId,
+      product_id,
       quantity,
       creation_date,
       farmerId,

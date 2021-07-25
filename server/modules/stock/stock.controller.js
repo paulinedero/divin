@@ -45,16 +45,16 @@ const getOneFarmerProductsInStock = async (req, res) => {
     if (existingFarmer.length === 0) {
       res.status(404).send(`Producteur inconnue lié à cet stock.`);
     } else {
-      const existingProduct = await checkExistingProduct(req.params.product_id);
+      const existingProduct = await checkExistingProduct(req.params.productId);
       if (existingProduct.length === 0) {
         res.status(404).send(`Produit inexistant dans ce stock.`);
       } else {
         const rawData = await findOneProductFromFarmerInStock(
           req.params.farmerId,
-          req.params.product_id,
+          req.params.productId,
           req.params.stockId
         );
-        res.json(rawData);
+        res.json(rawData[0]);
       }
     }
   } catch (err) {
@@ -71,7 +71,7 @@ const createProductInStock = async (req, res) => {
     } else {
       const rawData = await createStock(
         req.params.farmerId,
-        req.params.product_id,
+        req.params.productId,
         req.body
       );
       res.status(201).json(rawData);
