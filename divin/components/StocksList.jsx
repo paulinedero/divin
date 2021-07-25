@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   splashBackground: {
-    backgroundColor: '#889988',
+    backgroundColor: '#B6D1B5',
     borderRadius: 10,
     position: 'absolute',
     width: 200,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#889988',
+    borderColor: '#B6D1B5',
     backgroundColor: '#F5F5F5',
   },
   viewPicker: {
@@ -149,6 +149,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginTop: 17,
   },
+  buttonValide: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
   footer: {
     width: '100%',
     height: '7.5%',
@@ -161,7 +166,7 @@ const styles = StyleSheet.create({
 
 export default function ProductsStock() {
   // to get all info related to existing items in Stock table
-  const [getStocks, setGetStocks] = React.useState(''); // to get all available information in stock
+  const [getStocks, setGetStocks] = React.useState([]); // to get all available information in stock
   const [quantity, onChangeQuantity] = React.useState(''); // to guarantee the of insert phone number
   const [availableDate, onChangeAvailableDate] = React.useState(''); // to guarantee the insertion of a correct peremption date
 
@@ -198,12 +203,12 @@ export default function ProductsStock() {
 
   useEffect(() => {
     axios
-      .get('http://192.168.1.55:3000/farmers/12/stocks/')// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
-      // .get(`https://192.168.1.55:3000/farmer/${id}/stock/${id}`)// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
+      .get('http://192.168.1.55:3000/farmers/3/stocks/')// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
+      // .get(`https://192.168.1.55:3000/farmer/${id}/stock`)// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
       .then((res) => res.data)
       .then((data) => {
-        console.log(data[0]);
-        setGetStocks(data[0]);
+        console.log(data);
+        setGetStocks(data);
       });
   }, []);
 
@@ -212,18 +217,21 @@ export default function ProductsStock() {
     // exemple: {first_name: firstName}  or {firstName: first_name} helps to 
     // convert the variables names into their corresponding values in the server.
     try {
-      const result = await axios.update(
-        'https://localhost:3000/farmers/:farmerId/stocks/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+      const result = await axios.put(
+        // post? 'https://localhost:3000/farmers/:farmerId/stocks/:stockId'
+        'http://192.168.1.55:3000/farmers/12/stocks/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
         {
-          availability_date: availableDate
+          availability_date: availableDate,
           quantity,
-          product_id: (getProducts.map((product) => product.id)),
+          product_id: getProducts.product.id,
         },
       );
+      console.log(result);
     } catch (err) {
       console.error(err);
     }
   };
+
   return (
     <SafeAreaView>
       <ScrollView>
@@ -270,7 +278,7 @@ export default function ProductsStock() {
                     >
                       {getProducts.map((product, index) => (
                         <Picker.Item
-                          key={index}
+                          key={{ index }}
                           placeholder="Choisir votre produit"
                           label={product.name.toUpperCase()}
                           value={product.id}
@@ -298,7 +306,7 @@ export default function ProductsStock() {
                   </Text>
                   {getProducts.map((product, index) => (
                     <Text
-                      key={index}
+                      key={{ index }}
                       value={product.id}
                       style={styles.textDetails}
                     >
@@ -322,7 +330,7 @@ export default function ProductsStock() {
                   </Text>
                   {getProducts.map((product, index) => (
                     <Text
-                      key={index}
+                      key={{ index }}
                       value={product.id}
                       style={styles.textDetails}
                     >
@@ -398,24 +406,28 @@ export default function ProductsStock() {
               <View>
                 <View>
                   <Button
-                    onPress={() => (handelNewStock) && goToStocksList()}
+                    onPress={() => (newStock()) && (goToStocksList())}
                     title="Ajouter"
                     disabled={invalideForm()}
+                    style={styles.buttonValide}
                     color={invalideForm() ? '#616161' : '#FFBD59'}
                   />
                 </View>
               </View>
+              {/* How to pass product.name? */}
               <View>
-                {/*getStocks.map((item, index) => (
-                  <Stock
-                    key={index}
-                    id={item.id}
-                    price={item.production_price}
-                    quantityStock={item.quantity}
-                    availabilityDate={item.availability_date}
-                    createdDate={item.creation_date}
-                  />
-                ))*/}
+                {
+                  getStocks.map((stock, index) => (
+                    <Stock
+                      key={{ index }}
+                      id={stock.id}
+                      price={stock.production_price}
+                      quantityStock={stock.quantity}
+                      availabilityDate={stock.availability_date}
+                      createdDate={stock.creation_date}
+                    />
+                  ))
+                }
               </View>
             </View>
           </View>

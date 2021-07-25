@@ -150,7 +150,7 @@ export default function ProductList() {
               {
                 products.map((item, index) => (
                   <Products
-                    key={index}
+                    key={{ index }}
                     id={item.id}
                     name={item.name.toUpperCase()}
                     price={item.production_price}

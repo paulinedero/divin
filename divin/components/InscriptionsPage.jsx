@@ -17,7 +17,7 @@ import { TextInput } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
-import IconPhoto from './IconPhoto';
+import IconPhoto from './Cancel';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
 
