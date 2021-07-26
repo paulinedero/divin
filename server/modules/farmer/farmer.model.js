@@ -12,9 +12,6 @@ const hashingOptions = {
 const hashPassword = (plainPassword) =>
   argon2.hash(plainPassword, hashingOptions);
 
-const verifyPassword = (plainPassword, hashedPassword) =>
-  argon2.verify(hashedPassword, plainPassword, hashingOptions);
-
 // function to check if farmer already exists
 const checkExistingFarmer = async (farmerId) => {
   try {
@@ -35,20 +32,6 @@ const checkExistingEmail = async (email) => {
       [email]
     );
     return result[0];
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-// function to check if password is matching
-const checkCredentials = async (email, password) => {
-  try {
-    const [result] = await db.query(
-      'SELECT password FROM `farmer` WHERE email = ?',
-      [email]
-    );
-    const storedPassword = Object.values(result[0])[0];
-    return await argon2.verify(storedPassword, password);
   } catch (err) {
     throw new Error(err);
   }
@@ -182,7 +165,6 @@ const remove = async (farmerId) => {
 module.exports = {
   checkExistingFarmer,
   checkExistingEmail,
-  checkCredentials,
   findMany,
   findOne,
   create,
