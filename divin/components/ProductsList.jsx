@@ -112,8 +112,8 @@ export default function ProductList() {
 
   useEffect(() => {
     axios
-      .get('http://192.168.1.55:3000/farmers/12/products/')// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
-      // http://localhost:3000/farmers/${farmer.id}/products/')
+      .get('http://192.168.1.54:3000/farmers/12/products/')// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
+      // `http://localhost:3000/farmers/${id}/products/`)
       .then((res) => res.data)
       .then((data) => {
         setProducts(data);
@@ -163,8 +163,8 @@ export default function ProductList() {
               {/*POURQUOI dateCreated N A APPARAIT PAS?!?!*/}
             </View>
           </View>
+          <View style={styles.footer} />
         </View>
-        <View style={styles.footer} />
       </ScrollView>
     </SafeAreaView>
   );

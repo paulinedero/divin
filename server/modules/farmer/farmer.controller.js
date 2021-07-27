@@ -49,6 +49,7 @@ const getAllFarmers = async (req, res) => {
     const rawData = await findMany();
     res.json(rawData[0]);
   } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
 };

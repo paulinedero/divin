@@ -46,8 +46,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontFamily: 'Arial',
-
   },
   productDetails: {
     justifyContent: 'flex-start',
@@ -82,7 +80,7 @@ const styles = StyleSheet.create({
 // <Link to={`/articles/${id}`}> News in Details</Link>
 
 export default function Products({ id, name, price, stock, date }) {
-  const goToProductsDetails = () => {
+  const goToProductsDetails = (id) => {
     props.navigation.push('ProductsDetails');
   };
 

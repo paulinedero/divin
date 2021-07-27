@@ -1,535 +1,286 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
-  View,
   Button,
+  Picker,
   Image,
-  SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  Picker,
+  View,
 } from 'react-native';
-
 import { TextInput } from 'react-native-paper';
-import * as ImagePicker from 'expo-image-picker';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
-import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
-import IconPhoto from './IconPhoto';
-import EyeIn from './EyeIn';
-import EyeOut from './EyeOut';
 
 const styles = StyleSheet.create({
-  container: {
-    //   flex: 1 //give errors on others devices but no errors on browser
+  container2: {
+    display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: 100,
-    backgroundColor: '#FFBD59',
-  },
-  ImageBanniereProducteur: {
-    marginTop: 25,
-    width: 150,
-    height: 150,
-    alignItems: 'center',
-  },
-  footer: {
-    width: '100%',
-    height: '7.5%',
-    alignItems: 'center',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    marginTop: 35,
-    backgroundColor: '#448042',
+    marginTop: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#B6D1B5',
   },
   title: {
-    marginTop: 20,
-    fontSize: 20,
-    color: 'white',
+    color: '#FE984E',
+    fontSize: 15,
   },
-  strutureGeneral: {
-    marginBottom: 20,
-    marginLeft: '5%',
-    marginRight: '6%',
+  cardProduct: {
+    display: 'flex',
+    flexDirection: 'row',
+    margin: 10,
+    marginLeft: 60,
   },
-  textConfig: {
-    marginTop: 30,
-    color: '#FFBD59',
-    fontSize: 18,
-  },
-  photo: {
+  photoIcon: {
     alignItems: 'center',
+    width: 85,
+    height: 85,
+    borderRadius: 20,
+    margin: 10,
+  },
+  item: {
+    alignItems: 'flex-start',
+    width: 220,
+    marginLeft: 10,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#B6D1B5',
+    backgroundColor: '#F5F5F5',
+  },
+  viewPicker: {
+    marginTop: 17,
+    marginBottom: 35,
+    width: '80%',
+    margin: 20,
+    borderRadius: 5,
+    borderWidth: 1,
+    backgroundColor: '#FFBD59',
+    height: 50,
+    borderColor: 'gray',
+  },
+  alertValide: {
+    fontSize: 12,
+    color: 'rgba(76, 153, 0, 0.8)',
+  },
+  alertNoValide: {
+    fontSize: 12,
+    color: 'rgba(240, 92, 92, 0.8)',
+  },
+  splashBackground: {
+    backgroundColor: '#B6D1B5',
+    borderRadius: 10,
+    position: 'absolute',
+    width: 200,
+    height: 100,
+    top: 20,
+    zIndex: -2,
+  },
+  contextDetailsProducts: {
+    fontStyle: 'italic',
+    fontSize: 14,
+    marginBottom: 5,
+    marginLeft: 20,
+  },
+  textDetails: {
+    color: '#FFBD59',
+    fontSize: 14,
+    marginLeft: 40,
+  },
+  text: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignContent: 'center',
+    marginLeft: 40,
+  },
+  header2: {
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    width: '90%',
+    height: '45%',
   },
   input: {
     fontSize: 15,
     height: 40,
+    width: '85%',
     backgroundColor: '#FFFFFF',
     marginTop: 17,
-  },
-  passInput: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    marginTop: 17,
-  },
-  passInputHalf: {
-    width: '90%',
-  },
-  passInputHalf2: {
-    width: '8%',
-    justifyContent: 'center',
-  },
-  eye: {
-    marginRight: '7%',
-  },
-  adress: {
-
-  },
-  textOptimalSize: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#FFFFFF',
-    marginTop: 17,
-  },
-  inputSize1: {
-    fontSize: 15,
-    height: 40,
-    width: '65%',
-    backgroundColor: '#FFFFFF',
-  },
-  inputSize2: {
-    fontSize: 15,
-    height: 40,
-    width: '30%',
-    backgroundColor: '#FFFFFF',
-  },
-  inputSize3: {
-    fontSize: 15,
-    height: 40,
-    width: '47.5%',
-    backgroundColor: '#FFFFFF',
-  },
-  picker: {
-    marginTop: 17,
-    borderRadius: 5,
-    borderWidth: 1,
-    height: 50,
-    borderColor: 'gray',
-  },
-  icons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    marginLeft: '7.5%',
   },
   button: {
-    borderRadius: 5,
-    padding: 10,
-    marginTop: '10%',
+    flexDirection: 'row-reverse',
+    marginLeft: 35,
   },
-  alertPass: {
-    fontSize: 12,
-    color: 'red',
+  buttonValide: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+    width: 100,
+    height: 50,
+    opacity: 0.9,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+      borderRadius: 10,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 2.5,
+    elevation: 6,
   },
 });
 
-export default function InscriptionsPage() {
-  // to change into next page
-  const goToValidationScreen = () => {
-    props.navigation.push('ValidationScreen');
-  };
+export default function ProductsStock() {
+  const [quantity, onChangeQuantity] = React.useState(''); // to guarantee the of insert phone number
+  const [availableDate, onChangeAvailableDate] = React.useState(''); // to guarantee the insertion of a correct peremption date
 
-  // personnel info
-  const [firstname, onChangeFirstname] = React.useState(''); // to guarantee the insertion of name}
-  const [lastname, onChangeLastname] = React.useState(''); // to guarantee the insertion of last name}
-  const [birthday, onChangeBirthday] = React.useState(''); // to guarantee the insertion of birthday}
-  const [phoneNumber, onChangePhoneNumber] = React.useState(''); // to guarantee the of insert phone number}
-  const [email, onChangeEmail] = React.useState(''); // to guarantee the of insert mail}
+  // allows to get a selection of availablea products in database}
+  const [getProducts, setGetProducts] = useState([]);
+  // allows to specify from the selection of available products witch
+  // product the farmer will choose to make it available to stock
+  const [selectProducts, setSelectProducts] = useState(null);
 
-  // to guarantee the repetion password be showed}
-  const [password, setPassword] = React.useState(''); // to guarantee the insertion of passaword}
-  const [confirmPassword, setConfirmPassword] = React.useState(''); // to guarantee the insertion of the samme password}
-  const [seePassword, setSeePassword] = React.useState(true); // to guarantee password be showed}
-  const [seeConfirmPassword, setSeeConfirmPassword] = React.useState(true);
-
-  // contact and entreprise information
-  const [tvaNumber, onChangeTvaNumber] = React.useState(''); // to guarantee the insertion of a 1st financial number in france}
-  const [siretNumber, onChangeSiretNumber] = React.useState(''); // to guarantee the insertion a 2nd financial number in france}
-  const [companyName, onChangeCompanyName] = React.useState(''); // to guarantee the insertion of comapnie name in france}
-  const [description, onChangeDescription] = React.useState(''); // to guarantee the insertion of a description extra => asked by the farmer}
-
-  // address can be Updated later
-  const [street, onChangeStreet] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
-  const [streetNumber, onChangeStreetNumber] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
-  const [zipCode, onChangeZipCode] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
-  const [city, onChangeCity] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
-
-  // allows to get a selection of availablea countries in database}
-  const [countries, setCountries] = React.useState([]);
-  // allows to specify from the selection of available countries witch country the farmer will choose
-  const [selectCountry, setSelectCountry] = React.useState(null); // }
-
-  // to guarantee the control of a picture from the farmer
-  const [selectedImage, setSelectedImage] = React.useState(null); // to guarantee image be showed}
-
-  const valideFirstForm = () => firstname === '' || lastname === '' || birthday === '' || phoneNumber === '' || email === '' || password === '' || confirmPassword === '';
-  // to make appear second fields
-  const valideSecondForm = () => tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || country === '';
+  const invalideForm = () => availableDate === '' || quantity === '' || selectProducts === '';
   // to guarantee the control from all fields
 
-  const invalideForm = () => firstname === '' || lastname === '' || birthday === '' || phoneNumber === '' || email === '' || password === '' || confirmPassword === '' || tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || selectCountry === '';
-  // to guarantee the control from all fields
-
-  const openImagePickerAsync = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
-      return;
-    }
-    const pickerResult = await ImagePicker.launchImageLibraryAsync();
-    if (pickerResult.cancelled === true) {
-      return;
-    }
-    setSelectedImage({ localUri: pickerResult.uri });
+  const goToStocksList = () => {
+    // props.navigation.push('StocksList');
   };
 
-  // the next step is to insert data from farmer form into DataBase
-  const newProduct = async () => {
-    // to adapte all variables between front-end and server
-    // exemple: {first_name: firstName}  or {firstName: first_name} helps to 
-    // convert the variables names into their corresponding values in the server.
+  useEffect(() => {
+    axios
+      .get('http://192.168.1.54:3000/farmers/12/products/')
+      // .get('http://192.168.1.54:3000/farmers/${id}/products/')
+      .then((res) => res.data)
+      .then((data) => {
+        console.log(data);
+        setGetProducts(data);
+      });
+  }, []);
+
+  const newStock = async () => {
     try {
-      axios
-        .post(
-          `https://localhost:3000/${farmer.id}/products/`, // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
-          {
-            firstname,
-            lastname,
-            birthday,
-            email,
-            password,
-            phone_number: phoneNumber,
-            VAT_number: tvaNumber,
-            siret_number: siretNumber,
-            address: {
-              street,
-              street_number: streetNumber,
-              zip_code: zipCode,
-              city,
-              country: selectCountry,
-            },
-            company_name: companyName,
-            description,
-            //selectedImage, //not use until this moment 
-          });
+      const result = await axios.post(
+        'http://192.168.1.54:3000/farmers/12/stocks/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+        {
+          availability_date: availableDate,
+          quantity,
+          product_id: getProducts.product.id,
+        },
+      );
     } catch (err) {
       console.error(err);
     }
   };
 
-  useEffect(() => {
-    axios
-      .get('http://192.168.1.54:3000/countries/')
-      .then((res) => res.data)
-      .then((data) => {
-        setCountries(data);
-      });
-  }, []);
-
   return (
-    <KeyboardAvoidingWrapper>
-      <View style={styles.container}>
-        <StatusBar />
+    <View style={styles.container2}>
+      <Text style={styles.title}>
+        Pour rendre disponible vos produits
+      </Text>
+      <View>
         <View>
-          <Image style={styles.ImageBanniereProducteur} source={ImageBanniereProducteur} />
-        </View>
-        <Text style={styles.title}>INSCRIPTION</Text>
-        <View style={styles.footer}>
-          <View style={styles.strutureGeneral}>
-            <Text style={styles.textConfig}> Informations personnelles </Text>
-            <SafeAreaView>
-              {/* personnal information about the farmer */}
-              <TextInput
-                mode="outlined"
-                label="NOM"
-                value={lastname}
-                style={styles.input}
-                onChangeText={onChangeLastname}
-                placeholder="Entrez votre nom"
-                minLength={3}
-              />
-              <TextInput
-                mode="outlined"
-                label="PRENOM"
-                value={firstname}
-                style={styles.input}
-                onChangeText={onChangeFirstname}
-                placeholder="Entrez votre prenom"
-                minLength={3}
-              />
-              <TextInput
-                mode="outlined"
-                label="DATE DE NAISSANCE"
-                type="date"
-                style={styles.input}
-                placeholder="Entrez votre date de naissance AAAA-MM-JJ"
-                length={8}
-                onChangeText={onChangeBirthday}
-                value={birthday}
-              />
-              <View>
-                {birthday.length >= 11 || birthday.match(/^[A-Za-z]+$/)
-                  ? (
-                    <Text style={styles.alertPass}>
-                      Le format de la date de naissance doit être respecté
-                    </Text>
-                  ) : null}
-              </View>
-              <TextInput
-                mode="outlined"
-                label="NUMERO DE GSM"
-                value={phoneNumber}
-                style={styles.input}
-                onChangeText={onChangePhoneNumber}
-                placeholder="Entrez votre numero de telephone"
-                minLength={6}
-              />
-              <View>
-                {((phoneNumber.length <= 6) && (phoneNumber.match(/^[0-9]+$/) !== null))
-                  ? (
-                    <Text style={styles.alertPass}>
-                      Le numero de GSM dois contennir l'indicatif du pays
-                    </Text>
-                  ) : null}
-              </View>
-              <View>
-                {(phoneNumber.match(/^[A-Za-z]+$/))
-                  ? (
-                    <Text style={styles.alertPass}>
-                      UNIQUEMENT des chiffres
-                    </Text>
-                  ) : null}
-              </View>
-              <TextInput
-                mode="outlined"
-                label="EMAIL"
-                type="email"
-                value={email}
-                style={styles.input}
-                onChangeText={onChangeEmail}
-                placeholder="Entrez votre e-mail complet"
-              />
-              <View>
-                {(email.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi))
-                  ? null
-                  : (
-                    <Text style={styles.alertPass}>
-                      Votre e-mail doit être correctement introduit
-                    </Text>
-                  )}
-              </View>
-              {/* password and hide 1st password button  */}
-              <View style={styles.passInput}>
-                <TextInput
-                  mode="outlined"
-                  label="MOT DE PASSE"
-                  value={password}
-                  style={styles.passInputHalf}
-                  onChangeText={setPassword}
-                  secureTextEntry={seePassword}
-                  placeholder="Entrez votre mot de passe"
-                />
-                <TouchableHighlight
-                  activeOpacity={0.6}
-                  underlayColor="white"
-                  style={styles.passInputHalf2}
-                  onPress={() => setSeePassword(!seePassword)}
-                >
-                  {/* to hiding the password or showing it when clicked  */}
-                  {seePassword ? <EyeOut /> : <EyeIn />}
-                </TouchableHighlight>
-              </View>
-              {/* Password's confirmation and hide 2nd password with buttons */}
-              <View style={styles.passInput}>
-                <TextInput
-                  mode="outlined"
-                  label="CONFIRMATION DE MOT DE PASSE"
-                  value={confirmPassword}
-                  name="confirmPassword"
-                  style={styles.passInputHalf}
-                  onChangeText={setConfirmPassword}
-                  secureTextEntry={seeConfirmPassword}
-                  placeholder="Re-entrez votre mot de passe"
-                />
-                <TouchableHighlight
-                  activeOpacity={0.6}
-                  underlayColor="white"
-                  style={styles.passInputHalf2}
-                  onPress={() => setSeeConfirmPassword(!seeConfirmPassword)}
-                >
-                  {/* hiding or showing password confirmation  */}
-                  {seeConfirmPassword ? <EyeOut /> : <EyeIn />}
-                </TouchableHighlight>
-              </View>
-              <View>
-                {password !== confirmPassword
-                  ? <Text style={styles.alertPass}> Les mots de passe doivent être identiques</Text>
-                  : null}
-              </View>
-            </SafeAreaView>
-            {/* Information about financial and enterprise administration in france */}
-            <Text style={styles.textConfig}> Informations de facturation </Text>
-            <SafeAreaView>
-              <TextInput
-                mode="outlined"
-                label="NUMERO TVA"
-                value={tvaNumber}
-                style={styles.input}
-                onChangeText={onChangeTvaNumber}
-                placeholder="Entrez votre numero TVA"
-              />
-              <TextInput
-                mode="outlined"
-                label="NUMERO SIRET"
-                value={siretNumber}
-                type="number"
-                style={styles.input}
-                onChangeText={onChangeSiretNumber}
-                placeholder="Entrez votre numero SIRET"
-              />
-              <TextInput
-                mode="outlined"
-                label="NOM DE ENTREPRISE"
-                value={companyName}
-                style={styles.input}
-                onChangeText={onChangeCompanyName}
-                placeholder="Entrez le nom de votre Entreprise"
-              />
-              <TextInput
-                mode="outlined"
-                label="DESCRIPTION"
-                value={description}
-                style={styles.input}
-                onChangeText={onChangeDescription}
-                placeholder="Entrez une description de votre production"
-              />
-            </SafeAreaView>
-            {/* Information about financial and enterprise administration in france */}
-            <Text style={styles.textConfig}>
-              Address d'exploitation
-            </Text>
-            <SafeAreaView style={styles.adress}>
-              <View style={styles.textOptimalSize}>
-                <TextInput
-                  mode="outlined"
-                  label="RUE"
-                  value={street}
-                  style={styles.inputSize1}
-                  onChangeText={onChangeStreet}
-                  placeholder="Entrez votre rue"
-                />
-                <TextInput
-                  mode="outlined"
-                  label="NUMERO"
-                  value={streetNumber}
-                  style={styles.inputSize2}
-                  onChangeText={onChangeStreetNumber}
-                  placeholder="Nº de rue"
-                />
-              </View>
-              <View>
-                {(streetNumber.match(/^[A-Za-z]+$/))
-                  ? (
-                    <Text style={styles.alertPass}>
-                      UNIQUEMENT des chiffres
-                    </Text>
-                  ) : null}
-              </View>
-              <View style={styles.textOptimalSize}>
-                <TextInput
-                  mode="outlined"
-                  label="CODE POSTAL"
-                  value={zipCode}
-                  style={styles.inputSize3}
-                  onChangeText={onChangeZipCode}
-                  placeholder="Entrez code postal"
-                />
-                <TextInput
-                  mode="outlined"
-                  label="VILLE"
-                  value={city}
-                  style={styles.inputSize3}
-                  onChangeText={onChangeCity}
-                  placeholder="Entrez votre ville"
-                />
-              </View>
-              <View>
-                {(zipCode.match(/^[A-Za-z]+$/))
-                  ? (
-                    <Text style={styles.alertPass}>
-                      UNIQUEMENT des chiffres
-                    </Text>
-                  ) : null}
-              </View>
-              <View style={styles.picker}>
+          <View style={styles.cardProduct}>
+            <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
+
+            {/*  HOW TO MAKE IT APPEAR EVERY IMAGE TO Each product.ID?!?...
+                  this will be a good place */}
+
+            <View style={styles.item}>
+              <View style={styles.viewPicker}>
                 <Picker
-                  selectedValue={selectCountry}
-                  onValueChange={(itemValue) => setSelectCountry(itemValue)}
+                  selectedValue={selectProducts}
+                  onValueChange={(itemValue) => setSelectProducts(itemValue)}
                 >
-                  {countries.map((country) => (
+                  {getProducts.map((product, index) => (
                     <Picker.Item
-                      key={country.id}
-                      placeholder="Entrez votre ville"
-                      label={country.name}
-                      value={country.id}
+                      key={{ index }}
+                      placeholder="Choisir votre produit"
+                      label={product.name.toUpperCase()}
+                      value={product.id}
                     />
                   ))}
                 </Picker>
+                {((getProducts.length >= 1)
+                  ? (
+                    <Text style={styles.alertValide}>
+                      Selectionnez un produit
+                    </Text>
+                  ) : (
+                    <Text style={styles.alertNoValide}>
+                      Vous n'aviez pas des produits disponibles
+                    </Text>
+                  ))}
               </View>
-            </SafeAreaView>
-          </View>
-          {/* photo from gallerie, and active button to pick a image  */}
-          <View style={styles.icons}>
-            <View style={styles.photo}>
-              <Text style={styles.textConfig}> Photo de profil </Text>
-              <TouchableOpacity onPress={() => { openImagePickerAsync(); }}>
-                {(selectedImage !== null)
-                  ? <Image source={{ uri: selectedImage.localUri }} style={{ width: 50, height: 50 }} />
-                  : <IconPhoto style={styles.button} />}
-              </TouchableOpacity>
             </View>
-            {/* When this page are FULLY filled, the button s'inscrire' will appear in orange background color, and it will be
-            possible to progress into the following page */}
+            <View style={styles.splashBackground} />
+          </View>
+
+          <View style={styles.header2}>
             <View>
-              {console.log(
-                firstname,
-                lastname,
-                birthday,
-                email,
-                password,
-                phoneNumber,
-                description,
-                tvaNumber,
-                siretNumber,
-                street,
-                streetNumber,
-                city,
-                selectCountry,
-                companyName,
-              )}
-              <Button
-                onPress={() =>
-                  (inscription() goToValidationScreen())} // ADD FUNCTION "MAIL SEND" HERE
-              title="S'inscrire"
-              disabled={invalideForm()}
-              color={invalideForm() ? '#616161' : '#FFBD59'}
+              <TextInput
+                mode="outlined"
+                label="Quantité en stock"
+                value={quantity}
+                name="stock"
+                style={styles.input}
+                onChangeText={onChangeQuantity}
+                placeholder="Entrez la quantité d'articles mise en stock"
+                minLength={1}
               />
+              <View style={styles.text}>
+                {((quantity.length === 0) && (quantity.match(/^[0-9]+$/) !== null))
+                  ? (
+                    <Text style={styles.alertNoValide}>
+                      La quantité dois être superior à 0
+                    </Text>
+                  ) : null}
+              </View>
+              <View style={styles.text}>
+                {(quantity.match(/^[A-Za-z]+$/))
+                  ? (
+                    <Text style={styles.alertNoValide}>
+                      UNIQUEMENT des chiffres
+                    </Text>
+                  ) : null}
+              </View>
+            </View>
+            <View>
+              <TextInput
+                mode="outlined"
+                label="Date limite de vente"
+                value={availableDate}
+                name="date"
+                style={styles.input}
+                onChangeText={onChangeAvailableDate}
+                placeholder="Entrez la date limite de vente AAAA-MM-JJ"
+                length={8}
+              />
+              <View style={styles.text}>
+                {availableDate.length <= 9 || availableDate.match(/^[A-Za-z]+$/)
+                  ? (
+                    <Text style={styles.alertNoValide}>
+                      Le format de la date limite doit être respecté
+                    </Text>
+                  ) : null}
+              </View>
+            </View>
+            <View style={styles.button}>
+              <View style={styles.buttonValide}>
+                <Button
+                  onPress={() => (newStock()) && (goToStocksList())}
+                  title="Ajouter"
+                  disabled={invalideForm()}
+                  color={invalideForm() ? '#616161' : '#FFBD59'}
+                />
+              </View>
             </View>
           </View>
         </View>
       </View>
-    </KeyboardAvoidingWrapper >
+    </View>
   );
 }

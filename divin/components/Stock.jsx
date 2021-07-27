@@ -8,14 +8,12 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import Cancel from './Cancel';
-// moment('dd/mm/yyyy').isSame(Date.now(), 'day');
 
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 20,
     marginTop: 5,
   },
   alertNoValide: {
@@ -26,17 +24,39 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
   },
-  cancel: {
-    height: 15,
-    width: 15,
-    borderBottomLeftRadius: 10, // bottom
-    borderTopLeftRadius: 10, // bottom
+  cancelView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 25,
+    width: 25,
+    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 10,
     backgroundColor: '#FFBD59',
+  },
+  cancel: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    color: '#000',
+    zIndex: 4,
+  },
+  productPhoto: {
+    alignItems: 'center',
+    width: 35,
+    height: 35,
+    margin: 10,
+    marginTop: 20,
+    borderRadius: 10,
   },
   stockCard: {
     display: 'flex',
     flexDirection: 'row',
-    borderRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    borderTopRightRadius: 5,
     borderWidth: 2,
     borderColor: '#FFBD59',
   },
@@ -57,22 +77,16 @@ const styles = StyleSheet.create({
     borderColor: '#FFBD59',
   },
   productCard: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 5,
-    borderRadius: 5,
-    backgroundColor: '#B6D1B5',
+
   },
-  productPhoto: {
-    alignItems: 'center',
-    width: 50,
-    height: 50,
-    margin: 10,
-    marginTop: 20,
-    borderRadius: 10,
+  productDetails: {
+    justifyContent: 'flex-start',
+    fontSize: 10,
+    margin: 3,
+    borderRadius: 5,
+    backgroundColor: '#F5F5F5',
+    borderWidth: 2,
+    borderColor: '#B6D1B5',
   },
   textTitle: {
     alignItems: 'center',
@@ -80,46 +94,47 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFBD59',
   },
   title: {
-    fontSize: 18,
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#FFBD59',
+    marginLeft: 5,
   },
-  productDetails: {
-    justifyContent: 'flex-start',
-    fontSize: 10,
-    margin: 10,
-    borderRadius: 5,
-    backgroundColor: '#F5F5F5',
-    borderWidth: 2,
-    borderColor: '#B6D1B5',
+  dispositionDetails: {
+    flexDirection: 'row',
+  },
+  text: {
+    fontSize: 15,
+    color: '#FFBD59',
   },
   textDetails: {
-    fontSize: 16,
+    marginLeft: 5,
+    fontSize: 15,
     color: '#696969',
   },
 
 });
 
 export default function Products({ id, price, quantityStock, availabilityDate, createdDate }) {
-  const deleteStock = () => {
-    /* try {
-       const result = await axios.put(
-         'http://192.168.1.55:3000/farmers/12/stocks/:stockId', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
-         {
-           availability_date: availableDate,
-           quantity,
-           product_id: getProducts.product.id,
-         },
-       );
-       console.log(result);
-     } catch (err) {
-       console.error(err);
-     } catch (err)
-     */
-  };
+  const [eraseStock, setEraseStock] = React.useState([]);
 
-  // moment('dd/mm/yyyy').isSame(Date.now(), 'day')
+  async function deleteStock(id) {
+    try {
+      const response = await fetch(`http://192.168.1.54:3000/farmers/12/stocks/${id}`, // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+        {
+          availability_date: availableDate,
+          quantity,
+          product_id: getProducts.product.id,
+        });
+      return await response.json();
+    } catch (err) {
+      console.error(err);
+      // Handle errors here
+    }
+  }
+
   return (
     <View style={styles.container}>
-      {(createdDate >= Date) // à mettrer correctement '<'
+      {(createdDate >= Date) // à mettrer correctement '<' !!!!!!!!!!!!!!!!!!
         ? (
           <Text style={styles.alertNoValide}>
             Aucun produit en stock est disponible à cette date
@@ -127,12 +142,13 @@ export default function Products({ id, price, quantityStock, availabilityDate, c
         )
         : (
           <View style={styles.card}>
-            <View>
+            <View style={styles.cancelView}>
               <TouchableOpacity
                 onPress={() => (deleteStock())}
                 title="Annuler"
               >
                 <Cancel style={styles.cancel} />
+
               </TouchableOpacity>
             </View>
             <View style={styles.stockCard}>
@@ -141,27 +157,40 @@ export default function Products({ id, price, quantityStock, availabilityDate, c
                 <Image style={styles.productPhoto} source={require('../assets/ImageBanniereProducteur.png')} />
               </View>
               <View>
-                <Text style={styles.title}>
-                  {/*
-                name, photo, price
-                */}
-                </Text>
-              </View>
-              <View>
                 <View style={styles.productDetails}>
-                  <Text style={styles.textDetails}>
-                    Quantité disponible:
-                    {quantityStock}
+                  <Text style={styles.title}>
+                    'Nom'
                   </Text>
-                  <Text style={styles.textDetails}>
-                    Prix par unité:
-                    {price}
-                    €/par unité.
-                  </Text>
-                  <Text style={styles.textDetails}>
-                    Produit disponible jusqu'au:
-                    {moment(availabilityDate).format('DD/MM/YYYY')}
-                  </Text>
+                  <View style={styles.dispositionDetails}>
+                    <Text style={styles.textDetails}>
+                      Quantité disponible:
+                      {' '}
+                    </Text>
+                    <Text style={styles.text}>
+                      {quantityStock}
+                      .
+                    </Text>
+                  </View>
+                  <View style={styles.dispositionDetails}>
+                    <Text style={styles.textDetails}>
+                      Prix par unité:
+                      {' '}
+                    </Text>
+                    <Text style={styles.text}>
+                      {price}
+                      €/par unité.
+                    </Text>
+                  </View>
+                  <View style={styles.dispositionDetails}>
+                    <Text style={styles.textDetails}>
+                      Produit disponible jusqu'au:
+                    </Text>
+                    <Text style={styles.text}>
+                      {' '}
+                      {moment(availabilityDate).format('DD/MM/YYYY')}
+                      .
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>

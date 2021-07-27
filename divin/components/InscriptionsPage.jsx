@@ -168,7 +168,8 @@ export default function InscriptionsPage() {
 
   // allows to get a selection of availablea countries in database}
   const [countries, setCountries] = React.useState([]);
-  // allows to specify from the selection of available countries witch country the farmer will choose
+  // allows to specify from the selection of available countries witch country
+  // the farmer will choose
   const [selectCountry, setSelectCountry] = React.useState(null); // }
 
   // to guarantee the control of a picture from the farmer
@@ -496,7 +497,12 @@ export default function InscriptionsPage() {
               <Text style={styles.textConfig}> Photo de profil </Text>
               <TouchableOpacity onPress={() => { openImagePickerAsync(); }}>
                 {(selectedImage !== null)
-                  ? <Image source={{ uri: selectedImage.localUri }} style={{ width: 50, height: 50 }} />
+                  ? (
+                    <Image
+                      source={{ uri: selectedImage.localUri }}
+                      style={{ width: 50, height: 50 }}
+                    />
+                  )
                   : <IconPhoto style={styles.button} />}
               </TouchableOpacity>
             </View>
@@ -521,10 +527,11 @@ export default function InscriptionsPage() {
               )}
               <Button
                 onPress={() =>
-                  (inscription() goToValidationScreen())} // ADD FUNCTION "MAIL SEND" HERE
-              title="S'inscrire"
-              disabled={invalideForm()}
-              color={invalideForm() ? '#616161' : '#FFBD59'}
+                (inscription(),
+                  goToValidationScreen())} // ADD FUNCTION "MAIL SEND" HERE
+                title="S'inscrire"
+                disabled={invalideForm()}
+                color={invalideForm() ? '#616161' : '#FFBD59'}
               />
             </View>
           </View>
