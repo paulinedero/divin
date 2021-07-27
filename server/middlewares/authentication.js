@@ -4,6 +4,9 @@ const { JWT_PRIVATE_KEY } = process.env;
 
 const checkauthentication = async (req, res, next) => {
   const bearer = req.get('authorization');
+  if (!bearer) {
+    return res.status(401).json({ message: 'Invalid user' });
+  }
   const token = bearer.replace('Bearer ', '');
   if (typeof token !== 'undefined') {
     try {

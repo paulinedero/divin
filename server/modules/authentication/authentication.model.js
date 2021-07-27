@@ -32,12 +32,27 @@ const checkExistingEmail = async (email) => {
 // function to check if password is matching
 const checkCredentials = async (email, password) => {
   try {
-    const [result] = await db.query(
+    const [farmerInfo] = await db.query(
+      'SELECT id, firstname, email FROM `farmer` WHERE email = ?',
+      [email]
+    );
+    const [farmerPassword] = await db.query(
       'SELECT password FROM `farmer` WHERE email = ?',
       [email]
     );
-    const storedPassword = Object.values(result[0])[0];
-    return await argon2.verify(storedPassword, password, hashingOptions);
+    const storedPassword = Object.values(farmerPassword[0])[0];
+    const checkedPassword = await argon2.verify(
+      storedPassword,
+      password,
+      hashingOptions
+    );
+    const result = {
+      id: farmerInfo[0].id,
+      firstname: farmerInfo[0].firstname,
+      email: farmerInfo[0].email,
+      password: checkedPassword,
+    };
+    return result;
   } catch (err) {
     throw new Error(err);
   }

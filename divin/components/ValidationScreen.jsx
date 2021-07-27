@@ -12,10 +12,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import axios from 'axios';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
+
+// Authentication context
+import AuthContext from '../context/AuthContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -118,27 +120,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const ValidationScreen = (props) => {
+const ValidationScreen = () => {
+  const { signIn } = React.useContext(AuthContext);
+
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [seePassword, setSeePassword] = React.useState(true);
-  const [errorMessage, setErrorMessage] = React.useState('');
 
   const invalideForm = () => email === '' || password === '';
-
-  const handleSubmit = () => {
-    const credentials = { email, password };
-    console.log(credentials);
-    axios
-      .post('http://192.168.50.195:3000/farmers/login', credentials)
-      .then((response) => {
-        const result = response.data;
-        if (response.status !== 200) {
-          setErrorMessage(result);
-        }
-        props.navigation.push('Dashboard');
-      });
-  };
 
   return (
     <KeyboardAvoidingWrapper>
@@ -184,8 +173,10 @@ const ValidationScreen = (props) => {
           </View>
           <View style={styles.greenBack}>
             <TouchableOpacity
-              onPress={handleSubmit}
-              title="S'inscrire"
+              onPress={() => {
+                signIn({ email, password });
+              }}
+              title="Se connecter"
               disabled={invalideForm()}
               style={styles.btnPress}
             >
