@@ -149,7 +149,7 @@ const deleteFarmer = async (req, res) => {
         .status(404)
         .send(`Il n'existe pas de producteur lié à cet identifiant.`);
     } else {
-      const rawData = await remove(req.params.farmerId);
+      await remove(req.params.farmerId);
       res
         .status(200)
         .send('Vos données ont été supprimées de notre base de données.');

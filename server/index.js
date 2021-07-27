@@ -8,6 +8,7 @@ app.use(express.json());
 
 // if dev mode
 app.use(cors());
+app.options('*', cors());
 
 // routes
 require('./route')(app);

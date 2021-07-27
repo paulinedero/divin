@@ -8,6 +8,10 @@ const {
   deleteProductFromStock,
 } = require('./stock.controller');
 
+const { checkauthentication } = require('../../middlewares/authentication');
+
+stockRouter.use(checkauthentication);
+
 stockRouter.get('/:farmerId/stocks', getAllFarmerProductsInStock);
 stockRouter.get(
   '/:farmerId/products/:productId/stocks/:stockId',

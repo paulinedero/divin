@@ -17,13 +17,14 @@ import { TextInput } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
-import IconPhoto from './Cancel';
+import IconPhoto from './IconPhoto';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1, //give errors on others devices but no errors on browser
+    //   flex: 1 //give errors on others devices but no errors on browser
     alignItems: 'center',
     marginBottom: 100,
     backgroundColor: '#FFBD59',
@@ -203,8 +204,8 @@ export default function InscriptionsPage(props) {
     // exemple: {first_name: firstName}  or {firstName: first_name} helps to 
     // convert the variables names into their corresponding values in the server.
     try {
-      const result = await axios.post(
-        'https://localhost:3000//:farmerId/products/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+      const result = await api.axios.post(
+        `${api.apiUrl}/authentication/register`,
         {
           firstname,
           lastname,
@@ -233,7 +234,7 @@ export default function InscriptionsPage(props) {
 
   useEffect(() => {
     axios
-      .get('http://192.168.1.54:3000/countries/')
+      .get(`${api.apiUrl}/countries/`)
       .then((res) => res.data)
       .then((data) => {
         setCountries(data);
@@ -302,7 +303,7 @@ export default function InscriptionsPage(props) {
                 {((phoneNumber.length <= 6) && (phoneNumber.match(/^[0-9]+$/) !== null))
                   ? (
                     <Text style={styles.alertPass}>
-                      Le numero de GSM dois contennir l`indicatif du pays
+                      Le numero de GSM dois contenir l`indicatif du pays
                     </Text>
                   ) : null}
               </View>
@@ -420,7 +421,7 @@ export default function InscriptionsPage(props) {
             </SafeAreaView>
             {/* Information about financial and enterprise administration in france */}
             <Text style={styles.textConfig}>
-              Address d`exploitation
+              Adresse d`exploitation
             </Text>
             <SafeAreaView style={styles.adress}>
               <View style={styles.textOptimalSize}>
@@ -512,35 +513,38 @@ export default function InscriptionsPage(props) {
             orange background color, and it will be
             possible to progress into the following page
             */}
-            <View>
-              {console.log(
-                firstname,
-                lastname,
-                birthday,
-                email,
-                password,
-                phoneNumber,
-                description,
-                tvaNumber,
-                siretNumber,
-                street,
-                streetNumber,
-                city,
-                selectCountry,
-                companyName,
-              )}
-              <Button
+            < View >
+              {
+                console.log(
+                  firstname,
+                  lastname,
+                  birthday,
+                  email,
+                  password,
+                  phoneNumber,
+                  description,
+                  tvaNumber,
+                  siretNumber,
+                  street,
+                  streetNumber,
+                  city,
+                  selectCountry,
+                  companyName,
+                )
+              }
+              < Button
                 onPress={() =>
                   // eslint-disable-next-line no-undef
-                  (inscription() && goToValidationScreen())} // ADD FUNCTION "MAIL SEND" HERE
+                  (inscription() && goToValidationScreen())
+                } // ADD FUNCTION "MAIL SEND" HERE
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}
               />
-            </View>
-          </View>
-        </View>
-      </View>
-    </KeyboardAvoidingWrapper>
+            </View >
+          </View >
+        </View >
+      </View >
+    </KeyboardAvoidingWrapper >
   );
 }

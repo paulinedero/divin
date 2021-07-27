@@ -1,4 +1,16 @@
+const argon2 = require('argon2');
 const db = require('../../dbConfig');
+
+// secure password
+const hashingOptions = {
+  type: argon2.argon2id,
+  memoryCost: 2 ** 16,
+  timeCost: 5,
+  parallelism: 1,
+};
+
+const hashPassword = (plainPassword) =>
+  argon2.hash(plainPassword, hashingOptions);
 
 // function to check if farmer already exists
 const checkExistingFarmer = async (farmerId) => {
@@ -54,7 +66,7 @@ const create = async (newFarmer) => {
     company_name,
     lastname,
     firstname,
-    birthdate,
+    birthday,
     address,
     phone_number,
     siret_number,
@@ -63,6 +75,7 @@ const create = async (newFarmer) => {
   } = newFarmer;
 
   try {
+    const hashedPassword = await hashPassword(password);
     const [insertedAddress] = await db.query(
       'INSERT INTO address (street, street_number, zip_code, city, country) VALUES (?, ?, ?, ?, ?)',
       [
@@ -74,14 +87,14 @@ const create = async (newFarmer) => {
       ]
     );
     const [insertedFarmer] = await db.query(
-      'INSERT INTO farmer (email, password, company_name, lastname, firstname, birthdate, address, phone_number, siret_number, VAT_number, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO farmer (email, password, company_name, lastname, firstname, birthday, address, phone_number, siret_number, VAT_number, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         email,
-        password,
+        hashedPassword,
         company_name,
         lastname,
         firstname,
-        birthdate,
+        birthday,
         insertedAddress.insertId,
         phone_number,
         siret_number,
@@ -97,7 +110,7 @@ const create = async (newFarmer) => {
       company_name,
       lastname,
       firstname,
-      birthdate,
+      birthday,
       address,
       phone_number,
       siret_number,

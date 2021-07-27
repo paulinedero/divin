@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg';
 
