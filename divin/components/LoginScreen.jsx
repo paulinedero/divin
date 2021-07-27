@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Text, StyleSheet, Image, View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, StyleSheet, Image, SafeAreaView, View, ScrollView, TouchableOpacity } from 'react-native';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 
 export default function LoginScreen(props) {
   const goTo = () => {
-    // console.log('props', props);
     props.navigation.push('Validation');
   };
 
@@ -12,7 +11,6 @@ export default function LoginScreen(props) {
     container: {
       marginTop: 20,
       alignItems: 'center',
-      backgroundColor: '#F5F5F5',
     },
     tinyLogo: {
       width: 270,
@@ -33,8 +31,8 @@ export default function LoginScreen(props) {
     btnPress: {
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 40,
-      width: '60%',
+      marginTop: 20,
+      width: 240,
       height: 50,
       opacity: 0.9,
       borderRadius: 50,
@@ -43,11 +41,11 @@ export default function LoginScreen(props) {
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        height: 3,
+        height: 2,
       },
-      shadowOpacity: 0.27,
-      shadowRadius: 2.5,
-      elevation: 6,
+      shadowOpacity: 0.23,
+      shadowRadius: 3.5,
+      elevation: 4,
     },
     btnPress1: {
       justifyContent: 'center',
@@ -94,9 +92,10 @@ export default function LoginScreen(props) {
     greenBack: {
       borderTopLeftRadius: 50,
       borderTopRightRadius: 50,
-      marginTop: 45,
-      height: Dimensions.get('window').height,
-      width: Dimensions.get('window').width,
+      margin: 45,
+      marginTop: 50,
+      width: '100%',
+      height: 400,
       backgroundColor: '#448042',
     },
   });
@@ -104,20 +103,22 @@ export default function LoginScreen(props) {
   return (
     <KeyboardAvoidingWrapper>
       <ScrollView>
-        <View style={styles.container}>
-          <Image style={styles.tinyLogo} source={require('../assets/logo_divin.png')} />
-          <View style={styles.btn}>
+        <SafeAreaView >
+          <View style={styles.container}>
+            <Image style={styles.tinyLogo} source={require('../assets/logo_divin.png')} />
+            <View style={styles.btn}>
 
-            {/* bouton de connexion  */}
+              {/* bouton de connexion  */}
 
-            <TouchableOpacity style={styles.btnPress} onPress={goTo}>
-              <View>
-                <Text style={styles.colorFontBtn}>Connexion</Text>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.btnPress} onPress={goTo}>
+                <View>
+                  <Text style={styles.colorFontBtn}>Connexion</Text>
+                </View>
+              </TouchableOpacity>
 
-            {/* Fond vert avec bouton de connexion via Email et Google */}
+              {/* Fond vert avec bouton de connexion via Email et Google */}
 
+            </View>
             <View style={styles.greenBack}>
               <View style={styles.text}>
                 <Text style={{ color: '#FFFFFF' }}>On attendait que vous !</Text>
@@ -139,7 +140,7 @@ export default function LoginScreen(props) {
               </View>
             </View>
           </View>
-        </View>
+        </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingWrapper>
   );
