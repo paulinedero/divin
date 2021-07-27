@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableHighlight,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
@@ -19,6 +20,7 @@ import EyeOut from './EyeOut';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    backgroundColor: '#F5F5F5',
   },
 
   logo_divin: {
@@ -37,8 +39,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 25,
     marginTop: 35,
-    width: '100%',
-    height: 400,
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
     backgroundColor: '#448042',
   },
 
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    align: 'center',
+    alignItems: 'center',
     marginTop: 5,
     color: '#FE984E',
   },
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 15,
     color: '#FE984E',
-  }
+  },
 });
 
 const ValidationScreen = (props) => {
@@ -105,8 +107,7 @@ const ValidationScreen = (props) => {
   const invalideForm = () => email === '' || password === '';
 
   const goTo = () => {
-    // console.log('props', props);
-    props.navigation.push('FarmersList');
+    props.navigation.push('Main');
   };
 
   return (

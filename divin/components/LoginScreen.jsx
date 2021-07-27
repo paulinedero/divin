@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, StyleSheet, Image, SafeAreaView, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, Image, View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 
 export default function LoginScreen(props) {
@@ -12,6 +12,7 @@ export default function LoginScreen(props) {
     container: {
       marginTop: 20,
       alignItems: 'center',
+      backgroundColor: '#F5F5F5',
     },
     tinyLogo: {
       width: 270,
@@ -94,8 +95,8 @@ export default function LoginScreen(props) {
       borderTopLeftRadius: 50,
       borderTopRightRadius: 50,
       marginTop: 45,
-      minWidth: 400,
-      minHeight: 350,
+      height: Dimensions.get('window').height,
+      width: Dimensions.get('window').width,
       backgroundColor: '#448042',
     },
   });
@@ -103,7 +104,7 @@ export default function LoginScreen(props) {
   return (
     <KeyboardAvoidingWrapper>
       <ScrollView>
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
           <Image style={styles.tinyLogo} source={require('../assets/logo_divin.png')} />
           <View style={styles.btn}>
 
@@ -138,7 +139,7 @@ export default function LoginScreen(props) {
               </View>
             </View>
           </View>
-        </SafeAreaView>
+        </View>
       </ScrollView>
     </KeyboardAvoidingWrapper>
   );

@@ -1,12 +1,14 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
 import LoginScreen from './components/LoginScreen';
 import ValidationScreen from './components/ValidationScreen';
-import FarmersScreen from './components/FarmersScreen';
+import MainScreen from './components/MainScreen';
 
-const { Navigator, Screen } = createStackNavigator();
+const StackNavigator = createStackNavigator();
 
 const styles = StyleSheet.create({
   container: {
@@ -19,11 +21,11 @@ const styles = StyleSheet.create({
 export default function App() {
   return (
     <NavigationContainer style={styles.container}>
-      <Navigator>
-        <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
-        <Screen name="FarmersList" component={FarmersScreen} />
-      </Navigator>
+      <StackNavigator.Navigator>
+        <StackNavigator.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <StackNavigator.Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
+        <StackNavigator.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
+      </StackNavigator.Navigator>
     </NavigationContainer>
   );
 }

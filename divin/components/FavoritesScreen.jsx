@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
-import FarmersCard from './FarmersCard';
+import { Text, TouchableOpacity, StyleSheet, View, SafeAreaView } from 'react-native';
+
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: 50,
@@ -16,8 +15,25 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+// useEffect(() => {
+//   axios
+//     .get('http://192.168.0.15:3000/farmers/favorites')
+//     .then((res) => res.json())
+//     .then((data) => {
+//       this.setState({
+//         isLoading: false,
+//         dataSources: data,
+//       });
+//     });
+// }
 
-export default function FarmersListScreen(props) {
+// useEffect(() => {
+//   axios
+//     .put()
+//     });
+// }, []);
+
+export default function FavoritesScreen(props) {
   const goToMap = () => {
     // eslint-disable-next-line react/prop-types
     props.navigation.push('Map');
@@ -32,7 +48,7 @@ export default function FarmersListScreen(props) {
   };
 
   return (
-    <ScrollView>
+    <SafeAreaView>
       <View style={styles.container}>
         <TouchableOpacity
           onPress={goToMap}
@@ -50,9 +66,6 @@ export default function FarmersListScreen(props) {
           <Text style={styles.text}>Favori</Text>
         </TouchableOpacity>
       </View>
-      <View>
-        <FarmersCard />
-      </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
