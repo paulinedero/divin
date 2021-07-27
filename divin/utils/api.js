@@ -2,6 +2,8 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
+// URL need to be adapted to each environment
+// TODO : use .env url value in the future
 const apiUrl = 'http://192.168.1.63:3000';
 axios.interceptors.request.use(
   async (config) => {
