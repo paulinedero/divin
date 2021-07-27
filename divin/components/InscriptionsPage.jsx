@@ -36,11 +36,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footer: {
-    height: '100%',
     width: '100%',
-    borderRadius: 25,
-    backgroundColor: '#FFFFFF',
+    height: '7.5%',
+    alignItems: 'center',
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     marginTop: 35,
+    backgroundColor: '#448042',
   },
   title: {
     marginTop: 20,
@@ -134,10 +136,13 @@ const styles = StyleSheet.create({
   },
 });
 
+// This file allows to signIn in this application
 export default function InscriptionsPage(props) {
+  // to change into next page
   const goToValidationScreen = () => {
-    props.navigation.push('LoginScreen');
+    props.navigation.push('ValidationScreen');
   };
+
   // personnel info
   const [firstname, onChangeFirstname] = React.useState(''); // to guarantee the insertion of name}
   const [lastname, onChangeLastname] = React.useState(''); // to guarantee the insertion of last name}
@@ -163,9 +168,10 @@ export default function InscriptionsPage(props) {
   const [zipCode, onChangeZipCode] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
   const [city, onChangeCity] = React.useState(''); // to guarantee the insertion of an adress from the farmer}
 
-  // allows to specify a selection of available countries}
+  // allows to get a selection of availablea countries in database}
   const [countries, setCountries] = React.useState([]);
-  // allows to specify a selection of available countries}
+  // allows to specify from the selection of available countries witch country
+  // the farmer will choose
   const [selectCountry, setSelectCountry] = React.useState(null); // }
 
   // to guarantee the control of a picture from the farmer
@@ -173,8 +179,9 @@ export default function InscriptionsPage(props) {
 
   const valideFirstForm = () => firstname === '' || lastname === '' || birthday === '' || phoneNumber === '' || email === '' || password === '' || confirmPassword === '';
   // to make appear second fields
-  const valideSecondForm = () => tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || country === '';
+  const valideSecondForm = () => tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || countries === '';
   // to guarantee the control from all fields
+
   const invalideForm = () => firstname === '' || lastname === '' || birthday === '' || phoneNumber === '' || email === '' || password === '' || confirmPassword === '' || tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || selectCountry === '';
   // to guarantee the control from all fields
 
@@ -198,7 +205,7 @@ export default function InscriptionsPage(props) {
     // convert the variables names into their corresponding values in the server.
     try {
       const result = await api.axios.post(
-        `${api.apiUrl}/farmers/register`, // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+        `${api.apiUrl}/authentication/register`,
         {
           firstname,
           lastname,
@@ -217,7 +224,7 @@ export default function InscriptionsPage(props) {
           },
           company_name: companyName,
           description,
-          //selectedImage, //not use until this moment 
+          // selectedImage, // not use until this moment
         },
       );
     } catch (err) {
@@ -227,7 +234,7 @@ export default function InscriptionsPage(props) {
 
   useEffect(() => {
     axios
-      .get('http://192.168.:3000/countries/')
+      .get(`${api.apiUrl}/countries/`)
       .then((res) => res.data)
       .then((data) => {
         setCountries(data);
@@ -296,7 +303,7 @@ export default function InscriptionsPage(props) {
                 {((phoneNumber.length <= 6) && (phoneNumber.match(/^[0-9]+$/) !== null))
                   ? (
                     <Text style={styles.alertPass}>
-                      Le numero de GSM dois contennir l'indicatif du pays
+                      Le numero de GSM dois contenir l`indicatif du pays
                     </Text>
                   ) : null}
               </View>
@@ -414,7 +421,7 @@ export default function InscriptionsPage(props) {
             </SafeAreaView>
             {/* Information about financial and enterprise administration in france */}
             <Text style={styles.textConfig}>
-              Address d'exploitation
+              Adresse d`exploitation
             </Text>
             <SafeAreaView style={styles.adress}>
               <View style={styles.textOptimalSize}>
@@ -492,39 +499,52 @@ export default function InscriptionsPage(props) {
               <Text style={styles.textConfig}> Photo de profil </Text>
               <TouchableOpacity onPress={() => { openImagePickerAsync(); }}>
                 {(selectedImage !== null)
-                  ? <Image source={{ uri: selectedImage.localUri }} style={{ width: 50, height: 50 }} />
+                  ? (
+                    <Image
+                      source={{ uri: selectedImage.localUri }}
+                      style={{ width: 50, height: 50 }}
+                    />
+                  )
                   : <IconPhoto style={styles.button} />}
               </TouchableOpacity>
             </View>
-            {/* When this page are FULLY filled, the button s'inscrire' will appear in orange background color, and it will be
-            possible to progress into the following page */}
-            <View>
-              {console.log(
-                firstname,
-                lastname,
-                birthday,
-                email,
-                password,
-                phoneNumber,
-                description,
-                tvaNumber,
-                siretNumber,
-                street,
-                streetNumber,
-                city,
-                selectCountry,
-                companyName,
-              )}
-              <Button
-                onPress={() => (inscription(), goToValidationScreen())}
+            {/*
+            When this page are FULLY filled, the button s'inscrire' will appear in
+            orange background color, and it will be
+            possible to progress into the following page
+            */}
+            < View >
+              {
+                console.log(
+                  firstname,
+                  lastname,
+                  birthday,
+                  email,
+                  password,
+                  phoneNumber,
+                  description,
+                  tvaNumber,
+                  siretNumber,
+                  street,
+                  streetNumber,
+                  city,
+                  selectCountry,
+                  companyName,
+                )
+              }
+              < Button
+                onPress={() =>
+                  // eslint-disable-next-line no-undef
+                  (inscription() && goToValidationScreen())
+                } // ADD FUNCTION "MAIL SEND" HERE
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}
               />
-            </View>
-          </View>
-        </View>
-      </View>
-    </KeyboardAvoidingWrapper>
+            </View >
+          </View >
+        </View >
+      </View >
+    </KeyboardAvoidingWrapper >
   );
 }

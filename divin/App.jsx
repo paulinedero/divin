@@ -3,7 +3,7 @@ import 'react-native-gesture-handler';
 /* eslint-disable no-nested-ternary */
 /* eslint-disable default-case */
 import React from 'react';
-import { StyleSheet, ActivityIndicator } from 'react-native';
+import { Dimensions, StyleSheet, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store';
@@ -12,6 +12,11 @@ import { decode as atob } from 'base-64';
 // components
 import LoginScreen from './components/LoginScreen';
 import ValidationScreen from './components/ValidationScreen';
+import InscriptionsPage from './components/InscriptionsPage';
+import ProductsNew from './components/ProductsNew';
+import ProductsList from './components/ProductsList';
+import ProductsDetails from './components/ProductsDetails';
+import StocksList from './components/StocksList';
 import Dashboard from './components/Dashboard/Dashboard';
 import InscriptionsPage from './components/InscriptionsPage';
 
@@ -25,10 +30,12 @@ const { Navigator, Screen } = createStackNavigator();
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#F5F5F5',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
   },
 });
 
@@ -91,10 +98,10 @@ export default function App() {
       signIn: async (data) => {
         try {
           const result = await
-          api.axios.post(`${api.apiUrl}/authentication/login`, {
-            email: data.email,
-            password: data.password,
-          });
+            api.axios.post(`${api.apiUrl}/authentication/login`, {
+              email: data.email,
+              password: data.password,
+            });
           await SecureStore.setItemAsync('token', result.data.token);
           const base64Url = result.data.token.split('.')[1];
           const base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -130,6 +137,11 @@ export default function App() {
               ? (
                 <>
                   <Screen name="Dashboard" component={Dashboard} />
+                  <Screen name="ProductsDetails" component={ProductsDetails} options={{ headerShown: false }} />
+                  <Screen name="ProductsList" component={ProductsList} options={{ headerShown: false }} />
+                  <Screen name="StocksList" component={StocksList} options={{ headerShown: false }} />
+                  <Screen name="ProductsNew" component={ProductsNew} options={{ headerShown: false }} />
+                  <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
                 </>
               )
               : (
