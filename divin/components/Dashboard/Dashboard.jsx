@@ -9,6 +9,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 // import DateTimePicker from '@react-native-community/datetimepicker';
@@ -18,6 +19,9 @@ import moment from 'moment';
 import TopProductCard from './TopProductCard';
 import FlopProductCard from './FlopProductCard';
 import OrderCard from './OrderCard';
+
+// use of authcontext for farmer info
+import AuthContext from '../../context/AuthContext';
 
 const styles = StyleSheet.create({
   body: {
@@ -110,11 +114,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Dashboard() {
-  const sessionUser = {
-    name: 'Pauline',
-    id: 5,
-  };
-
+  const { currentUser, signOut } = React.useContext(AuthContext);
   const [topProduct, setTopProduct] = useState([]);
   const [flopProduct, setFlopProduct] = useState([]);
   const [order, setOrder] = useState([]);
@@ -124,7 +124,7 @@ export default function Dashboard() {
   // Fetch top products from API
   useEffect(() => {
     axios
-      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/most-ordered-items`)
+      .get(`http://192.168.1.63:3000/farmers/${currentUser.id}/most-ordered-items`)
       .then((res) => res.data)
       .then((data) => setTopProduct(data));
   }, []);
@@ -132,7 +132,7 @@ export default function Dashboard() {
   // Fetch flop products from API
   useEffect(() => {
     axios
-      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/less-ordered-items`)
+      .get(`http://192.168.1.63:3000/farmers/${currentUser.id}/less-ordered-items`)
       .then((res) => res.data)
       .then((data) => setFlopProduct(data));
   }, []);
@@ -199,7 +199,7 @@ export default function Dashboard() {
   // Fetch orders from selected period
   const getOrdersFromPeriod = () => {
     axios
-      .get(`http://192.168.50.195:3000/farmers/${sessionUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
+      .get(`http://192.168.1.63:3000/farmers/${currentUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
       .then((res) => res.data)
       .then((data) => {
         setOrder(data);
@@ -208,12 +208,18 @@ export default function Dashboard() {
 
   return (
     <ScrollView>
+      <View>
+        <Button
+          onPress={signOut}
+          title="Déconnexion"
+        />
+      </View>
       <View style={styles.body}>
         <Image style={styles.logo} source={require('../../assets/dashboard_logo_divin.png')} />
         <Text style={styles.mainTitle}>
           Bonjour
           {' '}
-          {sessionUser.name}
+          {currentUser.firstname}
           {' '}
           !
         </Text>

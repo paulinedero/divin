@@ -20,6 +20,7 @@ import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import IconPhoto from './IconPhoto';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   container: {
@@ -133,9 +134,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function InscriptionsPage() {
+export default function InscriptionsPage(props) {
   const goToValidationScreen = () => {
-    props.navigation.push('ValidationScreen');
+    props.navigation.push('LoginScreen');
   };
   // personnel info
   const [firstname, onChangeFirstname] = React.useState(''); // to guarantee the insertion of name}
@@ -196,8 +197,8 @@ export default function InscriptionsPage() {
     // exemple: {first_name: firstName}  or {firstName: first_name} helps to 
     // convert the variables names into their corresponding values in the server.
     try {
-      const result = await axios.post(
-        'http://https://localhost:3000/farmers/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+      const result = await api.axios.post(
+        `${api.apiUrl}/farmers/register`, // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
         {
           firstname,
           lastname,
@@ -226,7 +227,7 @@ export default function InscriptionsPage() {
 
   useEffect(() => {
     axios
-      .get('http://192.168.1.54:3000/countries/')
+      .get('http://192.168.:3000/countries/')
       .then((res) => res.data)
       .then((data) => {
         setCountries(data);
