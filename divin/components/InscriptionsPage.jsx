@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
   },
 });
 
+// This file allows to signIn in this application
 export default function InscriptionsPage(props) {
   // to change into next page
   const goToValidationScreen = () => {
@@ -177,7 +178,7 @@ export default function InscriptionsPage(props) {
 
   const valideFirstForm = () => firstname === '' || lastname === '' || birthday === '' || phoneNumber === '' || email === '' || password === '' || confirmPassword === '';
   // to make appear second fields
-  const valideSecondForm = () => tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || country === '';
+  const valideSecondForm = () => tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || countries === '';
   // to guarantee the control from all fields
 
   const invalideForm = () => firstname === '' || lastname === '' || birthday === '' || phoneNumber === '' || email === '' || password === '' || confirmPassword === '' || tvaNumber === '' || siretNumber === '' || companyName === '' || street === '' || streetNumber === '' || zipCode === '' || city === '' || selectCountry === '';

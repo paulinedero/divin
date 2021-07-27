@@ -27,14 +27,15 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Navigator>
-        {/*<Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-         <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} /> 
-        <Screen name="InscriptionsPage" component={InscriptionsPage} options={{ headerShown: false }} />
+        {/*
+         <Screen name="Validation" component={ValidationScreen} options={{ headerShown: false }} />
+         <Screen name="ProductsDetails" component={ProductsDetails} options={{ headerShown: false }} />
+         <Screen name="InscriptionsPage" component={InscriptionsPage} options={{ headerShown: false }} />
+         <Screen name="ProductsList" component={ProductsList} options={{ headerShown: false }} />
+         <Screen name="StocksList" component={StocksList} options={{ headerShown: false }} />
+         <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        */}
         <Screen name="ProductsNew" component={ProductsNew} options={{ headerShown: false }} />
-        <Screen name="ProductsDetails" component={ProductsDetails} options={{ headerShown: false }} />
-      */}
-        <Screen name="ProductsList" component={ProductsList} options={{ headerShown: false }} />
-        <Screen name="StocksList" component={StocksList} options={{ headerShown: false }} />
       </Navigator>
     </NavigationContainer>
   );

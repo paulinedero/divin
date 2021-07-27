@@ -274,6 +274,7 @@ const formReducer = (state, action) => {
   }
 };
 
+// This file allows to add products into my list
 export default function ProductsNew(props) {
   // TO NAVIGATE INTO OTHERS PAGES
   // to change into Dasboard page

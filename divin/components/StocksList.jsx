@@ -64,7 +64,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ProductsStock(props) {
+// This file allows to see the Real Stock, and once inside, navigate to :
+// products. Into Stock menu can be found:
+// all list of available products to "validate into available stock", and see "the last ones"
+export default function StocksList(props) {
   // TO NAVIGATE INTO OTHERS PAGES
   // to change into ProductsList page
   const goToProductsList = () => {

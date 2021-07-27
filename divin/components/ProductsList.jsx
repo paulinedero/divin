@@ -96,6 +96,8 @@ const styles = StyleSheet.create({
   },
 });
 
+// This file allows to see the products, and once inside, navigate to :
+// add a new product, into each product and all list of products
 export default function ProductList(props) {
   // to get all info related to existing items in Stock table
   const [products, setProducts] = useState([]);

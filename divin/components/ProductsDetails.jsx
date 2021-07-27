@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
   },
 });
 
+// This file allows to see each product details from all list of products
 export default function ProductsDetails(props) {
   // const product.id = props.match.params.id; // ?? LINK?!
 
