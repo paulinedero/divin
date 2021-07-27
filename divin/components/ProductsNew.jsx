@@ -163,18 +163,22 @@ const styles = StyleSheet.create({
   titleButton: {
     fontSize: 15,
     color: 'white',
+    marginLeft: 40,
+  },
+  spaceBetweenBtn: {
+    display: 'flex',
+    flexDirection: 'row',
   },
   btnPress: {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 40,
-    width: '30%',
+    width: '90%',
     height: 50,
     opacity: 0.9,
-    borderRadius: 50,
+    borderRadius: 30,
     backgroundColor: '#FE984E',
-    fontFamily: 'Arial',
-    shadowColor: '#000',
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -270,8 +274,12 @@ const formReducer = (state, action) => {
   }
 };
 
-export default function ProductsNew() {
+export default function ProductsNew(props) {
   // TO NAVIGATE INTO OTHERS PAGES
+  // to change into Dasboard page
+  const goToProduitsNew = () => {
+    props.navigation.push('ProduitsNew');
+  };
   // to change into Dasboard page
   const goToDashboard = () => {
     props.navigation.push('Dashboard');
@@ -352,15 +360,10 @@ export default function ProductsNew() {
 
   return (
     <KeyboardAvoidingWrapper>
-      <ScrollView>
-        <SafeAreaView>
-          <View style={styles.container}>
+      <View style={styles.container}>
+        <ScrollView>
+          <SafeAreaView>
             <StatusBar />
-            <View style={styles.header}>
-              <Text style={styles.title}>
-                Ajouter Nouveux:
-              </Text>
-            </View>
             <View style={styles.header2}>
               <View style={styles.tab1}>
                 <TouchableOpacity
@@ -381,6 +384,30 @@ export default function ProductsNew() {
             </View>
             <View style={styles.body}>
               {/* principal information about the product */}
+              <View style={styles.spaceBetweenBtn}>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => (goToProduitsNew())}
+                    title="ProduitsNew"
+                    style={styles.btnPress}
+                  >
+                    <Text style={styles.titleButton}>
+                      Nouveau Produit
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => (goToProductsList())}
+                    title="ProduitList"
+                    style={styles.btnPress}
+                  >
+                    <Text style={styles.titleButton}>
+                      Ma liste des produits
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
               <View style={styles.inputHalf}>
                 <View>
                   <Text style={styles.text}> Descrire le produit  </Text>
@@ -408,6 +435,7 @@ export default function ProductsNew() {
                   </TouchableOpacity>
                 </View>
               </View>
+
               <View style={styles.inputHalf}>
                 <TextInput
                   mode="outlined"
@@ -428,6 +456,8 @@ export default function ProductsNew() {
                   minLength={2}
                 />
               </View>
+              {/*
+              styles
               <View style={styles.inputHalf}>
                 <TextInput
                   mode="outlined"
@@ -448,6 +478,7 @@ export default function ProductsNew() {
                   minLength={1}
                 />
               </View>
+              */}
               <View style={styles.inputHalf}>
                 <Text style={styles.titleDoc}> Unites:  </Text>
                 <View style={styles.allPickers}>
@@ -576,7 +607,8 @@ export default function ProductsNew() {
                   minLength={2}
                 />
               </View>
-              {/*MAYDAY, WE HAVE A PROBLEM!!!! ALLERGEN N'Existe pas sur BDD!!*/}
+              {/*
+              MAYDAY, WE HAVE A PROBLEM!!!! ALLERGEN N'Existe pas sur BDD!!
               <TextInput
                 mode="outlined"
                 label="Allergène"
@@ -585,6 +617,7 @@ export default function ProductsNew() {
                 onChange={(e) => formDispatch({ type: 'UPDATE_ALLERGEN', payload: e.target.value })}
                 placeholder="Détailléz le maximum"
               />
+              */}
               <TextInput
                 mode="outlined"
                 label="Description"
@@ -605,7 +638,7 @@ export default function ProductsNew() {
             </View>
 
             <View>
-              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+              <View style={styles.spaceBetweenBtn}>
                 <TouchableOpacity
                   onPress={() => (goToDashboard)}
                   title="DashBoard"
@@ -620,7 +653,9 @@ export default function ProductsNew() {
                 >
                   <Text style={styles.titleButton}> Mes Produits  </Text>
                 </TouchableOpacity>
-                {/*POURQUOI CECI N A APPARAIT PAS?!?!*/}
+                {/*
+                POURQUOI CECI N A APPARAIT PAS?!?!
+                */}
 
                 <TouchableOpacity
                   onPress={() => (registerProduct() && goToProductsList())}
@@ -629,7 +664,9 @@ export default function ProductsNew() {
                   style={styles.btnPress}
                   color={invalideForm() ? '#FFBD59' : '#616161'}
                 >
-                  {/*POURQUOI CECI N A APPARAIT PAS?!?!*/}
+                  {/*
+                  POURQUOI CECI N A APPARAIT PAS?!?!
+                  */}
                   {invalideForm()
                     ? <Text style={styles.alertPass}> </Text>
                     : (
@@ -642,9 +679,9 @@ export default function ProductsNew() {
               </View>
               <View style={styles.footer} />
             </View>
-          </View>
-        </SafeAreaView>
-      </ScrollView>
+          </SafeAreaView>
+        </ScrollView>
+      </View>
     </KeyboardAvoidingWrapper>
   );
 }

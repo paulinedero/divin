@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ProductList() {
+export default function ProductList(props) {
   // to get all info related to existing items in Stock table
   const [products, setProducts] = useState([]);
 
@@ -129,7 +129,7 @@ export default function ProductList() {
           <View style={styles.header2}>
             <View style={styles.tab1}>
               <TouchableOpacity
-                onPress={() => (goToProductsList)}
+                onPress={() => (goToProductsList())}
                 title="ProductsNew"
               >
                 <Text style={styles.titleTabSelect}>Mes Produits</Text>
@@ -137,7 +137,7 @@ export default function ProductList() {
             </View>
             <View style={styles.tab2}>
               <TouchableOpacity
-                onPress={() => (goToStocksList)}
+                onPress={() => (goToStocksList())}
                 title="StockList"
               >
                 <Text style={styles.titleTabNoSelect}>Mon Stock</Text>
@@ -150,7 +150,7 @@ export default function ProductList() {
               {
                 products.map((item, index) => (
                   <Products
-                    key={{ index }}
+                    key="{item.index}" // correction Parent-Child
                     id={item.id}
                     name={item.name.toUpperCase()}
                     price={item.production_price}

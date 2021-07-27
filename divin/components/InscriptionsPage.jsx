@@ -23,7 +23,7 @@ import EyeOut from './EyeOut';
 
 const styles = StyleSheet.create({
   container: {
-    //   flex: 1 //give errors on others devices but no errors on browser
+    // flex: 1, //give errors on others devices but no errors on browser
     alignItems: 'center',
     marginBottom: 100,
     backgroundColor: '#FFBD59',
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function InscriptionsPage() {
+export default function InscriptionsPage(props) {
   // to change into next page
   const goToValidationScreen = () => {
     props.navigation.push('ValidationScreen');
@@ -197,7 +197,7 @@ export default function InscriptionsPage() {
   };
 
   // the next step is to insert data from farmer form into DataBase
-  const newProduct = async () => {
+  const inscription = async () => {
     // to adapte all variables between front-end and server
     // exemple: {first_name: firstName}  or {firstName: first_name} helps to 
     // convert the variables names into their corresponding values in the server.
@@ -222,7 +222,7 @@ export default function InscriptionsPage() {
           },
           company_name: companyName,
           description,
-          //selectedImage, //not use until this moment 
+          // selectedImage, // not use until this moment
         },
       );
     } catch (err) {
@@ -301,7 +301,7 @@ export default function InscriptionsPage() {
                 {((phoneNumber.length <= 6) && (phoneNumber.match(/^[0-9]+$/) !== null))
                   ? (
                     <Text style={styles.alertPass}>
-                      Le numero de GSM dois contennir l'indicatif du pays
+                      Le numero de GSM dois contennir l`indicatif du pays
                     </Text>
                   ) : null}
               </View>
@@ -419,7 +419,7 @@ export default function InscriptionsPage() {
             </SafeAreaView>
             {/* Information about financial and enterprise administration in france */}
             <Text style={styles.textConfig}>
-              Address d'exploitation
+              Address d`exploitation
             </Text>
             <SafeAreaView style={styles.adress}>
               <View style={styles.textOptimalSize}>
@@ -506,8 +506,11 @@ export default function InscriptionsPage() {
                   : <IconPhoto style={styles.button} />}
               </TouchableOpacity>
             </View>
-            {/* When this page are FULLY filled, the button s'inscrire' will appear in orange background color, and it will be
-            possible to progress into the following page */}
+            {/*
+            When this page are FULLY filled, the button s'inscrire' will appear in
+            orange background color, and it will be
+            possible to progress into the following page
+            */}
             <View>
               {console.log(
                 firstname,
@@ -527,8 +530,8 @@ export default function InscriptionsPage() {
               )}
               <Button
                 onPress={() =>
-                (inscription(),
-                  goToValidationScreen())} // ADD FUNCTION "MAIL SEND" HERE
+                  // eslint-disable-next-line no-undef
+                  (inscription() && goToValidationScreen())} // ADD FUNCTION "MAIL SEND" HERE
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}
@@ -537,6 +540,6 @@ export default function InscriptionsPage() {
           </View>
         </View>
       </View>
-    </KeyboardAvoidingWrapper >
+    </KeyboardAvoidingWrapper>
   );
 }

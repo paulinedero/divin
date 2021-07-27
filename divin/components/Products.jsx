@@ -79,8 +79,14 @@ const styles = StyleSheet.create({
 
 // <Link to={`/articles/${id}`}> News in Details</Link>
 
-export default function Products({ id, name, price, stock, date }) {
-  const goToProductsDetails = (id) => {
+export default function Products(props, {
+  id,
+  name,
+  price,
+  stock,
+  date,
+}) {
+  const goToProductsDetails = () => {
     props.navigation.push('ProductsDetails');
   };
 

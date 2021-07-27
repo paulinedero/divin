@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ProductsStock() {
+export default function ProductsStock(props) {
   const [quantity, onChangeQuantity] = React.useState(''); // to guarantee the of insert phone number
   const [availableDate, onChangeAvailableDate] = React.useState(''); // to guarantee the insertion of a correct peremption date
 
@@ -147,7 +147,7 @@ export default function ProductsStock() {
   // to guarantee the control from all fields
 
   const goToStocksList = () => {
-    // props.navigation.push('StocksList');
+    props.navigation.push('StocksList');
   };
 
   useEffect(() => {

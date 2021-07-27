@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import {
   StatusBar,
@@ -64,10 +64,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ProductsStock() {
-  // to get all info related to existing items in Stock table
-  const [getStocks, setGetStocks] = React.useState([]); // to get all available information in stock
-
+export default function ProductsStock(props) {
   // TO NAVIGATE INTO OTHERS PAGES
   // to change into ProductsList page
   const goToProductsList = () => {
@@ -77,6 +74,9 @@ export default function ProductsStock() {
   const goToStocksList = () => {
     props.navigation.push('StocksList');
   };
+
+  // to get all info related to existing items in Stock table
+  const [getStocks, setGetStocks] = React.useState([]); // to get all available information in stock
 
   useEffect(() => {
     axios

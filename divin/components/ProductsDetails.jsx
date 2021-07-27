@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   footer: {
     display: 'flex',
     width: '100%',
-    height: '7.5%',
+    height: 30,
     alignItems: 'center',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -151,10 +151,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ProductsDetails() { // props
+export default function ProductsDetails(props) {
   // const product.id = props.match.params.id; // ?? LINK?!
-
-  const [productDetail, setProductDetail] = React.useState('');
 
   // TO NAVIGATE INTO OTHERS PAGES
   // to change into ProductsList page
@@ -166,25 +164,17 @@ export default function ProductsDetails() { // props
     props.navigation.push('StocksList');
   };
 
+  const [productDetail, setProductDetail] = React.useState('');
+
   React.useEffect(() => {
     axios
-      .get('http://192.168.1.54:3000/farmers/12/products/9') /// ?!?!?!!??!
+      .get('http://192.168.1.54:3000/farmers/12/products/9')
       // .get(`https://localhost:3000/farmer/${farmer.id}/products/${product.id}`) // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
       .then((response) => response.data)
       .then((data) => {
         setProductDetail(data.[0]);
       });
   }, []);
-
-  /*
-    Allergène
-      "season_id
-        < Picker.Item label = "Printemps" value = "1" Key = { 1} />
-          <Picker.Item label="Été" value="2" Key={2} />
-          <Picker.Item label="Autome" value="3" Key={3} />
-          <Picker.Item label="Hiver" value="4" Key={4} 
-  "under_category": 1,
-  */
 
   return (
     <SafeAreaView>
@@ -361,8 +351,8 @@ export default function ProductsDetails() { // props
               </View>
             </View>
           </View>
-          <View style={styles.footer} />
         </View>
+        <View style={styles.footer} />
       </ScrollView>
     </SafeAreaView>
   );
