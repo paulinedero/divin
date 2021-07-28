@@ -16,7 +16,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import config from '../config';
+import AuthContext from '../context/AuthContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -80,7 +80,7 @@ export default class FarmersCard extends Component {
 
   componentDidMount() {
     axios
-      .get(`${config.API_URL}/farmers`)
+      .get(`${api.apiUrl}/farmers`)
       .then((res) => res.data)
       // eslint-disable-next-line no-unused-vars
       .then((data) => {

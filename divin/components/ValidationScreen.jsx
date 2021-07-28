@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import * as React from 'react';
 import {
   StyleSheet,
@@ -16,6 +17,9 @@ import { TextInput } from 'react-native-paper';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
+
+// Authentication context
+import AuthContext from '../context/AuthContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -97,18 +101,36 @@ const styles = StyleSheet.create({
     marginTop: 15,
     color: '#FE984E',
   },
+
+  errorMessage: {
+    height: 'auto',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#FE984E',
+    shadowRadius: 10,
+    marginLeft: 5,
+    marginRight: 5,
+    marginBottom: 10,
+    padding: 5,
+    fontSize: 18,
+    color: '#696969',
+    textAlign: 'center',
+  },
+
+  displayErrorMessage: {
+    display: 'none',
+  },
 });
 
-const ValidationScreen = (props) => {
+const ValidationScreen = () => {
+  const { signIn } = React.useContext(AuthContext);
+
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [seePassword, setSeePassword] = React.useState(true);
 
   const invalideForm = () => email === '' || password === '';
-
-  const goTo = () => {
-    props.navigation.push('Main');
-  };
 
   return (
     <KeyboardAvoidingWrapper>
@@ -123,17 +145,17 @@ const ValidationScreen = (props) => {
               <TextInput
                 mode="outlined"
                 style={styles.passInputHalf}
-                label="Email"
+                label="EMAIL"
                 placeholder="Entrez votre email"
                 value={email}
-                onChangeText={text => setEmail(text)}
+                onChangeText={(element) => { setEmail(element); }}
               />
               <TextInput
                 mode="outlined"
                 label="MOT DE PASSE"
                 value={password}
                 style={styles.passInputHalf}
-                onChangeText={setPassword}
+                onChangeText={(element) => { setPassword(element); }}
                 secureTextEntry={seePassword}
                 placeholder="Entrez votre mot de passe"
               />
@@ -151,17 +173,19 @@ const ValidationScreen = (props) => {
             <Pressable style={styles.text} onPress={() => { }}>
               <Text style={styles.text}>Email ou mot de passe oublié ?</Text>
             </Pressable>
-
           </View>
           <View style={styles.greenBack}>
             <TouchableOpacity
-              onPress={goTo}
-              title="S'inscrire"
+              onPress={() => {
+                signIn({ email, password });
+              }}
+              title="Se connecter"
               disabled={invalideForm()}
               style={styles.btnPress}
             >
               <Text
-                style={styles.colorFontBtn}>
+                style={styles.colorFontBtn}
+              >
                 Suivant
               </Text>
             </TouchableOpacity>

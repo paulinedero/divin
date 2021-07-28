@@ -19,7 +19,7 @@ const validate = (data) =>
     company_name: Joi.string(),
     lastname: Joi.string().alphanum(),
     firstname: Joi.string().alphanum(),
-    birthdate: Joi.date(),
+    birthday: Joi.date().raw().required(),
     address: {
       street: Joi.string().max(350),
       street_number: Joi.number(),
@@ -29,6 +29,7 @@ const validate = (data) =>
     },
     phone_number: Joi.string().alphanum(),
     siret_number: Joi.number(),
+    VAT_number: Joi.number(),
     description: Joi.string(),
   }).validate(data, { abortEarly: false }).error;
 
@@ -146,7 +147,7 @@ const deleteFarmer = async (req, res) => {
         .status(404)
         .send(`Il n'existe pas de producteur lié à cet identifiant.`);
     } else {
-      const rawData = await remove(req.params.farmerId);
+      await remove(req.params.farmerId);
       res
         .status(200)
         .send('Vos données ont été supprimées de notre base de données.');
