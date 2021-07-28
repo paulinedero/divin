@@ -11,6 +11,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 
 import { TextInput } from 'react-native-paper';
@@ -46,6 +47,11 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
     backgroundColor: '#448042',
+  },
+
+  btn: {
+    alignItems: 'center',
+    width: '100%',
   },
 
   btnPress: {
@@ -135,63 +141,65 @@ const ValidationScreen = () => {
   return (
     <KeyboardAvoidingWrapper>
       <ScrollView>
-        <StatusBar />
-        <View style={styles.container}>
-          <Image style={styles.logo_divin} source={require('../assets/logo_divin.png')} />
+        <SafeAreaView>
+          <StatusBar />
+          <View style={styles.container}>
+            <Image style={styles.logo_divin} source={require('../assets/logo_divin.png')} />
 
-          <View style={styles.strutureGeneral}>
+            <View style={styles.strutureGeneral}>
 
-            <View style={styles.passInput}>
-              <TextInput
-                mode="outlined"
-                style={styles.passInputHalf}
-                label="EMAIL"
-                placeholder="Entrez votre email"
-                value={email}
-                onChangeText={(element) => { setEmail(element); }}
-              />
-              <TextInput
-                mode="outlined"
-                label="MOT DE PASSE"
-                value={password}
-                style={styles.passInputHalf}
-                onChangeText={(element) => { setPassword(element); }}
-                secureTextEntry={seePassword}
-                placeholder="Entrez votre mot de passe"
-              />
-              <TouchableHighlight
-                activeOpacity={0.6}
-                underlayColor="white"
-                style={styles.passInputHalf2}
-                onPress={() => setSeePassword(!seePassword)}
-              >
-                {/* hiding pass or showing pass  */}
-                {seePassword ? <EyeOut /> : <EyeIn />}
-              </TouchableHighlight>
+              <View style={styles.passInput}>
+                <TextInput
+                  mode="outlined"
+                  style={styles.passInputHalf}
+                  label="EMAIL"
+                  placeholder="Entrez votre email"
+                  value={email}
+                  onChangeText={(element) => { setEmail(element); }}
+                />
+                <TextInput
+                  mode="outlined"
+                  label="MOT DE PASSE"
+                  value={password}
+                  style={styles.passInputHalf}
+                  onChangeText={(element) => { setPassword(element); }}
+                  secureTextEntry={seePassword}
+                  placeholder="Entrez votre mot de passe"
+                />
+                <TouchableHighlight
+                  activeOpacity={0.6}
+                  underlayColor="white"
+                  style={styles.passInputHalf2}
+                  onPress={() => setSeePassword(!seePassword)}
+                >
+                  {/* hiding pass or showing pass  */}
+                  {seePassword ? <EyeOut /> : <EyeIn />}
+                </TouchableHighlight>
+              </View>
+
+              <Pressable style={styles.text} onPress={() => { }}>
+                <Text style={styles.text}>Email ou mot de passe oublié ?</Text>
+              </Pressable>
             </View>
-
-            <Pressable style={styles.text} onPress={() => { }}>
-              <Text style={styles.text}>Email ou mot de passe oublié ?</Text>
-            </Pressable>
-          </View>
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                signIn({ email, password });
-              }}
-              title="Se connecter"
-              disabled={invalideForm()}
-              style={styles.btnPress}
-            >
-              <Text
-                style={styles.colorFontBtn}
+            <View style={styles.btn}>
+              <TouchableOpacity
+                onPress={() => {
+                  signIn({ email, password });
+                }}
+                title="Se connecter"
+                disabled={invalideForm()}
+                style={styles.btnPress}
               >
-                Suivant
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={styles.colorFontBtn}
+                >
+                  Suivant
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.greenBack} />
           </View>
-          <View style={styles.greenBack} />
-        </View>
+        </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingWrapper>
   );
