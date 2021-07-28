@@ -9,17 +9,14 @@ import {
   Platform,
 } from 'react-native';
 
-const KeyboardAvoidingWrapper = ({ children }) => {
-  console.log('keyboard Actived');
-  return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <ScrollView>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          {children}
-        </TouchableWithoutFeedback>
-      </ScrollView>
-    </KeyboardAvoidingView>
-  );
-};
+const KeyboardAvoidingWrapper = ({ children }) => (
+  <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <ScrollView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        {children}
+      </TouchableWithoutFeedback>
+    </ScrollView>
+  </KeyboardAvoidingView>
+);
 
 export default KeyboardAvoidingWrapper;

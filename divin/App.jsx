@@ -19,6 +19,7 @@ import ProductsDetails from './components/ProductsDetails';
 import StocksList from './components/StocksList';
 import Dashboard from './components/Dashboard/Dashboard';
 import InscriptionsPage from './components/InscriptionsPage';
+import MainScreen from './components/MainScreen';
 
 // Authentication context
 import AuthContext from './context/AuthContext';
@@ -26,7 +27,7 @@ import AuthContext from './context/AuthContext';
 // API
 import api from './utils/api';
 
-const { Navigator, Screen } = createStackNavigator();
+const StackNavigator = createStackNavigator();
 
 const styles = StyleSheet.create({
   container: {
@@ -137,11 +138,12 @@ export default function App() {
               ? (
                 <>
                   <Screen name="Dashboard" component={Dashboard} />
-                  <Screen name="ProductsDetails" component={ProductsDetails} options={{ headerShown: false }} />
-                  <Screen name="ProductsList" component={ProductsList} options={{ headerShown: false }} />
-                  <Screen name="StocksList" component={StocksList} options={{ headerShown: false }} />
-                  <Screen name="ProductsNew" component={ProductsNew} options={{ headerShown: false }} />
-                  <Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+                  <Screen name="ProductsDetails" component={ProductsDetails} />
+                  <Screen name="ProductsList" component={ProductsList} />
+                  <Screen name="StocksList" component={StocksList} />
+                  <Screen name="ProductsNew" component={ProductsNew} />
+                  <Screen name="Login" component={LoginScreen} />
+                  <Screen name="Main" component={MainScreen} />
                 </>
               )
               : (
