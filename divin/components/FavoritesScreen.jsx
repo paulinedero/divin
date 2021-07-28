@@ -15,23 +15,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
-// useEffect(() => {
-//   axios
-//     .get('http://192.168.0.15:3000/farmers/favorites')
-//     .then((res) => res.json())
-//     .then((data) => {
-//       this.setState({
-//         isLoading: false,
-//         dataSources: data,
-//       });
-//     });
-// }
-
-// useEffect(() => {
-//   axios
-//     .put()
-//     });
-// }, []);
 
 export default function FavoritesScreen(props) {
   const goToMap = () => {

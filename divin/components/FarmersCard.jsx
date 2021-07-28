@@ -10,7 +10,6 @@ import {
   Image,
 } from 'react-native';
 import axios from 'axios';
-// import { MaterialIcons } from '@expo/vector-icons';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -91,6 +90,8 @@ export default class FarmersCard extends Component {
       });
   }
 
+  // ligne séparatrice dans la liste producteur
+
   renderSeparator = () => (
     <View
       style={{
@@ -99,6 +100,8 @@ export default class FarmersCard extends Component {
       }}
     />
   );
+
+  // Rendu de carte template de producteur
 
   renderItem = ({ item }) => (
     <ScrollView>
@@ -132,6 +135,7 @@ export default class FarmersCard extends Component {
   render() {
     const { dataSources, isLoading } = this.state;
     if (isLoading) {
+      // animation au chargement
       return (
         <View style={styles.container}>
           <ActivityIndicator size="large" animating />

@@ -1,5 +1,4 @@
 import React from 'react';
-import { } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // eslint-disable-next-line import/no-duplicates
@@ -15,19 +14,6 @@ const Tab = createBottomTabNavigator();
 function MainScreen(props) {
   return (
     <Tab.Navigator
-      // tabBarOptions={{
-      //   showLabel: false,
-      //   style: {
-      //     position: 'absolute',
-      //     bottom: 25,
-      //     left: 20,
-      //     right: 20,
-      //     elevation: 0,
-      //     backgroundColor: '#FFFFFF',
-      //     borderRadius: 15,
-      //     height: 70,
-      //   },
-      // }}
       screenOptions={{ headerShown: false }}>
       <Tab.Screen
         name="List"
