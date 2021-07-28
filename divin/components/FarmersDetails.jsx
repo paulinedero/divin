@@ -1,5 +1,3 @@
-// Fiche explicative d'un producteur
-
 import React from 'react';
 import { StyleSheet, View, ScrollView, Image, Text } from 'react-native';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -44,6 +42,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
 });
+
+// Fiche explicative d'un producteur
 
 export default function FarmersDetails() {
   return (
