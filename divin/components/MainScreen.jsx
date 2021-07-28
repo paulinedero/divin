@@ -11,10 +11,11 @@ import TestNavigation from './TestNavigation';
 
 const Tab = createBottomTabNavigator();
 
-function MainScreen(props) {
+function MainScreen() {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false }}>
+      screenOptions={{ headerShown: false }}
+    >
       <Tab.Screen
         name="List"
         component={FarmersNav}

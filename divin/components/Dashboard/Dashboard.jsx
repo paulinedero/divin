@@ -12,16 +12,20 @@ import {
   Button,
 } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
-// import DateTimePicker from '@react-native-community/datetimepicker';
 import DatePicker from 'react-native-datepicker';
 import axios from 'axios';
 import moment from 'moment';
+
+// components
 import TopProductCard from './TopProductCard';
 import FlopProductCard from './FlopProductCard';
 import OrderCard from './OrderCard';
 
-// use of authcontext for farmer info
+// Authentication context
 import AuthContext from '../../context/AuthContext';
+
+// API
+import api from '../../utils/api';
 
 const styles = StyleSheet.create({
   body: {
@@ -121,22 +125,6 @@ export default function Dashboard() {
   const [startdate, setStartdate] = useState('');
   const [enddate, setEnddate] = useState('');
 
-  // Fetch top products from API
-  useEffect(() => {
-    axios
-      .get(`http://192.168.1.63:3000/farmers/${currentUser.id}/most-ordered-items`)
-      .then((res) => res.data)
-      .then((data) => setTopProduct(data));
-  }, []);
-
-  // Fetch flop products from API
-  useEffect(() => {
-    axios
-      .get(`http://192.168.1.63:3000/farmers/${currentUser.id}/less-ordered-items`)
-      .then((res) => res.data)
-      .then((data) => setFlopProduct(data));
-  }, []);
-
   // Chart's data's
   const pieData = [
     {
@@ -196,10 +184,26 @@ export default function Dashboard() {
     useShadowColorFromDataset: false, // optional
   };
 
+  // Fetch top products from API
+  useEffect(() => {
+    api.axios
+      .get(`${api.apiUrl}/farmers/${currentUser.id}/most-ordered-items`)
+      .then((res) => res.data)
+      .then((data) => setTopProduct(data));
+  }, []);
+
+  // Fetch flop products from API
+  useEffect(() => {
+    axios
+      .get(`${api.apiUrl}/farmers/${currentUser.id}/less-ordered-items`)
+      .then((res) => res.data)
+      .then((data) => setFlopProduct(data));
+  }, []);
+
   // Fetch orders from selected period
   const getOrdersFromPeriod = () => {
     axios
-      .get(`http://192.168.1.63:3000/farmers/${currentUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
+      .get(`${api.apiUrl}/farmers/${currentUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
       .then((res) => res.data)
       .then((data) => {
         setOrder(data);

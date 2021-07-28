@@ -1,5 +1,5 @@
+/* eslint-disable no-undef */
 import React from 'react';
-import axios from 'axios';
 import {
   Dimensions,
   Image,
@@ -16,6 +16,12 @@ import { TextInput } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import IconPhoto from './IconPhoto';
+
+// Authentication context
+import AuthContext from '../context/AuthContext';
+
+// API
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   container: {
@@ -213,7 +219,7 @@ const initialFormNewProduct = {
   production_unit: '',
   production_price: '',
   season_id: '',
-  photo: '', // * HOW TO MANAGE THIS PHOTOS?!?!
+  photo: '',
   category: '',
   stock_min: '',
   stock_max: '',
@@ -225,7 +231,6 @@ const initialFormNewProduct = {
   EAN_code: '',
   VAT: '',
   farmer_id: '',
-  // creation_date: '', // BAPTISTE? je fais?
 };
 
 // to accept all new modifications
@@ -233,7 +238,7 @@ const formReducer = (state, action) => {
   switch (action.type) {
     case 'UPDATE_NAME':
       return { ...state, name: action.payload };
-    case 'UPDATE_PHOTO': // BAPTISTE?
+    case 'UPDATE_PHOTO':
       return { ...state, photo: action.payload };
     case 'UPDATE_ORIGIN':
       return { ...state, origin: action.payload };
@@ -276,6 +281,7 @@ const formReducer = (state, action) => {
 
 // This file allows to add products into my list
 export default function ProductsNew(props) {
+  const { currentUser } = React.useContext(AuthContext);
   // TO NAVIGATE INTO OTHERS PAGES
   // to change into Dasboard page
   const goToProduitsNew = () => {
@@ -327,20 +333,20 @@ export default function ProductsNew(props) {
   const registerProduct = async () => {
     // to adapte all variables between front-end and server
     try {
-      axios
+      api.axios
         .post(
-          `http://192.168.1.54:3000/farmers/${farmer.id}/products/`, // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+          `${api.apiUrl}/farmers/${currentUser.id}/products/`,
           {
             EAN_code: eanCode,
             name,
             description,
             origin,
-            farming_type: farmingType, // number? BASE DE DONNES?
-            category, // number? BASE DE DONNES?
-            under_category, // number? BASE DE DONNES?
-            season_id, // number? BASE DE DONNES?
+            farming_type: farmingType,
+            category,
+            under_category,
+            season_id,
             allergen,
-            transformation: underCategory, // number? BASE DE DONNES?
+            transformation: underCategory,
             nutritional_statement: nutritionalStatement,
             production_unit: productionUnit,
             production_price: productionPrice,
@@ -351,9 +357,10 @@ export default function ProductsNew(props) {
             purchase_price: purchasePrice,
             VAT: vat,
             tag,
-            photo, // ?comment enregistrer?
-            farmer_id: farmerId, // á ce stade ci, c'est important? Necessaire?
-          });
+            photo,
+            farmer_id: farmerId,
+          },
+        );
     } catch (err) {
       console.error(err);
     }
@@ -457,29 +464,6 @@ export default function ProductsNew(props) {
                   minLength={2}
                 />
               </View>
-              {/*
-              styles
-              <View style={styles.inputHalf}>
-                <TextInput
-                  mode="outlined"
-                  label="Quantité minimale"
-                  value={FormNewProduct.stock_min}
-                  style={styles.inputViewHalfIn2}
-                  onChange={(e) => formDispatch({ type: 'UPDATE_STOCK_MIN', payload: e.target.value })}
-                  placeholder="Garanti en stock"
-                  minLength={1}
-                />
-                <TextInput
-                  mode="outlined"
-                  label="Quantité maximale"
-                  value={FormNewProduct.stock_max}
-                  style={styles.inputViewHalfIn2}
-                  onChange={(e) => formDispatch({ type: 'UPDATE_STOCK_MAX', payload: e.target.value })}
-                  placeholder="Max attendue"
-                  minLength={1}
-                />
-              </View>
-              */}
               <View style={styles.inputHalf}>
                 <Text style={styles.titleDoc}> Unites:  </Text>
                 <View style={styles.allPickers}>
@@ -608,17 +592,6 @@ export default function ProductsNew(props) {
                   minLength={2}
                 />
               </View>
-              {/*
-              MAYDAY, WE HAVE A PROBLEM!!!! ALLERGEN N'Existe pas sur BDD!!
-              <TextInput
-                mode="outlined"
-                label="Allergène"
-                value={FormNewProduct.allergen}
-                style={styles.input}
-                onChange={(e) => formDispatch({ type: 'UPDATE_ALLERGEN', payload: e.target.value })}
-                placeholder="Détailléz le maximum"
-              />
-              */}
               <TextInput
                 mode="outlined"
                 label="Description"
@@ -672,8 +645,8 @@ export default function ProductsNew(props) {
                     ? <Text style={styles.alertPass}> </Text>
                     : (
                       <Text style={styles.alertPass}>
-                        Cliqué sur Suivant si et seulement si vous êtes sur
-                        de l'encodage de ces données
+                        Cliquez sur Suivant si et seulement si vous êtes sur
+                        de l&apos;encodage de ces données
                       </Text>
                     )}
                 </TouchableOpacity>

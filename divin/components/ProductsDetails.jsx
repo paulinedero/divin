@@ -1,5 +1,5 @@
+/* eslint-disable global-require */
 import React from 'react';
-import axios from 'axios';
 import {
   Dimensions,
   Image,
@@ -12,6 +12,12 @@ import {
   View,
 } from 'react-native';
 import moment from 'moment';
+
+// Authentication context
+import AuthContext from '../context/AuthContext';
+
+// API
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   container1: {
@@ -153,7 +159,7 @@ const styles = StyleSheet.create({
 
 // This file allows to see each product details from all list of products
 export default function ProductsDetails(props) {
-  // const product.id = props.match.params.id; // ?? LINK?!
+  const { currentUser } = React.useContext(AuthContext);
 
   // TO NAVIGATE INTO OTHERS PAGES
   // to change into ProductsList page
@@ -168,12 +174,11 @@ export default function ProductsDetails(props) {
   const [productDetail, setProductDetail] = React.useState('');
 
   React.useEffect(() => {
-    axios
-      .get('http://192.168.1.54:3000/farmers/12/products/9')
-      // .get(`https://localhost:3000/farmer/${farmer.id}/products/${product.id}`) // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
+    api.axios
+      .get(`${api.apiUrl}/farmers/${currentUser.id}/products/9`)
       .then((response) => response.data)
       .then((data) => {
-        setProductDetail(data.[0]);
+        setProductDetail(data.result[0]);
       });
   }, []);
 
@@ -237,7 +242,7 @@ export default function ProductsDetails(props) {
               <View style={styles.splashImage}>
                 <Image
                   style={styles.photoIcon}
-                  source={require('../assets/ImageBanniereProducteur.png')} // HOW TO RECOVERY the PRINCIPAL IMAGE!?
+                  source={require('../assets/ImageBanniereProducteur.png')}
                 />
               </View>
             </View>

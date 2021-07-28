@@ -9,13 +9,14 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import axios from 'axios';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import AuthContext from '../context/AuthContext';
+
+// API
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   container: {
@@ -68,8 +69,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// Ce composant sert à rendre une carte template de producteur
-
+// This component was created to render a template for farmer's card
 export default class FarmersCard extends Component {
   constructor(props) {
     super(props);
@@ -80,7 +80,7 @@ export default class FarmersCard extends Component {
   }
 
   componentDidMount() {
-    axios
+    api.axios
       .get(`${api.apiUrl}/farmers`)
       .then((res) => res.data)
       // eslint-disable-next-line no-unused-vars
@@ -92,8 +92,7 @@ export default class FarmersCard extends Component {
       });
   }
 
-  // ligne séparatrice dans la liste producteur
-
+  // Separator in farmers'list
   renderSeparator = () => (
     <View
       style={{
@@ -103,8 +102,7 @@ export default class FarmersCard extends Component {
     />
   );
 
-  // Rendu de carte template de producteur
-
+  // Render template farmer's card
   renderItem = ({ item }) => (
     <ScrollView>
       <View style={styles.row1}>
@@ -137,7 +135,7 @@ export default class FarmersCard extends Component {
   render() {
     const { dataSources, isLoading } = this.state;
     if (isLoading) {
-      // animation au chargement
+      // Loading animation
       return (
         <View style={styles.container}>
           <ActivityIndicator size="large" animating />

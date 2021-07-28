@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
 import {
   View,
   Button,
@@ -201,7 +200,7 @@ export default function InscriptionsPage(props) {
   // the next step is to insert data from farmer form into DataBase
   const inscription = async () => {
     // to adapte all variables between front-end and server
-    // exemple: {first_name: firstName}  or {firstName: first_name} helps to 
+    // exemple: {first_name: firstName}  or {firstName: first_name} helps to
     // convert the variables names into their corresponding values in the server.
     try {
       const result = await api.axios.post(
@@ -233,7 +232,7 @@ export default function InscriptionsPage(props) {
   };
 
   useEffect(() => {
-    axios
+    api.axios
       .get(`${api.apiUrl}/countries/`)
       .then((res) => res.data)
       .then((data) => {
@@ -513,7 +512,7 @@ export default function InscriptionsPage(props) {
             orange background color, and it will be
             possible to progress into the following page
             */}
-            < View >
+            <View>
               {
                 console.log(
                   firstname,
@@ -532,19 +531,18 @@ export default function InscriptionsPage(props) {
                   companyName,
                 )
               }
-              < Button
-                onPress={() =>
-                  // eslint-disable-next-line no-undef
-                  (inscription() && goToValidationScreen())
-                } // ADD FUNCTION "MAIL SEND" HERE
+              <Button
+                onPress={() => (
+                  inscription() && goToValidationScreen()
+                )} // ADD FUNCTION "MAIL SEND" HERE
                 title="S'inscrire"
                 disabled={invalideForm()}
                 color={invalideForm() ? '#616161' : '#FFBD59'}
               />
-            </View >
-          </View >
-        </View >
-      </View >
-    </KeyboardAvoidingWrapper >
+            </View>
+          </View>
+        </View>
+      </View>
+    </KeyboardAvoidingWrapper>
   );
 }

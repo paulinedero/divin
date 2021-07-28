@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import {
   Image,
@@ -8,6 +9,12 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import Cancel from './Cancel';
+
+// Authentication context
+import AuthContext from '../context/AuthContext';
+
+// API
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   container: {
@@ -115,11 +122,12 @@ const styles = StyleSheet.create({
 });
 
 export default function Products({ id, price, quantityStock, availabilityDate, createdDate }) {
+  const { currentUser } = React.useContext(AuthContext);
   const [eraseStock, setEraseStock] = React.useState([]);
 
   async function deleteStock(id) {
     try {
-      const response = await fetch(`http://192.168.1.54:3000/farmers/12/stocks/${id}`, // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+      const response = await fetch(`${api.apiUrl}/farmers/${currentUser.id}/stocks/${id}`, // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
         {
           availability_date: availableDate,
           quantity,
@@ -159,7 +167,7 @@ export default function Products({ id, price, quantityStock, availabilityDate, c
               <View>
                 <View style={styles.productDetails}>
                   <Text style={styles.title}>
-                    'Nom'
+                    Nom
                   </Text>
                   <View style={styles.dispositionDetails}>
                     <Text style={styles.textDetails}>
@@ -183,7 +191,7 @@ export default function Products({ id, price, quantityStock, availabilityDate, c
                   </View>
                   <View style={styles.dispositionDetails}>
                     <Text style={styles.textDetails}>
-                      Produit disponible jusqu'au:
+                      Produit disponible jusqu&apos;au:
                     </Text>
                     <Text style={styles.text}>
                       {' '}

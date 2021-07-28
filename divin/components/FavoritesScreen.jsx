@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, View, SafeAreaView } from 'react-native';
 
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

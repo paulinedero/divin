@@ -1,7 +1,7 @@
-import 'react-native-gesture-handler';
 /* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable default-case */
+import 'react-native-gesture-handler';
 import React from 'react';
 import { Dimensions, StyleSheet, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,12 +13,11 @@ import { decode as atob } from 'base-64';
 import LoginScreen from './components/LoginScreen';
 import ValidationScreen from './components/ValidationScreen';
 import InscriptionsPage from './components/InscriptionsPage';
+import Dashboard from './components/Dashboard/Dashboard';
 import ProductsNew from './components/ProductsNew';
 import ProductsList from './components/ProductsList';
 import ProductsDetails from './components/ProductsDetails';
 import StocksList from './components/StocksList';
-import Dashboard from './components/Dashboard/Dashboard';
-import InscriptionsPage from './components/InscriptionsPage';
 import MainScreen from './components/MainScreen';
 
 // Authentication context
@@ -27,7 +26,7 @@ import AuthContext from './context/AuthContext';
 // API
 import api from './utils/api';
 
-const StackNavigator = createStackNavigator();
+const { Screen, Navigator } = createStackNavigator();
 
 const styles = StyleSheet.create({
   container: {
@@ -99,10 +98,10 @@ export default function App() {
       signIn: async (data) => {
         try {
           const result = await
-            api.axios.post(`${api.apiUrl}/authentication/login`, {
-              email: data.email,
-              password: data.password,
-            });
+          api.axios.post(`${api.apiUrl}/authentication/login`, {
+            email: data.email,
+            password: data.password,
+          });
           await SecureStore.setItemAsync('token', result.data.token);
           const base64Url = result.data.token.split('.')[1];
           const base64 = base64Url.replace('-', '+').replace('_', '/');
