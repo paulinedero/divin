@@ -10,7 +10,9 @@ import {
   ScrollView,
   TouchableHighlight,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
+
 import { TextInput } from 'react-native-paper';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import EyeIn from './EyeIn';
@@ -22,6 +24,7 @@ import AuthContext from '../context/AuthContext';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    backgroundColor: '#F5F5F5',
   },
 
   logo_divin: {
@@ -40,8 +43,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 25,
     marginTop: 35,
-    width: '100%',
-    height: 400,
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
     backgroundColor: '#448042',
   },
 

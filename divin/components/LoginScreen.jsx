@@ -45,11 +45,11 @@ export default function LoginScreen(props) {
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        height: 3,
+        height: 2,
       },
-      shadowOpacity: 0.27,
-      shadowRadius: 2.5,
-      elevation: 6,
+      shadowOpacity: 0.23,
+      shadowRadius: 3.5,
+      elevation: 4,
     },
     btnPress1: {
       justifyContent: 'center',
@@ -96,9 +96,10 @@ export default function LoginScreen(props) {
     greenBack: {
       borderTopLeftRadius: 50,
       borderTopRightRadius: 50,
-      marginTop: 45,
-      minWidth: 400,
-      minHeight: 350,
+      margin: 45,
+      marginTop: 50,
+      width: '100%',
+      height: 400,
       backgroundColor: '#448042',
     },
   });
@@ -120,25 +121,25 @@ export default function LoginScreen(props) {
 
             {/* Fond vert avec bouton de connexion via Email et Google */}
 
-            <View style={styles.greenBack}>
-              <View style={styles.text}>
-                <Text style={{ color: '#FFFFFF' }}>On attendait que vous !</Text>
-              </View>
+          </View>
+          <View style={styles.greenBack}>
+            <View style={styles.text}>
+              <Text style={{ color: '#FFFFFF' }}>On attendait que vous !</Text>
+            </View>
 
-              <View style={styles.btn}>
+            <View style={styles.btn}>
 
-                {/* Bouton de connexion via Email */}
+              {/* Bouton de connexion via Email */}
 
-                <TouchableOpacity style={styles.btnPress2} onPress={goToInscription}>
-                  <Text style={styles.colorFontBtn}>Inscription via Email</Text>
-                </TouchableOpacity>
+              <TouchableOpacity style={styles.btnPress2} onPress={goToInscription}>
+                <Text style={styles.colorFontBtn}>Inscription via Email</Text>
+              </TouchableOpacity>
 
-                {/* Bouton de connexion via Google */}
+              {/* Bouton de connexion via Google */}
 
-                <TouchableOpacity style={styles.btnPress1} onPress={() => { }}>
-                  <Text style={styles.colorFontBtn}>Inscription via Google</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity style={styles.btnPress1} onPress={() => { }}>
+                <Text style={styles.colorFontBtn}>Inscription via Google</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </SafeAreaView>
