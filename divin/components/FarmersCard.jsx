@@ -68,6 +68,8 @@ const styles = StyleSheet.create({
   },
 });
 
+// ce composant sert rendre une carte template de producteur
+
 export default class FarmersCard extends Component {
   constructor(props) {
     super(props);
