@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import DatePicker from 'react-native-datepicker';
-import axios from 'axios';
 import moment from 'moment';
 
 // components
@@ -194,7 +193,7 @@ export default function Dashboard() {
 
   // Fetch flop products from API
   useEffect(() => {
-    axios
+    api.axios
       .get(`${api.apiUrl}/farmers/${currentUser.id}/less-ordered-items`)
       .then((res) => res.data)
       .then((data) => setFlopProduct(data));
@@ -202,7 +201,7 @@ export default function Dashboard() {
 
   // Fetch orders from selected period
   const getOrdersFromPeriod = () => {
-    axios
+    api.axios
       .get(`${api.apiUrl}/farmers/${currentUser.id}/orders?startdate=${startdate}&enddate=${enddate}`)
       .then((res) => res.data)
       .then((data) => {

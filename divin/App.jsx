@@ -102,7 +102,6 @@ export default function App() {
             email: data.email,
             password: data.password,
           });
-          console.log(result.data.token);
           await SecureStore.setItemAsync('token', result.data.token);
           const base64Url = result.data.token.split('.')[1];
           const base64 = base64Url.replace('-', '+').replace('_', '/');
