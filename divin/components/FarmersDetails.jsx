@@ -43,8 +43,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// Fiche explicative d'un producteur
-
+// Profile page for farmers with details
 export default function FarmersDetails() {
   return (
     <ScrollView>

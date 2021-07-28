@@ -174,7 +174,7 @@ const ValidationScreen = () => {
               <Text style={styles.text}>Email ou mot de passe oublié ?</Text>
             </Pressable>
           </View>
-          <View style={styles.greenBack}>
+          <View>
             <TouchableOpacity
               onPress={() => {
                 signIn({ email, password });
@@ -190,7 +190,7 @@ const ValidationScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
-
+          <View style={styles.greenBack} />
         </View>
       </ScrollView>
     </KeyboardAvoidingWrapper>

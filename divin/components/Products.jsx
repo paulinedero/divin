@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react';
 import {
   Image,
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
 // <Link to={`/articles/${id}`}> News in Details</Link>
 
 // This file allows to get the existents products from the DataBase once inside and clicked
-//  navigate to : new product, each product details
+// navigate to : new product, each product details
 export default function Products(props, {
   id,
   name,
@@ -115,7 +116,7 @@ export default function Products(props, {
             >
               <Image
                 style={styles.photoIcon}
-                source={require('../assets/ImageBanniereProducteur.png')} // HOW TO RECOVERY the PRINCIPAL IMAGE!?
+                source={require('../assets/ImageBanniereProducteur.png')}
               />
             </TouchableOpacity>
           </View>

@@ -1,5 +1,5 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
   Dimensions,
   SafeAreaView,
@@ -10,8 +10,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import moment from 'moment';
 import Products from './Products';
+
+// Authentication context
+import AuthContext from '../context/AuthContext';
+
+// API
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   container1: {
@@ -99,6 +104,7 @@ const styles = StyleSheet.create({
 // This file allows to see the products, and once inside, navigate to :
 // add a new product, into each product and all list of products
 export default function ProductList(props) {
+  const { currentUser } = React.useContext(AuthContext);
   // to get all info related to existing items in Stock table
   const [products, setProducts] = useState([]);
 
@@ -113,9 +119,8 @@ export default function ProductList(props) {
   };
 
   useEffect(() => {
-    axios
-      .get('http://192.168.1.54:3000/farmers/12/products/')// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
-      // `http://localhost:3000/farmers/${id}/products/`)
+    api.axios
+      .get(`${api.apiUrl}/farmers/${currentUser.id}/products/`)
       .then((res) => res.data)
       .then((data) => {
         setProducts(data);
@@ -152,7 +157,7 @@ export default function ProductList(props) {
               {
                 products.map((item, index) => (
                   <Products
-                    key="{item.index}" // correction Parent-Child
+                    key={index}
                     id={item.id}
                     name={item.name.toUpperCase()}
                     price={item.production_price}
@@ -162,7 +167,6 @@ export default function ProductList(props) {
                   />
                 ))
               }
-              {/*POURQUOI dateCreated N A APPARAIT PAS?!?!*/}
             </View>
           </View>
           <View style={styles.footer} />

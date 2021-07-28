@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
   Button,
   Picker,
@@ -10,6 +9,12 @@ import {
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
+
+// Authentication context
+import AuthContext from '../context/AuthContext';
+
+// API
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   container2: {
@@ -134,6 +139,7 @@ const styles = StyleSheet.create({
 });
 
 export default function ProductsStock(props) {
+  const { currentUser } = React.useContext(AuthContext);
   const [quantity, onChangeQuantity] = React.useState(''); // to guarantee the of insert phone number
   const [availableDate, onChangeAvailableDate] = React.useState(''); // to guarantee the insertion of a correct peremption date
 
@@ -151,9 +157,8 @@ export default function ProductsStock(props) {
   };
 
   useEffect(() => {
-    axios
-      .get('http://192.168.1.54:3000/farmers/12/products/')
-      // .get('http://192.168.1.54:3000/farmers/${id}/products/')
+    api.axios
+      .get(`${api.apiUrl}/farmers/${currentUser.id}/products/`)
       .then((res) => res.data)
       .then((data) => {
         console.log(data);
@@ -163,8 +168,8 @@ export default function ProductsStock(props) {
 
   const newStock = async () => {
     try {
-      const result = await axios.post(
-        'http://192.168.1.54:3000/farmers/12/stocks/', // via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost" (with http"S") is to be showned via the browser window
+      const result = await api.axios.post(
+        `${api.apiUrl}/farmers/${currentUser.id}/stocks/`,
         {
           availability_date: availableDate,
           quantity,
@@ -185,10 +190,6 @@ export default function ProductsStock(props) {
         <View>
           <View style={styles.cardProduct}>
             <Image style={styles.photoIcon} source={ImageBanniereProducteur} />
-
-            {/*  HOW TO MAKE IT APPEAR EVERY IMAGE TO Each product.ID?!?...
-                  this will be a good place */}
-
             <View style={styles.item}>
               <View style={styles.viewPicker}>
                 <Picker
@@ -211,7 +212,7 @@ export default function ProductsStock(props) {
                     </Text>
                   ) : (
                     <Text style={styles.alertNoValide}>
-                      Vous n'aviez pas des produits disponibles
+                      Vous n&apos;aviez pas des produits disponibles
                     </Text>
                   ))}
               </View>

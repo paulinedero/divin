@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import * as React from 'react';
 import { Text, StyleSheet, Image, SafeAreaView, View, ScrollView, TouchableOpacity } from 'react-native';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';

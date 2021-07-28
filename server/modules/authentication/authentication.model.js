@@ -19,11 +19,11 @@ const verifyPassword = (plainPassword, hashedPassword) =>
 // function to check if email already exists
 const checkExistingEmail = async (email) => {
   try {
-    const result = await db.query(
+    const [result] = await db.query(
       'SELECT email FROM `farmer` WHERE email = ?',
       [email]
     );
-    return result[0];
+    return Object.values(result[0])[0];
   } catch (err) {
     throw new Error(err);
   }
@@ -46,13 +46,8 @@ const checkCredentials = async (email, password) => {
       password,
       hashingOptions
     );
-    const result = {
-      id: farmerInfo[0].id,
-      firstname: farmerInfo[0].firstname,
-      email: farmerInfo[0].email,
-      password: checkedPassword,
-    };
-    return result;
+    // console.log(checkedPassword);
+    return checkedPassword;
   } catch (err) {
     throw new Error(err);
   }

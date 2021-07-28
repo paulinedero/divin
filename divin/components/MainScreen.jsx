@@ -7,14 +7,14 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 import FarmersNav from './FarmersNav';
-import TestNavigation from './TestNavigation';
 
 const Tab = createBottomTabNavigator();
 
-function MainScreen(props) {
+function MainScreen() {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false }}>
+      screenOptions={{ headerShown: false }}
+    >
       <Tab.Screen
         name="List"
         component={FarmersNav}

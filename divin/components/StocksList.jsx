@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
 import {
   StatusBar,
   StyleSheet,
@@ -9,8 +8,12 @@ import {
 } from 'react-native';
 import Stock from './Stock';
 import StocksNew from './StocksNew';
-import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
-// import StocksNew from './StocksNew';
+
+// Authentication context
+import AuthContext from '../context/AuthContext';
+
+// API
+import api from '../utils/api';
 
 const styles = StyleSheet.create({
   container1: {
@@ -68,6 +71,7 @@ const styles = StyleSheet.create({
 // products. Into Stock menu can be found:
 // all list of available products to "validate into available stock", and see "the last ones"
 export default function StocksList(props) {
+  const { currentUser } = React.useContext(AuthContext);
   // TO NAVIGATE INTO OTHERS PAGES
   // to change into ProductsList page
   const goToProductsList = () => {
@@ -82,19 +86,14 @@ export default function StocksList(props) {
   const [getStocks, setGetStocks] = React.useState([]); // to get all available information in stock
 
   useEffect(() => {
-    axios
-      .get('http://192.168.1.54:3000/farmers/12/stocks/')// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
-      // .get(`https://192.168.1.55:3000/farmer/${id}/stock`)// via "http://192.168.1.54" is to be showed on the Mario's phone, "https://localhost"(with http"S") is to be showned via the browser window
+    api.axios
+      .get(`${api.apiUrl}/farmers/${currentUser.id}/stocks/`)
       .then((res) => res.data)
       .then((data) => {
         setGetStocks(data);
       });
   }, []);
 
-  {/* <KeyboardAvoidingWrapper>
-    <SafeAreaView>
-    <ScrollView>
-*/ }
   return (
     <View style={styles.container1}>
       <StatusBar />
