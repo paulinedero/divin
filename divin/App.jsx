@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const [currentUser, setCurrentUser] = React.useState(null);
+  const [currentUser, setCurrentUser] = React.useState({});
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -98,10 +98,11 @@ export default function App() {
       signIn: async (data) => {
         try {
           const result = await
-            api.axios.post(`${api.apiUrl}/authentication/login`, {
-              email: data.email,
-              password: data.password,
-            });
+          api.axios.post(`${api.apiUrl}/authentication/login`, {
+            email: data.email,
+            password: data.password,
+          });
+          console.log(result.data.token);
           await SecureStore.setItemAsync('token', result.data.token);
           const base64Url = result.data.token.split('.')[1];
           const base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -115,7 +116,7 @@ export default function App() {
       signOut: async () => {
         try {
           await SecureStore.deleteItemAsync('token');
-          setCurrentUser(null);
+          setCurrentUser({});
           dispatch({ type: 'SIGN_OUT' });
         } catch (err) {
           console.error(err);
@@ -141,7 +142,6 @@ export default function App() {
                   <Screen name="ProductsList" component={ProductsList} />
                   <Screen name="StocksList" component={StocksList} />
                   <Screen name="ProductsNew" component={ProductsNew} />
-                  <Screen name="Login" component={LoginScreen} />
                   <Screen name="Main" component={MainScreen} />
                 </>
               )

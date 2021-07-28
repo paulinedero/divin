@@ -3,7 +3,7 @@ import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
 // apiUrl need to be adapted to run the project locally. Replace the IPaddr with yours
-const apiUrl = 'http://192.168.50.103:3000';
+const apiUrl = 'http://192.168.1.63:3000';
 axios.interceptors.request.use(
   async (config) => {
     const origin = new URL(config.url);
