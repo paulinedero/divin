@@ -18,7 +18,7 @@ const getLoggedInAsFarmer = async (req, res) => {
         );
     }
     const user = await checkCredentials(req.body.email, req.body.password);
-    if (user.password) {
+    if (user === true) {
       const token = jsonwebtoken.sign(
         {
           user: {

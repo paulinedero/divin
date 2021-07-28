@@ -7,7 +7,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 import FarmersNav from './FarmersNav';
-import TestNavigation from './TestNavigation';
 
 const Tab = createBottomTabNavigator();
 
