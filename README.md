@@ -40,10 +40,9 @@ You need an IDE on your computer to open the code and execute the commands.
 Open the project on your IDE or if you want to install another one, prefer VSCode.
 
 ### Mysql
-Our project runs with a Mysql database. Please install the MySql2 module : 
-```
-npm install mysql2
-```
+Our project runs with a Mysql database. You need first to install Mysql on your computer.
+Download the right version, corresponding to your OS on:
+[https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/](https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/)
 
 ## PROJECT'S INITIALIZATION
 
@@ -76,13 +75,13 @@ and then
 npm start
 ```
 
-Navigate to the divin-folder with the `cd..` and `cd divin` commands. Execute:
+Open a new Terminal window to start the mobile app. Enter the `cd divin` to go to the divin-folder. Execute:
 ```
 npm install
 ``` 
 and then 
 ```
-npm start
+expo start
 ```
 
 When you run `expo start` (or `npm start`), Expo CLI starts Metro Bundler, which is an HTTP server that compiles the JavaScript code of our app using Babel and serves it to the Expo app. It also pops up Expo Dev Tools, a graphical interface for Expo CLI.
