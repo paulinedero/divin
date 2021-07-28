@@ -46,8 +46,14 @@ const checkCredentials = async (email, password) => {
       password,
       hashingOptions
     );
-    // console.log(checkedPassword);
-    return checkedPassword;
+    const result = {
+      id: farmerInfo[0].id,
+      firstname: farmerInfo[0].firstname,
+      email: farmerInfo[0].email,
+      password: checkedPassword,
+    };
+    console.log(result);
+    return result;
   } catch (err) {
     throw new Error(err);
   }
