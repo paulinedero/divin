@@ -12,8 +12,8 @@ const stockAdminRouter = require('./modules/admin/admin.route');
 module.exports = (app) => {
   // IN SCOPE
   app.use('/authentication', authRouter);
-  app.use('/farmers', farmerRouter);
   app.use('/farmers', orderRouter);
+  app.use('/farmers', farmerRouter);
   app.use('/farmers', productRouter);
   app.use('/farmers', stockRouter);
   app.use('/farmers', favoriteRouter);

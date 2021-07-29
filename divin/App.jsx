@@ -26,8 +26,6 @@ import AuthContext from './context/AuthContext';
 // API
 import api from './utils/api';
 
-const { Screen, Navigator } = createStackNavigator();
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F5F5F5',
@@ -40,6 +38,7 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
+  const { Screen, Navigator } = createStackNavigator();
   const [currentUser, setCurrentUser] = React.useState({});
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {

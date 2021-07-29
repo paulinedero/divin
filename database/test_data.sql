@@ -236,6 +236,28 @@ insert into ordered_item (product_id, order_id, quantity) values (5, 6, 5);
 
 insert into ordered_item (product_id, order_id, quantity) values (4, 1, 8);
 
+insert into ordered_item (product_id, order_id, quantity) values (12, 11, 8);
+insert into ordered_item (product_id, order_id, quantity) values (13, 12, 9);
+insert into ordered_item (product_id, order_id, quantity) values (14, 13, 10);
+insert into ordered_item (product_id, order_id, quantity) values (15, 14, 11);
+
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/07/28', '2021/07/28', 15, '2021/07/20');
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/07/28', '2021/07/28', 15, '2021/07/20');
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/07/28', '2021/07/28', 15, '2021/07/20');
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/07/28', '2021/07/2', 15, '2021/07/20');
+
+
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/07/28', '2021/07/28', 15, '2021/07/28');
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/07/28', '2021/07/28', 15, '2021/07/28');
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/07/28', '2021/07/28', 15, '2021/07/28');
+insert into `order` (relay_id, status_id, purchase_date, pickup_date, total, creation_date) values (1, null, '2021/07/28', '2021/07/28', 15, '2021/07/28');
+
+
+
+
+
+
+
 
 
 
