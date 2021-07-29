@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import moment from 'moment';
+import Menu from './Menu';
 
 // Authentication context
 import AuthContext from '../context/AuthContext';
@@ -357,8 +358,9 @@ export default function ProductsDetails(props) {
               </View>
             </View>
           </View>
+          <Menu />
+          <View style={styles.footer} />
         </View>
-        <View style={styles.footer} />
       </ScrollView>
     </SafeAreaView>
   );

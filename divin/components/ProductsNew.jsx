@@ -16,6 +16,7 @@ import { TextInput } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import IconPhoto from './IconPhoto';
+import Menu from './Menu';
 
 // Authentication context
 import AuthContext from '../context/AuthContext';
@@ -199,10 +200,11 @@ const styles = StyleSheet.create({
     width: '15%',
   },
   footer: {
-    marginTop: '10%',
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
-    height: '8%',
+    width: '100%',
+    height: '7.5%',
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    marginTop: 35,
     backgroundColor: '#448042',
   },
   alertPass: {
@@ -368,10 +370,10 @@ export default function ProductsNew(props) {
 
   return (
     <KeyboardAvoidingWrapper>
-      <View style={styles.container}>
-        <ScrollView>
-          <SafeAreaView>
-            <StatusBar />
+      <SafeAreaView>
+        <View style={styles.container}>
+          <ScrollView>
+
             <View style={styles.header2}>
               <View style={styles.tab1}>
                 <TouchableOpacity
@@ -393,17 +395,6 @@ export default function ProductsNew(props) {
             <View style={styles.body}>
               {/* principal information about the product */}
               <View style={styles.spaceBetweenBtn}>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => (goToProduitsNew())}
-                    title="ProduitsNew"
-                    style={styles.btnPress}
-                  >
-                    <Text style={styles.titleButton}>
-                      Nouveau Produit
-                    </Text>
-                  </TouchableOpacity>
-                </View>
                 <View>
                   <TouchableOpacity
                     onPress={() => (goToProductsList())}
@@ -651,11 +642,12 @@ export default function ProductsNew(props) {
                     )}
                 </TouchableOpacity>
               </View>
-              <View style={styles.footer} />
             </View>
-          </SafeAreaView>
-        </ScrollView>
-      </View>
+            <Menu />
+            <View style={styles.footer} />
+          </ScrollView>
+        </View>
+      </SafeAreaView>
     </KeyboardAvoidingWrapper>
   );
 }

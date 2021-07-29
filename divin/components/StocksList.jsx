@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Stock from './Stock';
 import StocksNew from './StocksNew';
+import Menu from './Menu';
 
 // Authentication context
 import AuthContext from '../context/AuthContext';
@@ -133,6 +134,8 @@ export default function StocksList(props) {
           ))
         }
       </View>
+
+      <Menu />
       <View style={styles.footer} />
     </View>
   );

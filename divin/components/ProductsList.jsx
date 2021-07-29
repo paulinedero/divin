@@ -11,6 +11,8 @@ import {
   View,
 } from 'react-native';
 import Products from './Products';
+import ProductsNew from './ProductsNew';
+import Menu from './Menu';
 
 // Authentication context
 import AuthContext from '../context/AuthContext';
@@ -73,6 +75,37 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  bodyBotton: {
+    display: 'flex',
+    // justifyContent: 'flex-start',
+  },
+  spaceBetweenBtn: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  titleButton: {
+    fontSize: 15,
+    color: 'white',
+    marginLeft: 40,
+  },
+  btnPress: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+    width: '90%',
+    height: 50,
+    opacity: 0.9,
+    borderRadius: 30,
+    backgroundColor: '#FE984E',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 2.5,
+    elevation: 6,
+  },
   item: {
     alignItems: 'center',
     width: '100%',
@@ -90,6 +123,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     fontSize: 10,
     margin: 10,
+  },
+  backgroundEmpty: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#F5F5F5',
+    borderColor: '#889988',
+    borderWidth: 1,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
   },
   footer: {
     width: '100%',
@@ -117,6 +159,10 @@ export default function ProductList(props) {
   const goToStocksList = () => {
     props.navigation.push('StocksList');
   };
+  // to change into Dasboard page
+  const goToProductsNew = () => {
+    props.navigation.push('ProductsNew');
+  };
 
   useEffect(() => {
     api.axios
@@ -137,7 +183,7 @@ export default function ProductList(props) {
             <View style={styles.tab1}>
               <TouchableOpacity
                 onPress={() => (goToProductsList())}
-                title="ProductsNew"
+                title="ProductsList"
               >
                 <Text style={styles.titleTabSelect}>Mes Produits</Text>
               </TouchableOpacity>
@@ -152,23 +198,49 @@ export default function ProductList(props) {
             </View>
           </View>
           <View style={styles.container2}>
-
+            <View style={styles.bodyBotton}>
+              <View style={styles.spaceBetweenBtn}>
+                <View>
+                  <TouchableOpacity
+                    onPress={() => (goToProductsNew())}
+                    title="ProductsNew"
+                    style={styles.btnPress}
+                  >
+                    <Text style={styles.titleButton}>
+                      Nouveau Produit
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
             <View style={styles.item}>
               {
                 products.map((item, index) => (
-                  <Products
-                    key={index}
-                    id={item.id}
-                    name={item.name.toUpperCase()}
-                    price={item.production_price}
-                    stock={item.stock_min}
-                    category={item.category}
-                    dateCreated={item.creation_date}
-                  />
+                  item.lenght === 0
+                    ? (
+                      <View style={styles.backgroundEmpty}>
+                        <Text>
+                          Produits inexistent
+                          Ajouter d`abord des nouveaux produits
+                        </Text>
+                      </View>
+                    )
+                    : (
+                      <Products
+                        key={index}
+                        id={item.id}
+                        name={item.name.toUpperCase()}
+                        price={item.production_price}
+                        stock={item.stock_min}
+                        category={item.category}
+                        dateCreated={item.creation_date}
+                      />
+                    )
                 ))
               }
             </View>
           </View>
+          <Menu />
           <View style={styles.footer} />
         </View>
       </ScrollView>

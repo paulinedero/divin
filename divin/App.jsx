@@ -98,10 +98,10 @@ export default function App() {
       signIn: async (data) => {
         try {
           const result = await
-          api.axios.post(`${api.apiUrl}/authentication/login`, {
-            email: data.email,
-            password: data.password,
-          });
+            api.axios.post(`${api.apiUrl}/authentication/login`, {
+              email: data.email,
+              password: data.password,
+            });
           await SecureStore.setItemAsync('token', result.data.token);
           const base64Url = result.data.token.split('.')[1];
           const base64 = base64Url.replace('-', '+').replace('_', '/');

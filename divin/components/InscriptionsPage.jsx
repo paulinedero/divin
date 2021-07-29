@@ -15,10 +15,13 @@ import {
 import { TextInput } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import ImageBanniereProducteur from '../assets/ImageBanniereProducteur.png';
-import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import IconPhoto from './IconPhoto';
+
+import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 import EyeIn from './EyeIn';
 import EyeOut from './EyeOut';
+import Menu from './Menu';
+
 import api from '../utils/api';
 
 const styles = StyleSheet.create({
@@ -554,12 +557,13 @@ export default function InscriptionsPage(props) {
                     </View>
                   </View>
                 </View>
+                <Menu />
               </View>
               <View style={styles.footer} />
             </View>
           </View>
         </View>
       </SafeAreaView>
-    </KeyboardAvoidingWrapper>
+    </KeyboardAvoidingWrapper >
   );
 }

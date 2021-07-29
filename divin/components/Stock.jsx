@@ -142,7 +142,7 @@ export default function Products({ id, price, quantityStock, availabilityDate, c
 
   return (
     <View style={styles.container}>
-      {(createdDate >= Date) // à mettrer correctement '<' !!!!!!!!!!!!!!!!!!
+      {(createdDate <= Date) // à mettrer correctement '<' !!!!!!!!!!!!!!!!!!
         ? (
           <Text style={styles.alertNoValide}>
             Aucun produit en stock est disponible à cette date

@@ -19,6 +19,7 @@ import moment from 'moment';
 import TopProductCard from './TopProductCard';
 import FlopProductCard from './FlopProductCard';
 import OrderCard from './OrderCard';
+import Menu from '../Menu';
 
 // Authentication context
 import AuthContext from '../../context/AuthContext';
@@ -343,6 +344,7 @@ export default function Dashboard() {
             ))}
           </View>
         </View>
+        <Menu />
       </View>
       <View style={styles.greenBack} />
     </ScrollView>

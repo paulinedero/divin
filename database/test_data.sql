@@ -76,8 +76,7 @@ insert into VAT_regime(value) values(5);
 
 insert into VAT_regime(value) values(6);
 
-
-insert into product (
+INSERT INTO product (
     EAN_code,
     name,
     description,
@@ -98,31 +97,31 @@ insert into product (
     VAT,
     tag,
     photo,
-    farmer_id) 
+    farmer_id)
     values (
-        22,
-        'dis parturient montes nascetur ridiculus',
-        'nisi at nibh in hac habitasse platea dictumst aliquam augue',
-        'mauris morbi non lectus',
+        45,
+        'carrots',
+        'LAS',
+        'France',
+        1,
+        2,
+        3,
+        1,
+        true,
+        '43kcal',
+        'kg',
+        20,
         1,
         4,
+        'bla bla bla?',
+        'bio',
         1,
         3,
-        true,
-        'tempus sit amet sem fusce consequat nulla nisl',
-        'parturient montes nascetur',
-        10,
-        1,
-        2,
-        'eget tincidunt eget',
-        'dolor sit amet consectetuer adipiscing elit proin interdum mauris non',
-        2,
-        2,
-        'odio justo',
-        'Suspendisse potenti.',
-        5);
+        'gros',
+        'carrotes ',
+        7);
 
-insert into product (
+INSERT INTO product (
     EAN_code,
     name,
     description,
@@ -143,29 +142,74 @@ insert into product (
     VAT,
     tag,
     photo,
-    farmer_id) 
+    farmer_id)
     values (
-        22,
-        'carrottes',
-        'nisi at nibh in hac habitasse platea dictumst aliquam augue',
-        'mauris morbi non lectus',
+        45,
+        'bananes',
+        'v',
+        'France',
         2,
+        3,
+        2,
+        2,
+        true,
+        '100kcal',
+        'grammes',
+        20,
         1,
         4,
+        'bla bla bla?',
+        'bio',
+        1,
         3,
-        true,
-        'tempus sit amet sem fusce consequat nulla nisl',
-        'parturient montes nascetur',
-        10,
+        'les petites',
+        'banane petite, sucrees',
+        7);
+
+INSERT INTO product (
+    EAN_code,
+    name,
+    description,
+    origin,
+    farming_type,
+    category,
+    under_category,
+    season_id,
+    transformation,
+    nutritional_statement,
+    production_unit,
+    production_price,
+    stock_min,
+    stock_max,
+    max_storage_date,
+    purchase_unit,
+    purchase_price,
+    VAT,
+    tag,
+    photo,
+    farmer_id)
+    values (
+        45,
+        'oranges',
+        'orange',
+        'France',
         1,
         2,
-        'eget tincidunt eget',
-        'dolor sit amet consectetuer adipiscing elit proin interdum mauris non',
-        2,
+        4,
+        3,
+        false,
+        '199kcal',
+        'grammes',
+        20,
         1,
-        'odio justo',
-        'Suspendisse potenti.',
-        2);
+        4,
+        'bla bla bla?',
+        'bio',
+        0.9,
+        3,
+        'les oranges bio',
+        'orange sucrees',
+        7);
 
 insert into product (
     EAN_code,
@@ -210,7 +254,17 @@ insert into product (
         3,
         'les fraises',
         'fraise fraiches',
-        5);
+        7);
+
+INSERT INTO stock (availability_date, product_id, quantity) VALUES ('2021-08-15', 20, 10);
+
+INSERT INTO stock (availability_date, product_id, quantity) VALUES ('2021-08-15', 21, 20);
+
+INSERT INTO stock (availability_date, product_id, quantity) VALUES ('2021-08-15', 22, 15);
+
+INSERT INTO stock (availability_date, product_id, quantity) VALUES ('2021-08-15', 23, 13);
+
+
 
 insert into relay_point_category (name) values ('BLED');
 

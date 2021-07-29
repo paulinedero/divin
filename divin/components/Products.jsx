@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
 // This file allows to get the existents products from the DataBase once inside and clicked
 // navigate to : new product, each product details
-export default function Products(props, {
+export default function Products({
   id,
   name,
   price,
