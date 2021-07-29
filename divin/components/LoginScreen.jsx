@@ -1,6 +1,15 @@
 /* eslint-disable global-require */
 import * as React from 'react';
-import { Text, StyleSheet, Image, SafeAreaView, View, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
 import KeyboardAvoidingWrapper from './KeyboardAvoidingWrapper';
 
 export default function LoginScreen(props) {
@@ -32,6 +41,7 @@ export default function LoginScreen(props) {
     },
     btn: {
       alignItems: 'center',
+      width: '100%',
     },
     btnPress: {
       justifyContent: 'center',
@@ -108,39 +118,42 @@ export default function LoginScreen(props) {
   return (
     <KeyboardAvoidingWrapper>
       <ScrollView>
-        <SafeAreaView style={styles.container}>
-          <Image style={styles.tinyLogo} source={require('../assets/logo_divin.png')} />
-          <View style={styles.btn}>
-
-            {/* bouton de connexion  */}
-
-            <TouchableOpacity style={styles.btnPress} onPress={goTo}>
-              <View>
-                <Text style={styles.colorFontBtn}>Connexion</Text>
-              </View>
-            </TouchableOpacity>
-
-            {/* Fond vert avec bouton de connexion via Email et Google */}
-
-          </View>
-          <View style={styles.greenBack}>
-            <View style={styles.text}>
-              <Text style={{ color: '#FFFFFF' }}>On attendait que vous !</Text>
-            </View>
-
+        <SafeAreaView>
+          <StatusBar />
+          <View style={styles.container}>
+            <Image style={styles.tinyLogo} source={require('../assets/logo_divin.png')} />
             <View style={styles.btn}>
 
-              {/* Bouton de connexion via Email */}
+              {/* bouton de connexion  */}
 
-              <TouchableOpacity style={styles.btnPress2} onPress={goToInscription}>
-                <Text style={styles.colorFontBtn}>Inscription via Email</Text>
+              <TouchableOpacity style={styles.btnPress} onPress={goTo}>
+                <View>
+                  <Text style={styles.colorFontBtn}>Connexion</Text>
+                </View>
               </TouchableOpacity>
 
-              {/* Bouton de connexion via Google */}
+              {/* Fond vert avec bouton de connexion via Email et Google */}
 
-              <TouchableOpacity style={styles.btnPress1} onPress={() => { }}>
-                <Text style={styles.colorFontBtn}>Inscription via Google</Text>
-              </TouchableOpacity>
+            </View>
+            <View style={styles.greenBack}>
+              <View style={styles.text}>
+                <Text style={{ color: '#FFFFFF' }}>On attendait que vous !</Text>
+              </View>
+
+              <View style={styles.btn}>
+
+                {/* Bouton de connexion via Email */}
+
+                <TouchableOpacity style={styles.btnPress2} onPress={goToInscription}>
+                  <Text style={styles.colorFontBtn}>Inscription via Email</Text>
+                </TouchableOpacity>
+
+                {/* Bouton de connexion via Google */}
+
+                <TouchableOpacity style={styles.btnPress1} onPress={() => { }}>
+                  <Text style={styles.colorFontBtn}>Inscription via Google</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </SafeAreaView>

@@ -18,7 +18,7 @@ const getLoggedInAsFarmer = async (req, res) => {
         );
     }
     const user = await checkCredentials(req.body.email, req.body.password);
-    if (user === true) {
+    if (user.password === true) {
       const token = jsonwebtoken.sign(
         {
           user: {
@@ -32,6 +32,7 @@ const getLoggedInAsFarmer = async (req, res) => {
           expiresIn: '2d',
         }
       );
+      console.log(token);
       return res.status(200).json({ token });
     }
   } catch (err) {
