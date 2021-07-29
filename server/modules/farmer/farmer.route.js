@@ -8,10 +8,6 @@ const {
   deleteFarmer,
 } = require('./farmer.controller');
 
-const { checkauthentication } = require('../../middlewares/authentication');
-
-farmerRouter.use(checkauthentication);
-
 farmerRouter.get('/', getAllFarmers);
 farmerRouter.get('/:farmerId', getOneFarmer);
 // see authentication.route for route createFarmer

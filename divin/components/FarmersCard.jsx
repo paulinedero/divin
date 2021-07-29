@@ -9,6 +9,7 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
+
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
   },
-  option_list: {
+  optionList: {
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
@@ -81,9 +82,8 @@ export default class FarmersCard extends Component {
 
   componentDidMount() {
     api.axios
-      .get(`${api.apiUrl}/farmers`)
+      .get(`${api.apiUrl}/farmers/`)
       .then((res) => res.data)
-      // eslint-disable-next-line no-unused-vars
       .then((data) => {
         this.setState({
           isLoading: false,
@@ -116,6 +116,7 @@ export default class FarmersCard extends Component {
             <Text style={styles.secondaryText}>{item.email}</Text>
           </View>
         </TouchableOpacity>
+        {/*
         <FormGroup row>
           <FormControlLabel
             control={(
@@ -128,6 +129,7 @@ export default class FarmersCard extends Component {
             )}
           />
         </FormGroup>
+        */}
       </View>
     </ScrollView>
   )

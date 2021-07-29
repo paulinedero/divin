@@ -18,7 +18,7 @@ import ProductsNew from './components/ProductsNew';
 import ProductsList from './components/ProductsList';
 import ProductsDetails from './components/ProductsDetails';
 import StocksList from './components/StocksList';
-import MainScreen from './components/MainScreen';
+import FarmersNav from './components/FarmersNav';
 
 // Authentication context
 import AuthContext from './context/AuthContext';
@@ -140,7 +140,7 @@ export default function App() {
                   <Screen name="ProductsList" component={ProductsList} />
                   <Screen name="StocksList" component={StocksList} />
                   <Screen name="ProductsNew" component={ProductsNew} />
-                  <Screen name="Main" component={MainScreen} />
+                  <Screen name="FarmersNav" component={FarmersNav} />
                 </>
               )
               : (

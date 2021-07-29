@@ -8,10 +8,6 @@ const {
   deleteProduct,
 } = require('./product.controller');
 
-const { checkauthentication } = require('../../middlewares/authentication');
-
-productRouter.use(checkauthentication);
-
 productRouter.get('/:farmerId/products/', getAllProducts);
 productRouter.get('/:farmerId/products/:productId', getOneProduct);
 productRouter.post('/:farmerId/products/', createProduct);
