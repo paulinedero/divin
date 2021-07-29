@@ -18,15 +18,13 @@ import ProductsNew from './components/ProductsNew';
 import ProductsList from './components/ProductsList';
 import ProductsDetails from './components/ProductsDetails';
 import StocksList from './components/StocksList';
-import MainScreen from './components/MainScreen';
+import FarmersNav from './components/FarmersNav';
 
 // Authentication context
 import AuthContext from './context/AuthContext';
 
 // API
 import api from './utils/api';
-
-const { Screen, Navigator } = createStackNavigator();
 
 const styles = StyleSheet.create({
   container: {
@@ -40,6 +38,7 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
+  const { Screen, Navigator } = createStackNavigator();
   const [currentUser, setCurrentUser] = React.useState({});
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
@@ -141,7 +140,7 @@ export default function App() {
                   <Screen name="ProductsList" component={ProductsList} />
                   <Screen name="StocksList" component={StocksList} />
                   <Screen name="ProductsNew" component={ProductsNew} />
-                  <Screen name="Main" component={MainScreen} />
+                  <Screen name="FarmersNav" component={FarmersNav} />
                 </>
               )
               : (

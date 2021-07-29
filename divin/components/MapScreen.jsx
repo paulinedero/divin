@@ -1,6 +1,7 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import { Text, TouchableOpacity, StyleSheet, View, SafeAreaView } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View, ScrollView } from 'react-native';
+import Menu from './Menu';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,16 +19,11 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     fontSize: 20,
   },
-  view: {
-    backgroundColor: 'red',
-    width: 200,
-    height: 400,
-  },
   view_map: {
     flex: 2,
-    marginTop: 250,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 50,
   },
   map: {
     width: '90%',
@@ -45,13 +41,15 @@ export default function CarteScreen(props) {
     // eslint-disable-next-line react/prop-types
     props.navigation.push('List');
   };
+  /*
   const goToFav = () => {
     // eslint-disable-next-line react/prop-types
     props.navigation.push('Favorites');
   };
+  */
 
   return (
-    <SafeAreaView>
+    <ScrollView>
       <View style={styles.container}>
         <View style={styles.onglet}>
           <TouchableOpacity
@@ -64,16 +62,21 @@ export default function CarteScreen(props) {
           >
             <Text style={styles.text}>Liste</Text>
           </TouchableOpacity>
+          {/*
           <TouchableOpacity
             onPress={goToFav}
           >
             <Text style={styles.text}>Favori</Text>
           </TouchableOpacity>
+          */}
         </View>
         <View style={styles.view_map}>
           <MapView style={styles.map} />
         </View>
+        <View>
+          <Menu />
+        </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }

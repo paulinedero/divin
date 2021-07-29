@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
 import FarmersCard from './FarmersCard';
+import Menu from './Menu';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,10 +27,12 @@ export default function FarmersListScreen(props) {
     // eslint-disable-next-line react/prop-types
     props.navigation.push('List');
   };
+  /*
   const goToFav = () => {
     // eslint-disable-next-line react/prop-types
     props.navigation.push('Favorites');
   };
+  */
 
   return (
     <ScrollView>
@@ -44,14 +47,19 @@ export default function FarmersListScreen(props) {
         >
           <Text style={styles.text}>Liste</Text>
         </TouchableOpacity>
+        {/*
         <TouchableOpacity
           onPress={goToFav}
         >
           <Text style={styles.text}>Favori</Text>
         </TouchableOpacity>
+        */}
       </View>
       <View>
         <FarmersCard />
+      </View>
+      <View>
+        <Menu />
       </View>
     </ScrollView>
   );

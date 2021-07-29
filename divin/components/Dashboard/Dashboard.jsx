@@ -9,11 +9,11 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  Button,
 } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
+import axios from 'axios';
 
 // components
 import TopProductCard from './TopProductCard';
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Dashboard() {
-  const { currentUser, signOut } = React.useContext(AuthContext);
+  const { currentUser } = React.useContext(AuthContext);
   const [topProduct, setTopProduct] = useState([]);
   const [flopProduct, setFlopProduct] = useState([]);
   const [order, setOrder] = useState([]);
@@ -212,12 +212,6 @@ export default function Dashboard() {
 
   return (
     <ScrollView>
-      <View>
-        <Button
-          onPress={signOut}
-          title="Déconnexion"
-        />
-      </View>
       <View style={styles.body}>
         <Image style={styles.logo} source={require('../../assets/dashboard_logo_divin.png')} />
         <Text style={styles.mainTitle}>
@@ -346,7 +340,9 @@ export default function Dashboard() {
         </View>
         <Menu />
       </View>
-      <View style={styles.greenBack} />
+      <View>
+        <Menu />
+      </View>
     </ScrollView>
   );
 }

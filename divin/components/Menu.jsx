@@ -47,7 +47,7 @@ export default function Menu() {
         <Image source={product} style={styles.menuIcons} />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigation.navigate('MainScreen')}
+        onPress={() => navigation.navigate('FarmersNav')}
       >
         <Image source={farmers} style={styles.menuIcons} />
       </TouchableOpacity>
